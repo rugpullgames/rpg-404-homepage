@@ -1,0 +1,8 @@
+.wallet-acc {
+  position: absolute;
+  top: 40px;
+  right: max(300px, calc((100vw - var(--vendor-width) * 2) / 2 + 330px));
+  font-weight: bolder;
+  text-align: right;
+  color: #650601;
+}
