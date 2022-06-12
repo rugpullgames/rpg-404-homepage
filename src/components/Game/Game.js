@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { StatusContext } from '../../App';
 import contract from '../../contracts/RPG404.json';
 import { ethers } from 'ethers';
+import './Game.css';
 
 const contractAddress = '0x5887e5C10f0dd72aA592713e7112aab5D47C5e4C';
 const abi = contract.abi;
@@ -84,5 +85,10 @@ export default function Game() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
 
-  return <div>Game</div>;
+  return (
+    <div className='game'>
+      <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
+      <img className='game-cover' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />
+    </div>
+  );
 }

@@ -1,0 +1,28 @@
+.game {
+  position: absolute;
+  top: 120px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* background-color: blueviolet; */
+}
+
+.game-bg {
+  position: absolute;
+  left: -1.5%;
+  right: -1.5%;
+  top: -140px;
+  bottom: 0;
+  margin: auto;
+  width: 103%;
+}
+
+.game-cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -140px;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+}
