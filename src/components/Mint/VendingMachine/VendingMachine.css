@@ -1,0 +1,15 @@
+.vending-machine {
+  background-color: aqua;
+}
+
+.vending-row {
+  padding: 20px;
+  list-style-type: none;
+  height: 40px;
+}
+
+.vending-row li {
+  float: left;
+  margin: 0 10px;
+  padding: 0 10px;
+}
