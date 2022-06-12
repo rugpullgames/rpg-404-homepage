@@ -49,9 +49,9 @@ function App() {
   return (
     <StatusContext.Provider value={value}>
       <div className='App'>
+        <Navbar connectWalletHandler={connectWalletHandler} />
         <Mint />
         <Game />
-        <Navbar connectWalletHandler={connectWalletHandler} />
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>

@@ -1,12 +1,12 @@
 .social-links {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 0;
+  right: 0;
 }
 
 .social-icon {
-  height: 48px;
-  margin-left: 20px;
+  height: 120px;
+  margin-left: -40px;
   cursor: pointer;
 }
 

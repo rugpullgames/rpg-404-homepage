@@ -6,11 +6,9 @@ export default function SocialLinks(props) {
     <div className='social-links'>
       <img
         className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_opensea.png'}
-        alt='Opensea'
-        onClick={() => {
-          window.open('https://opensea.io/');
-        }}
+        src={process.env.PUBLIC_URL + '/img/icon_twitter.png'}
+        alt='Twitter'
+        onClick={() => window.open('https://twitter.com/rug_pull_games', '_blank')}
       />
       <img
         className='social-icon'
@@ -20,9 +18,19 @@ export default function SocialLinks(props) {
       />
       <img
         className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_twitter.png'}
-        alt='Twitter'
-        onClick={() => window.open('https://twitter.com/rug_pull_games', '_blank')}
+        src={process.env.PUBLIC_URL + '/img/icon_opensea.png'}
+        alt='Opensea'
+        onClick={() => {
+          window.open('https://opensea.io/');
+        }}
+      />
+       <img
+        className='social-icon'
+        src={process.env.PUBLIC_URL + '/img/icon_etherscan.png'}
+        alt='Etherscan'
+        onClick={() => {
+          window.open('https://etherscan.io/');
+        }}
       />
       <img
         className='social-icon'
