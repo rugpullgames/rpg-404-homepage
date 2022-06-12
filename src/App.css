@@ -1,8 +1,13 @@
 .App {
+  position: relative;
   text-align: center;
   width: 900px;
   height: 100vh;
   margin-left: auto;
   margin-right: auto;
   /* background-color: magenta; */
+}
+
+img {
+  image-rendering: pixelated;
 }
