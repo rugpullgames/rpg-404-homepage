@@ -6,7 +6,7 @@ export default function Logo() {
     <div className='logo'>
       <img
         className='logo-rpg-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_rug_pull_games_logo.png'}
+        src={process.env.PUBLIC_URL + '/img/icon_rug_pull_games_logo_lg.png'}
         alt='Twitter'
         onClick={() => window.open('https://rug-pull.games', '_blank')}
       />
