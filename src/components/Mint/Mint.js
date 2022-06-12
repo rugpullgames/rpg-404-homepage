@@ -1,7 +1,8 @@
 import React from 'react'
+import './Mint.css'
 
 export default function Mint() {
   return (
-    <div>Mint</div>
+    <div className="mint">Mint</div>
   )
 }

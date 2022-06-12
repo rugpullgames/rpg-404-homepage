@@ -2,13 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import { StatusContext } from '../../App';
 import contract from '../../contracts/RPG404.json';
 import { ethers } from 'ethers';
+import { PageName } from '../../App';
 import './Game.css';
 
 const contractAddress = '0x5887e5C10f0dd72aA592713e7112aab5D47C5e4C';
 const abi = contract.abi;
 // const isRinkeby = true;
 
-export default function Game() {
+export default function Game(props) {
   //! web3 APIs
   const { currentAccount, updateStatus } = useContext(StatusContext);
   const [isBusy, setIsBusy] = useState(false);
@@ -89,7 +90,12 @@ export default function Game() {
     <div className='game'>
       <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
       <img className='game-cover' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />
-      <img className='btn-game-mint' src={process.env.PUBLIC_URL + '/img/btn_game_mint.png'} alt='Game Cover' />
+      <img
+        className='btn-game-mint'
+        src={process.env.PUBLIC_URL + '/img/btn_game_mint.png'}
+        alt='Mint Button'
+        onClick={() => props.changePage(PageName.MINT)}
+      />
     </div>
   );
 }

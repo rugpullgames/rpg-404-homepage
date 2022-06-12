@@ -12,10 +12,16 @@ export const StatusContext = createContext({
   updateStatus: () => {},
 });
 
+export const PageName = {
+  GAME: 'game',
+  MINT: 'mint',
+};
+
 function App() {
   //! web3 APIs
   const [currentAccount, setCurrentAccount] = useState(null);
   const [statusMsg, setStatusMsg] = useState('');
+  const [currPage, setCurrPage] = useState(PageName.GAME);
 
   const updateStatus = (msg) => {
     console.log(msg);
@@ -45,13 +51,17 @@ function App() {
     }
   };
 
+  const changePage = (pname) => {
+    setCurrPage(pname);
+  };
+
   //! reture
   return (
     <StatusContext.Provider value={value}>
       <div className='App'>
-        <Navbar connectWalletHandler={connectWalletHandler} />
-        <Mint />
-        <Game />
+        <Navbar {...{connectWalletHandler}} />
+        {currPage === PageName.GAME && <Game {...{changePage}} />}
+        {currPage === PageName.MINT && <Mint {...{changePage}} />}
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>
