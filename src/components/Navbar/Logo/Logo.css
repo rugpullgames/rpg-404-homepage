@@ -5,15 +5,18 @@
 }
 
 .logo-rpg-icon {
+  position: absolute;
   height: 60px;
-  margin-top: 30px;
-  margin-right: 10px;
+  top: 30px;
+  left: 0px;
   cursor: pointer;
   image-rendering: auto;
 }
 
 .logo-rpg-404-icon {
-  height: 60px;
-  margin-top: 30px;
+  position: absolute;
+  height: 48px;
+  top: 36px;
+  left: 70px;
   cursor: not-allowed;
 }
