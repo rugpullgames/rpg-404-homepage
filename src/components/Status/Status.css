@@ -4,6 +4,6 @@
   left: max(20px, calc((100vw - var(--vendor-width)) / 2));
   width: var(--vendor-width);
   word-wrap: break-word;
-  color: #650601;
+  color: white;
   font-size: smaller;
 }
