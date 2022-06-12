@@ -1,49 +1,78 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './SocialLinks.css';
 
-export default function SocialLinks(props) {
+function SocialLink(props) {
+  const image = useRef();
+  console.log();
   return (
-    <div className='social-links'>
-      <img
-        className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_twitter.png'}
-        alt='Twitter'
-        onClick={() => window.open('https://twitter.com/rug_pull_games', '_blank')}
-      />
-      <img
-        className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_discord.png'}
-        alt='Discord'
-        onClick={() => window.open('https://discord.com/', '_blank')}
-      />
-      <img
-        className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_opensea.png'}
-        onMouseEnter={(e) => {
-          e.currentTarget.src = process.env.PUBLIC_URL + '/img/icon_opensea_hover.png';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.src = process.env.PUBLIC_URL + '/img/icon_opensea.png';
-        }}
-        alt='Opensea'
-        onClick={() => {
-          window.open('https://opensea.io/');
-        }}
-      />
-      <img
-        className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_etherscan.png'}
-        alt='Etherscan'
-        onClick={() => {
-          window.open('https://etherscan.io/');
-        }}
-      />
-      <img
-        className='social-icon'
-        src={process.env.PUBLIC_URL + '/img/icon_metamask.png'}
-        alt='MetaMask'
-        onClick={props.connectWalletHandler}
-      />
+    <div
+      className='social-icon'
+      onMouseEnter={(e) => {
+        image.current.src = process.env.PUBLIC_URL + props.iconHover;
+      }}
+      onMouseLeave={(e) => {
+        image.current.src = process.env.PUBLIC_URL + props.iconNormal;
+      }}
+      onClick={props.onClick}>
+      <img ref={image} className='social-icon-img' src={process.env.PUBLIC_URL + props.iconNormal} alt={props.alt} />
+    </div>
+  );
+}
+
+export default function SocialLinks(props) {
+  const links = [
+    {
+      ref: null,
+      iconNormal: '/img/icon_twitter.png',
+      iconHover: '/img/icon_twitter.png',
+      alt: 'Twitter',
+      onClick: () => {
+        window.open('https://twitter.com/rug_pull_games');
+      },
+    },
+    {
+      ref: null,
+      iconNormal: '/img/icon_discord.png',
+      iconHover: '/img/icon_discord.png',
+      alt: 'Discord',
+      onClick: () => {
+        window.open('https://discord.com/');
+      },
+    },
+    {
+      ref: null,
+      iconNormal: '/img/icon_opensea.png',
+      iconHover: '/img/icon_opensea_hover.png',
+      alt: 'Opensea',
+      onClick: () => {
+        window.open('https://opensea.io/');
+      },
+    },
+    {
+      ref: null,
+      iconNormal: '/img/icon_etherscan.png',
+      iconHover: '/img/icon_etherscan.png',
+      alt: 'Etherscan',
+      onClick: () => {
+        window.open('https://etherscan.io/');
+      },
+    },
+    {
+      ref: null,
+      iconNormal: '/img/icon_metamask.png',
+      iconHover: '/img/icon_metamask.png',
+      alt: 'MetaMask',
+      onClick: () => {
+        props.connectWalletHandler();
+      },
+    },
+  ];
+
+  return (
+    <div className='social-links' onClick={() => {}}>
+      {links.map((sl) => {
+        return <SocialLink {...sl} key={`social-icon-${sl.alt}`} />;
+      })}
     </div>
   );
 }

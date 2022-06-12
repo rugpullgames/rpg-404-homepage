@@ -5,7 +5,17 @@
 }
 
 .social-icon {
-  height: 120px;
-  margin-left: -60px;
+  display: inline-block;
+  height: 60px;
+  width: 60px;
+  margin-top: 30px;
+  margin-left: 10px;
   cursor: pointer;
+}
+
+.social-icon-img {
+  margin-top: -30px;
+  margin-left: -30px;
+  height: 120px;
+  pointer-events: none;
 }
