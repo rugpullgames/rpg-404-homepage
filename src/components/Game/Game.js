@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 
 const contractAddress = '0x5887e5C10f0dd72aA592713e7112aab5D47C5e4C';
 const abi = contract.abi;
-const isRinkeby = true;
+// const isRinkeby = true;
 
 export default function Game() {
   //! web3 APIs
