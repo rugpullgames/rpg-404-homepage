@@ -3,6 +3,7 @@
   text-align: center;
   width: 900px;
   height: 100vh;
+  min-height: 600px;
   margin-left: auto;
   margin-right: auto;
   /* background-color: magenta; */
