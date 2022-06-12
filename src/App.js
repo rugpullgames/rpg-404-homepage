@@ -1,5 +1,5 @@
 import { useState, createContext, useMemo } from 'react';
-import SocialLinks from './components/SocialLinks';
+import Navbar from './components/Navbar';
 import WalletAccount from './components/WalletAccount';
 import Status from './components/Status';
 import Mint from './components/Mint';
@@ -51,7 +51,7 @@ function App() {
       <div className='App'>
         <Mint />
         <Game />
-        <SocialLinks connectWalletHandler={connectWalletHandler} />
+        <Navbar connectWalletHandler={connectWalletHandler} />
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>
