@@ -34,7 +34,7 @@ export default function Game() {
           const signer = provider.getSigner();
           const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
-          updateStatus('Initialize mint');
+          updateStatus('Load NFTs');
           setIsBusy(true);
 
           let nfts = await nftContract.walletOfOwner(currentAccount);
@@ -80,7 +80,6 @@ export default function Game() {
         setIsBusy(false);
       }
     };
-    console.log('Game');
     loadNft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
