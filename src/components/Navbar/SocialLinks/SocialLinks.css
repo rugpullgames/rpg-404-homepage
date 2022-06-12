@@ -9,7 +9,3 @@
   margin-left: -60px;
   cursor: pointer;
 }
-
-.social-icon:hover {
-  transform: rotate(15deg);
-}

@@ -19,12 +19,18 @@ export default function SocialLinks(props) {
       <img
         className='social-icon'
         src={process.env.PUBLIC_URL + '/img/icon_opensea.png'}
+        onMouseEnter={(e) => {
+          e.currentTarget.src = process.env.PUBLIC_URL + '/img/icon_opensea_hover.png';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.src = process.env.PUBLIC_URL + '/img/icon_opensea.png';
+        }}
         alt='Opensea'
         onClick={() => {
           window.open('https://opensea.io/');
         }}
       />
-       <img
+      <img
         className='social-icon'
         src={process.env.PUBLIC_URL + '/img/icon_etherscan.png'}
         alt='Etherscan'
