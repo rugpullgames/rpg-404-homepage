@@ -1,8 +1,8 @@
 .wallet-acc {
   position: absolute;
-  top: 40px;
-  right: 330px;
+  top: 100px;
+  right: 0px;
   font-weight: bolder;
   text-align: right;
-  color: #650601;
+  color: white;
 }
