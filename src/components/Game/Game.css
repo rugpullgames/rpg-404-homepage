@@ -27,3 +27,9 @@
   margin: auto;
   width: 100%;
 }
+
+.btn-game-mint {
+  position: absolute;
+  right: 40px;
+  bottom: min(180px, 10vh);
+}

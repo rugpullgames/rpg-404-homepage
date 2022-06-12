@@ -89,6 +89,7 @@ export default function Game() {
     <div className='game'>
       <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
       <img className='game-cover' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />
+      <img className='btn-game-mint' src={process.env.PUBLIC_URL + '/img/btn_game_mint.png'} alt='Game Cover' />
     </div>
   );
 }
