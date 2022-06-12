@@ -15,6 +15,7 @@
   bottom: 0;
   margin: auto;
   width: 103%;
+  z-index: -1;
 }
 
 .game-cover {
