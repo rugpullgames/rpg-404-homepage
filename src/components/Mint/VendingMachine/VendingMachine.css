@@ -19,14 +19,30 @@
   position: absolute;
   top: 220px;
   right: 120px;
+  transition: transform 0.2s; /* Animation */
   cursor: pointer;
+}
+
+.vending-btn-to-game:hover {
+  transform: scale(1.2);
+  filter: brightness(120%);
 }
 
 .vending-btn-mint {
   position: absolute;
   top: 120px;
   right: 126px;
+  transition: transform 0.2s; /* Animation */
   cursor: pointer;
+}
+
+.vending-btn-mint:hover {
+  -webkit-transform: translate(-20px, -10px);
+  -moz-transform: translate(-20px, -10px);
+  -ms-transform: translate(-20px, -10px);
+  -o-transform: translate(-20px, -10px);
+  transform: translate(-20px, -10px);
+  filter: brightness(150%);
 }
 
 .vending-bg-input-frame {
@@ -39,12 +55,24 @@
   position: absolute;
   top: 36px;
   right: 64px;
+  transition: transform 0.2s; /* Animation */
   cursor: pointer;
+}
+
+.vending-btn-add:hover {
+  transform: scale(1.2);
+  filter: brightness(120%);
 }
 
 .vending-btn-sub {
   position: absolute;
   top: 36px;
   right: 264px;
+  transition: transform 0.2s; /* Animation */
   cursor: pointer;
+}
+
+.vending-btn-sub:hover {
+  transform: scale(1.2);
+  filter: brightness(120%);
 }
