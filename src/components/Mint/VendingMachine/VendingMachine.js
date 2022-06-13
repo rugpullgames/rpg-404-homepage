@@ -179,7 +179,7 @@ export default function VendingMachine() {
           updateStatus('Busy... please wait');
           return;
         }
-        if (contractAddress || contractAddress === '') {
+        if (!contractAddress || contractAddress === '') {
           updateStatus('Contract is not available');
           return;
         }
