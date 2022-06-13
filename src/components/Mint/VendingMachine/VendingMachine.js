@@ -195,7 +195,7 @@ export default function VendingMachine() {
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-        updateStatus('Initialize mint');
+        updateStatus('Initialize minting...');
         setIsBusy(true);
 
         let nftTxn;
