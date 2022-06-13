@@ -107,7 +107,7 @@ export default function VendingMachine() {
   };
 
   const updateMintQuantity = (quan) => {
-    if (quan) {
+    if (quan && price > -1) {
       if (totalSupply < maxFreeSupply) {
         //* free mint
         quan = Math.min(maxPerAddressDuringFreeMint, Math.max(MIN_QUALITY, quan));
@@ -257,7 +257,7 @@ export default function VendingMachine() {
         />
         <div className='vending-price'>{price > 0 ? `Price: ${price} eth` : price === 0 ? 'Price: Free' : ''}</div>
         <div className='vending-supply'>{price > -1 ? `Mint#: ${totalSupply} / ${maxSupply}` : ''}</div>
-        <div className='vending-quantity'>{quantity}</div>
+        <div className='vending-quantity'>{price > -1 ? quantity : '???'}</div>
       </div>
     );
   } else {
