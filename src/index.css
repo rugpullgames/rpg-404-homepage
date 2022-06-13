@@ -10,3 +10,23 @@ body {
 code {
   font-family: 'VT323', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #00423b;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00796b;
+}
