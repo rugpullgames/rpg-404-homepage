@@ -23,8 +23,8 @@ export default function SocialLinks(props) {
   const links = [
     {
       ref: null,
-      iconNormal: '/img/icon_twitter.png',
-      iconHover: '/img/icon_twitter.png',
+      iconNormal: '/img/social/icon_twitter.png',
+      iconHover: '/img/social/icon_twitter_hover.png',
       alt: 'Twitter',
       onClick: () => {
         window.open('https://twitter.com/rug_pull_games');
@@ -32,8 +32,8 @@ export default function SocialLinks(props) {
     },
     {
       ref: null,
-      iconNormal: '/img/icon_discord.png',
-      iconHover: '/img/icon_discord.png',
+      iconNormal: '/img/social/icon_discord.png',
+      iconHover: '/img/social/icon_discord_hover.png',
       alt: 'Discord',
       onClick: () => {
         window.open('https://discord.com/');
@@ -41,8 +41,8 @@ export default function SocialLinks(props) {
     },
     {
       ref: null,
-      iconNormal: '/img/icon_opensea.png',
-      iconHover: '/img/icon_opensea_hover.png',
+      iconNormal: '/img/social/icon_opensea.png',
+      iconHover: '/img/social/icon_opensea_hover.png',
       alt: 'Opensea',
       onClick: () => {
         window.open('https://opensea.io/');
@@ -50,8 +50,8 @@ export default function SocialLinks(props) {
     },
     {
       ref: null,
-      iconNormal: '/img/icon_etherscan.png',
-      iconHover: '/img/icon_etherscan.png',
+      iconNormal: '/img/social/icon_etherscan.png',
+      iconHover: '/img/social/icon_etherscan_hover.png',
       alt: 'Etherscan',
       onClick: () => {
         window.open('https://etherscan.io/');
@@ -59,8 +59,8 @@ export default function SocialLinks(props) {
     },
     {
       ref: null,
-      iconNormal: '/img/icon_metamask.png',
-      iconHover: '/img/icon_metamask.png',
+      iconNormal: '/img/social/icon_metamask.png',
+      iconHover: '/img/social/icon_metamask_hover.png',
       alt: 'MetaMask',
       onClick: () => {
         props.connectWalletHandler();
