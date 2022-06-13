@@ -19,12 +19,14 @@
   position: absolute;
   top: 220px;
   right: 120px;
+  cursor: pointer;
 }
 
 .vending-btn-mint {
   position: absolute;
   top: 120px;
   right: 126px;
+  cursor: pointer;
 }
 
 .vending-bg-input-frame {
@@ -37,10 +39,12 @@
   position: absolute;
   top: 36px;
   right: 64px;
+  cursor: pointer;
 }
 
 .vending-btn-sub {
   position: absolute;
   top: 36px;
   right: 264px;
+  cursor: pointer;
 }
