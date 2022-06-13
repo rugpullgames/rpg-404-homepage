@@ -7,9 +7,23 @@ import Game from './components/Game';
 import NFTContext from './components/NFTContext';
 import './App.css';
 
+//! as Enum
 export const PageName = {
   GAME: 'game',
   MINT: 'mint',
+};
+
+//! utils
+const parseEther = (err) => {
+  let msg = 'error';
+  if (err && err.message) {
+    console.error(err.message);
+    const errs = err.message.match(/(?<="message":)".*?"/g);
+    if (errs && errs.length > 0 && errs[0] !== '') {
+      msg = errs[0];
+    }
+  }
+  return msg;
 };
 
 function App() {
@@ -41,6 +55,8 @@ function App() {
       contractAbi,
       openseaColletionName,
       isRinkeby,
+      //! utils
+      parseEther,
       //! load from contract
       price,
       setPrice,
@@ -94,10 +110,11 @@ function App() {
         updateStatus(`Connected (address: ${account})`);
         setCurrentAccount(account);
       } else {
-        updateStatus('No authorized account found.');
+        updateStatus('No authorized account found');
       }
     } catch (err) {
-      updateStatus(err);
+      const errMsg = parseEther(err);
+      updateStatus(errMsg);
     }
   };
 

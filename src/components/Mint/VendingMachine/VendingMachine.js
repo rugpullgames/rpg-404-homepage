@@ -19,6 +19,8 @@ export default function VendingMachine() {
     contractAbi,
     openseaColletionName,
     isRinkeby,
+    //! utils
+    parseEther,
     //! load from contract
     price,
     setPrice,
@@ -58,7 +60,7 @@ export default function VendingMachine() {
           const signer = provider.getSigner();
           const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-          updateStatus('Loading mint info...');
+          updateStatus('Loading mint contract info...');
 
           let maxSupplyNum = await nftContract.maxSupply();
           setMaxSupply(maxSupplyNum.toNumber());
@@ -81,12 +83,13 @@ export default function VendingMachine() {
             setPrice(ethers.utils.formatEther(priceWei));
           }
 
-          updateStatus('Mint info loaded.');
+          updateStatus('Mint contract info loaded');
         } else {
-          updateStatus('Ethereum object does not exist.');
+          updateStatus('Ethereum object does not exist');
         }
       } catch (err) {
-        updateStatus(err.message || 'error');
+        const errMsg = parseEther(err);
+        updateStatus(errMsg);
       }
     };
 
@@ -146,7 +149,8 @@ export default function VendingMachine() {
           updateStatus('Ethereum object does not exist.');
         }
       } catch (err) {
-        updateStatus(err);
+        const errMsg = parseEther(err);
+        updateStatus(errMsg);
       }
     };
 
@@ -183,6 +187,10 @@ export default function VendingMachine() {
           updateStatus('Contract is not available');
           return;
         }
+        if (price < -1) {
+          updateStatus('Load contract info first');
+          return;
+        }
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
@@ -208,11 +216,12 @@ export default function VendingMachine() {
         updateStatus(`Mined, see transction: https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/tx/${nftTxn.hash}`);
         setIsBusy(false);
       } else {
-        updateStatus('Ethereum object does not exist.');
+        updateStatus('Ethereum object does not exist');
         setIsBusy(false);
       }
     } catch (err) {
-      updateStatus(err.message || 'error');
+      const errMsg = parseEther(err);
+      updateStatus(errMsg);
       setIsBusy(false);
     }
   };

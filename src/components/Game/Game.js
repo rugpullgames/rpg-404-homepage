@@ -6,7 +6,8 @@ import './Game.css';
 
 export default function Game() {
   //! web3 APIs
-  const { currentAccount, contractAddress, contractAbi, updateStatus, setCurrPage } = useContext(NFTContext);
+  const { currentAccount, contractAddress, contractAbi, parseEther, updateStatus, setCurrPage } =
+    useContext(NFTContext);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Game() {
 
           if (nfts.length > 0) {
             // TODO: show selected switch nft
-            updateStatus(`You have ${nfts.length} NFTs.`);
+            updateStatus(`You have ${nfts.length} NFTs`);
             for (const bg of nfts) {
               const nftIdx = bg.toNumber();
               let tokenMetadataURI = await nftContract.tokenURI(nftIdx);
@@ -72,12 +73,12 @@ export default function Game() {
 
           setIsBusy(false);
         } else {
-          updateStatus('Ethereum object does not exist.');
+          updateStatus('Ethereum object does not exist');
           setIsBusy(false);
         }
       } catch (err) {
-        console.error(err);
-        updateStatus(err.message || 'error');
+        const errMsg = parseEther(err);
+        updateStatus(errMsg);
         setIsBusy(false);
       }
     };

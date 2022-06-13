@@ -7,6 +7,8 @@ export const NFTContext = createContext({
   contractAbi: contract.abi,
   openseaColletionName: 'rpg-404-v2',
   isRinkeby: true,
+  //! utils, read only
+  parseEtherError: () => {},
   //! load from contract
   price: -1,
   setPrice: () => {},
