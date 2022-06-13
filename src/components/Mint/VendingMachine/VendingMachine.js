@@ -1,7 +1,8 @@
 import React from 'react';
+import { PageName } from '../../../App';
 import './VendingMachine.css';
 
-export default function VendingMachine() {
+export default function VendingMachine(props) {
   return (
     <div className='vending-machine'>
       <img
@@ -13,6 +14,7 @@ export default function VendingMachine() {
         className='vending-btn-to-game'
         src={process.env.PUBLIC_URL + '/img/btn_mint_to_game.png'}
         alt='Button of Vending Machine to Game'
+        onClick={() => props.changePage(PageName.GAME)}
       />
       <div className='vending-mint'>
         <img

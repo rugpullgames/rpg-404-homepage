@@ -10,7 +10,7 @@ export default function Mint(props) {
         src={process.env.PUBLIC_URL + '/img/bg_mint_market.jpg'}
         alt='Mint Market Background'
       />
-      <VendingMachine />
+      <VendingMachine {...props} />
     </div>
   );
 }
