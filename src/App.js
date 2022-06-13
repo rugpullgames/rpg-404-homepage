@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import WalletAccount from './components/WalletAccount';
 import Status from './components/Status';
@@ -107,8 +107,8 @@ function App() {
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       if (accounts.length !== 0) {
         const account = accounts[0];
-        updateStatus(`Connected (address: ${account})`);
         setCurrentAccount(account);
+        updateStatus(`Connected (address: ${account})`);
       } else {
         updateStatus('No authorized account found');
       }
@@ -117,6 +117,27 @@ function App() {
       updateStatus(errMsg);
     }
   };
+
+  useEffect(() => {
+    const { ethereum } = window;
+    if (!ethereum) {
+      return;
+    }
+    const handleAccountChange = (...args) => {
+      const accounts = args[0];
+      if (accounts.length === 0) {
+        updateStatus('No authorized account found');
+      } else if (accounts[0] !== currentAccount) {
+        const account = accounts[0];
+        setCurrentAccount(account);
+        updateStatus(`Connected (address: ${account})`);
+      }
+    };
+    ethereum.on('accountsChanged', handleAccountChange);
+    return () => {
+      ethereum?.removeListener('accountsChanged', handleAccountChange);
+    };
+  });
 
   //! reture
   return (
