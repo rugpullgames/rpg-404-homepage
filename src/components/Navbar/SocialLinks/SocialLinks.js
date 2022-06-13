@@ -4,7 +4,6 @@ import './SocialLinks.css';
 
 function SocialLink(props) {
   const image = useRef();
-  console.log();
   return (
     <div
       className='social-icon'
@@ -21,7 +20,7 @@ function SocialLink(props) {
 }
 
 export default function SocialLinks(props) {
-  const { openseaColletionName, isRinkeby } = useContext(NFTContext);
+  const { contractAddress, openseaColletionName, isRinkeby } = useContext(NFTContext);
 
   const links = [
     {
@@ -57,7 +56,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_etherscan_hover.png',
       alt: 'Etherscan',
       onClick: () => {
-        window.open('https://etherscan.io/');
+        window.open(`https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/address/${contractAddress}`);
       },
     },
     {
