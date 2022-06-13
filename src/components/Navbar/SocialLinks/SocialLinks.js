@@ -7,10 +7,10 @@ function SocialLink(props) {
   return (
     <div
       className='social-icon'
-      onMouseEnter={(e) => {
+      onMouseEnter={() => {
         image.current.src = process.env.PUBLIC_URL + props.iconHover;
       }}
-      onMouseLeave={(e) => {
+      onMouseLeave={() => {
         image.current.src = process.env.PUBLIC_URL + props.iconNormal;
       }}
       onClick={props.onClick}>
