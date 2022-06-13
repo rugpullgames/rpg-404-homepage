@@ -2,23 +2,13 @@
   position: absolute;
   top: 120px;
   bottom: 0;
-  left: 0;
-  right: 0;
-  /* background-color: blueviolet; */
+  left: -14px;
+  right: -14px;
+  overflow: hidden;
+  /* background-color: rgba(255, 0, 0, 0.5); */
 }
 
 .game-bg {
-  position: absolute;
-  left: -1.5%;
-  right: -1.5%;
-  top: -140px;
-  bottom: 0;
-  margin: auto;
-  width: 103%;
-  z-index: -1;
-}
-
-.game-cover {
   position: absolute;
   left: 0;
   right: 0;
@@ -26,10 +16,22 @@
   bottom: 0;
   margin: auto;
   width: 100%;
+  z-index: -1;
+}
+
+.game-cover {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: -140px;
+  bottom: 0;
+  margin: auto;
+  width: 900px;
 }
 
 .btn-game-to-mint {
   position: absolute;
-  right: 40px;
-  bottom: min(180px, 10vh);
+  right: 20px;
+  bottom: min(20px, 4vh);
+  cursor: pointer;
 }

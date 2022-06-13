@@ -92,7 +92,7 @@ export default function Game(props) {
       <img className='game-cover' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />
       <img
         className='btn-game-to-mint'
-        src={process.env.PUBLIC_URL + '/img/btn_mint.png'}
+        src={process.env.PUBLIC_URL + '/img/btn_game_to_mint.png'}
         alt='Mint Button'
         onClick={() => props.changePage(PageName.MINT)}
       />
