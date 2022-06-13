@@ -1,15 +1,46 @@
 .vending-machine {
+  position: absolute;
+  width: calc(100% + 20px);
+  margin-top: 100px;
+  height: 500px;
+  margin-left: -10px;
+  margin-right: -10px;
   background-color: aqua;
 }
 
-.vending-row {
-  padding: 20px;
-  list-style-type: none;
-  height: 40px;
+.vending-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-.vending-row li {
-  float: left;
-  margin: 0 10px;
-  padding: 0 10px;
+.vending-btn-to-game {
+  position: absolute;
+  top: 220px;
+  right: 120px;
+}
+
+.vending-btn-mint {
+  position: absolute;
+  top: 120px;
+  right: 126px;
+}
+
+.vending-bg-input-frame {
+  position: absolute;
+  top: 36px;
+  right: 124px;
+}
+
+.vending-btn-add {
+  position: absolute;
+  top: 36px;
+  right: 64px;
+}
+
+.vending-btn-sub {
+  position: absolute;
+  top: 36px;
+  right: 264px;
 }
