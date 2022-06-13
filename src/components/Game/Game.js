@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import StatusContext from '../StatusContext';
+import NFTContext from '../NFTContext';
 import contract from '../../contracts/RPG404.json';
 import { ethers } from 'ethers';
 import { PageName } from '../../App';
@@ -11,7 +11,7 @@ const abi = contract.abi;
 
 export default function Game(props) {
   //! web3 APIs
-  const { currentAccount, updateStatus } = useContext(StatusContext);
+  const { currentAccount, updateStatus } = useContext(NFTContext);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect(() => {

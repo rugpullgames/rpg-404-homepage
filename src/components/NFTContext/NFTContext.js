@@ -1,5 +1,6 @@
 import { createContext } from 'react';
-export const StatusContext = createContext({
+
+export const NFTContext = createContext({
   currentAccount: null,
   statusMsg: '',
   updateStatus: () => {},

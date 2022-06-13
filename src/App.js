@@ -4,7 +4,7 @@ import WalletAccount from './components/WalletAccount';
 import Status from './components/Status';
 import Mint from './components/Mint';
 import Game from './components/Game';
-import StatusContext from './components/StatusContext';
+import NFTContext from './components/NFTContext';
 import './App.css';
 
 export const PageName = {
@@ -52,7 +52,7 @@ function App() {
 
   //! reture
   return (
-    <StatusContext.Provider value={value}>
+    <NFTContext.Provider value={value}>
       <div className='App'>
         <Navbar {...{ connectWalletHandler }} />
         {currPage === PageName.GAME && <Game {...{ changePage }} />}
@@ -60,7 +60,7 @@ function App() {
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>
-    </StatusContext.Provider>
+    </NFTContext.Provider>
   );
 }
 
