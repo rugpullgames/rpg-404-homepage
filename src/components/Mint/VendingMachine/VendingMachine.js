@@ -37,6 +37,8 @@ export default function VendingMachine(props) {
           src={process.env.PUBLIC_URL + '/img/btn_mint.png'}
           alt='Mint Quantity Input Frame'
         />
+        <div className='vending-price'>{`Price: ${'0.008 eth'}`}</div>
+        <div className='vending-quantity'>{'99999'}</div>
       </div>
       {/* <img
         className='vending-btn-opensea'

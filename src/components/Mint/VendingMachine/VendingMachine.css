@@ -76,3 +76,21 @@
   transform: scale(1.2);
   filter: brightness(120%);
 }
+
+.vending-price {
+  position: absolute;
+  top: 90px;
+  right: 106px;
+  color: white;
+  font-size: 8px;
+  width: 160px;
+}
+
+.vending-quantity {
+  position: absolute;
+  top: 52px;
+  right: 124px;
+  width: 125px;
+  color: white;
+  text-align: center;
+}
