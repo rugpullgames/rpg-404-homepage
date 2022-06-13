@@ -49,6 +49,22 @@
  * @license MIT
  */
 
+//! current page
+
+//! load from contract
+
+//! mint quantity
+
+//! quantity
+
+//! read only
+
 //! reture
+
+//! status
+
+//! total supply
+
+//! wallet
 
 //! web3 APIs
