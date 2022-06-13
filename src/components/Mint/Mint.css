@@ -8,5 +8,7 @@
 }
 
 .mint-market-bg {
-  width: 100%;
+  height: calc(100vh - 120px);
+  margin-left: -100vw;
+  margin-right: -100vw;
 }

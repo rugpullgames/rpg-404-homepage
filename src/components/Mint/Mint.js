@@ -7,7 +7,7 @@ export default function Mint(props) {
     <div className='mint'>
       <img
         className='mint-market-bg'
-        src={process.env.PUBLIC_URL + '/img/bg_mint_market.jpg'}
+        src={process.env.PUBLIC_URL + '/img/bg_mint_market.png'}
         alt='Mint Market Background'
       />
       <VendingMachine {...props} />
