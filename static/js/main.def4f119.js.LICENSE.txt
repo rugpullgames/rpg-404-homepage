@@ -51,7 +51,13 @@
 
 //! current page
 
+//! is busy
+
 //! load from contract
+
+//! mint NFTs
+
+//! mint or buy
 
 //! mint quantity
 
