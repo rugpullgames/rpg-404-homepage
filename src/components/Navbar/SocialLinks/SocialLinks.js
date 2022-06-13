@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
+import NFTContext from '../../NFTContext';
 import './SocialLinks.css';
 
 function SocialLink(props) {
@@ -20,6 +21,8 @@ function SocialLink(props) {
 }
 
 export default function SocialLinks(props) {
+  const { openseaColletionName, isRinkeby } = useContext(NFTContext);
+
   const links = [
     {
       ref: null,
@@ -45,7 +48,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_opensea_hover.png',
       alt: 'Opensea',
       onClick: () => {
-        window.open('https://opensea.io/');
+        window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
       },
     },
     {

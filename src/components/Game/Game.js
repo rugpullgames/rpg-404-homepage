@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import NFTContext from '../NFTContext';
 import { ethers } from 'ethers';
+import NFTContext from '../NFTContext';
 import { PageName } from '../../App';
 import './Game.css';
 
-export default function Game(props) {
+export default function Game() {
   //! web3 APIs
-  const { currentAccount, contractAddress, contractAbi, updateStatus } = useContext(NFTContext);
+  const { currentAccount, contractAddress, contractAbi, updateStatus, setCurrPage } = useContext(NFTContext);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect(() => {
@@ -81,6 +81,7 @@ export default function Game(props) {
         setIsBusy(false);
       }
     };
+
     loadNft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount, contractAddress]);
@@ -93,7 +94,7 @@ export default function Game(props) {
         className='btn-game-to-mint'
         src={process.env.PUBLIC_URL + '/img/btn_game_to_mint.png'}
         alt='Mint Button'
-        onClick={() => props.changePage(PageName.MINT)}
+        onClick={() => setCurrPage(PageName.MINT)}
       />
     </div>
   );
