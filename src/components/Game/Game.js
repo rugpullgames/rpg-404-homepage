@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { ethers } from 'ethers';
 import NFTContext from '../NFTContext';
 import { PageName } from '../../App';
@@ -8,7 +8,6 @@ export default function Game() {
   //! web3 APIs
   const { currentAccount, contractAddress, contractAbi, parseEther, updateStatus, setCurrPage } =
     useContext(NFTContext);
-  const [isBusy, setIsBusy] = useState(false);
 
   useEffect(() => {
     const loadNft = async () => {
@@ -20,10 +19,7 @@ export default function Game() {
             updateStatus('Please connect wallet first');
             return;
           }
-          if (isBusy) {
-            updateStatus('Busy... please wait');
-            return;
-          }
+
           updateStatus(contractAddress);
           if (!contractAddress || contractAddress === '') {
             updateStatus('Contract is not available');
@@ -33,8 +29,7 @@ export default function Game() {
           const signer = provider.getSigner();
           const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-          updateStatus('Load NFTs');
-          setIsBusy(true);
+          updateStatus('Loading NFTs from blockchain...');
 
           let nfts = await nftContract.walletOfOwner(currentAccount);
 
@@ -70,22 +65,18 @@ export default function Game() {
           //     .then((response) => console.log(response))
           //     .catch((err) => console.error(err));
           // }
-
-          setIsBusy(false);
         } else {
           updateStatus('Ethereum object does not exist');
-          setIsBusy(false);
         }
       } catch (err) {
         const errMsg = parseEther(err);
         updateStatus(errMsg);
-        setIsBusy(false);
       }
     };
 
     loadNft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount, contractAddress]);
+  }, [currentAccount]);
 
   return (
     <div className='game'>
