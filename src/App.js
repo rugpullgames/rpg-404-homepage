@@ -21,6 +21,8 @@ const parseEther = (err) => {
     const errs = err.message.match(/(?<="message":)".*?"/g);
     if (errs && errs.length > 0 && errs[0] !== '') {
       msg = errs[0];
+    } else {
+      msg = err.message;
     }
   }
   return msg;
@@ -104,6 +106,26 @@ function App() {
     }
 
     try {
+      //* network
+      const network = await ethereum.networkVersion;
+      if (isRinkeby && network !== '4') {
+        //* testnet rinkeby
+        updateStatus(`Please change network to Rinkeby`);
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${Number(4).toString(16)}` }],
+        });
+      }
+      if (!isRinkeby && network !== '1') {
+        //* main network
+        updateStatus(`Please change network to ethereum Mainnet`);
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${Number(1).toString(16)}` }],
+        });
+      }
+
+      //* accouts
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       if (accounts.length !== 0) {
         const account = accounts[0];
