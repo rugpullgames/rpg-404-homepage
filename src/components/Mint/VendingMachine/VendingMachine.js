@@ -5,6 +5,13 @@ import { PageName } from '../../../App';
 import './VendingMachine.css';
 
 export default function VendingMachine() {
+  //! is busy
+  const [isBusy, setIsBusy] = useState(false);
+
+  //! quantity
+  const MIN_QUALITY = 1;
+  const [quantity, setQuantity] = useState(MIN_QUALITY);
+
   //! web3 APIs
   const {
     //! read only
@@ -32,10 +39,6 @@ export default function VendingMachine() {
     //! status
     updateStatus,
   } = useContext(NFTContext);
-
-  //! quantity
-  const MIN_QUALITY = 1;
-  const [quantity, setQuantity] = useState(MIN_QUALITY);
 
   useEffect(() => {
     const loadMintInfo = async () => {
@@ -154,20 +157,69 @@ export default function VendingMachine() {
     return () => clearInterval(timerId);
   });
 
+  //! mint NFTs
+  const mintNftHandler = async () => {
+    if (totalSupply >= maxSupply) {
+      alert(
+        `Thank you for your interest. \nGohan-kun is sold out. \nPlease check https://opensea.io/collection/gohan-kun.`
+      );
+      window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
+      return;
+    }
+
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        if (currentAccount === null) {
+          updateStatus('Please connect wallet first');
+          return;
+        }
+        if (isBusy) {
+          updateStatus('Busy... please wait');
+          return;
+        }
+        if (contractAddress || contractAddress === '') {
+          updateStatus('Contract is not available');
+          return;
+        }
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+
+        updateStatus('Initialize mint');
+        setIsBusy(true);
+
+        let nftTxn;
+        if (totalSupply < maxFreeSupply) {
+          //* free mint
+          nftTxn = await nftContract.freeMint(quantity);
+        } else {
+          //* public sales
+          nftTxn = await nftContract.mint(quantity, {
+            value: ethers.utils.parseEther((0.0078 * quantity).toString()),
+          });
+        }
+
+        updateStatus(`Mint (price: ${price}, quantity: ${quantity})... please wait`);
+
+        await nftTxn.wait();
+
+        updateStatus(`Mined, see transction: https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/tx/${nftTxn.hash}`);
+        setIsBusy(false);
+      } else {
+        updateStatus('Ethereum object does not exist.');
+        setIsBusy(false);
+      }
+    } catch (err) {
+      updateStatus(err.message || 'error');
+      setIsBusy(false);
+    }
+  };
+
+  //! mint or buy
   let mintOrBuy;
-  if (totalSupply >= maxSupply) {
-    //* buy on opensea
-    mintOrBuy = (
-      <img
-        className='vending-btn-opensea'
-        src={process.env.PUBLIC_URL + '/img/btn_mint_opensea.png'}
-        alt='Buy NFTs on Opensea'
-        onClick={() => {
-          window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
-        }}
-      />
-    );
-  } else {
+  if (totalSupply !== -1 && totalSupply < maxSupply) {
     //* mint directly
     mintOrBuy = (
       <div className='vending-mint'>
@@ -192,11 +244,24 @@ export default function VendingMachine() {
           className='vending-btn-mint'
           src={process.env.PUBLIC_URL + '/img/btn_mint.png'}
           alt='Mint Quantity Input Frame'
+          onClick={mintNftHandler}
         />
         <div className='vending-price'>{price > 0 ? `Price: ${price} eth` : price === 0 ? 'Price: Free' : ''}</div>
         <div className='vending-supply'>{price > -1 ? `Mint#: ${totalSupply} / ${maxSupply}` : ''}</div>
         <div className='vending-quantity'>{quantity}</div>
       </div>
+    );
+  } else {
+    //* buy on opensea
+    mintOrBuy = (
+      <img
+        className='vending-btn-opensea'
+        src={process.env.PUBLIC_URL + '/img/btn_mint_opensea.png'}
+        alt='Buy NFTs on Opensea'
+        onClick={() => {
+          window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
+        }}
+      />
     );
   }
 
