@@ -71,6 +71,10 @@
 
 //! total supply
 
+//! utils
+
+//! utils, read only
+
 //! wallet
 
 //! web3 APIs
