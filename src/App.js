@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import WalletAccount from './components/WalletAccount';
 import Status from './components/Status';
@@ -17,13 +17,17 @@ function App() {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [statusMsg, setStatusMsg] = useState('');
   const [currPage, setCurrPage] = useState(PageName.GAME);
+  const { contractAddress, contractAbi, isRinkeby } = useContext(NFTContext);
 
   const updateStatus = (msg) => {
     console.log(msg);
     setStatusMsg(`Status: ${msg}`);
   };
 
-  const value = useMemo(() => ({ currentAccount, statusMsg, updateStatus }), [currentAccount, statusMsg]);
+  const value = useMemo(
+    () => ({ contractAddress, contractAbi, isRinkeby, currentAccount, statusMsg, updateStatus }),
+    [contractAbi, contractAddress, currentAccount, isRinkeby, statusMsg]
+  );
 
   const connectWalletHandler = async () => {
     const { ethereum } = window;

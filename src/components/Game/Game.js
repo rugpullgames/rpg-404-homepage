@@ -1,17 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import NFTContext from '../NFTContext';
-import contract from '../../contracts/RPG404.json';
 import { ethers } from 'ethers';
 import { PageName } from '../../App';
 import './Game.css';
 
-const contractAddress = '0x5887e5C10f0dd72aA592713e7112aab5D47C5e4C';
-const abi = contract.abi;
-// const isRinkeby = true;
-
 export default function Game(props) {
   //! web3 APIs
-  const { currentAccount, updateStatus } = useContext(NFTContext);
+  const { currentAccount, contractAddress, contractAbi, updateStatus } = useContext(NFTContext);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect(() => {
@@ -28,13 +23,14 @@ export default function Game(props) {
             updateStatus('Busy... please wait');
             return;
           }
+          updateStatus(contractAddress);
           if (!contractAddress || contractAddress === '') {
             updateStatus('Contract is not available');
             return;
           }
           const provider = new ethers.providers.Web3Provider(ethereum);
           const signer = provider.getSigner();
-          const nftContract = new ethers.Contract(contractAddress, abi, signer);
+          const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
           updateStatus('Load NFTs');
           setIsBusy(true);
@@ -43,6 +39,7 @@ export default function Game(props) {
 
           if (nfts.length > 0) {
             // TODO: show selected switch nft
+            updateStatus(`You have ${nfts.length} NFTs.`);
             for (const bg of nfts) {
               const nftIdx = bg.toNumber();
               let tokenMetadataURI = await nftContract.tokenURI(nftIdx);
@@ -57,6 +54,7 @@ export default function Game(props) {
             }
           } else {
             // TODO: you don't have any RPG404 nfts, please mint or buy on opensea.io
+            updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
           }
           // for (let i = 0; i < nfts.length; i++) {
           //   const nftIdx = nfts[i].toNumber();
@@ -78,13 +76,14 @@ export default function Game(props) {
           setIsBusy(false);
         }
       } catch (err) {
+        console.error(err);
         updateStatus(err.message || 'error');
         setIsBusy(false);
       }
     };
     loadNft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount]);
+  }, [currentAccount, contractAddress]);
 
   return (
     <div className='game'>
