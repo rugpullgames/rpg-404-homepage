@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { StatusContext } from '../../App';
+import StatusContext from '../StatusContext';
 import './WalletAccount.css';
 
 const truncate = (input, len) =>

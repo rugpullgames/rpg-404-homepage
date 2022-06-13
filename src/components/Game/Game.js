@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { StatusContext } from '../../App';
+import StatusContext from '../StatusContext';
 import contract from '../../contracts/RPG404.json';
 import { ethers } from 'ethers';
 import { PageName } from '../../App';

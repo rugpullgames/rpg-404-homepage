@@ -1,16 +1,11 @@
-import { useState, createContext, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import WalletAccount from './components/WalletAccount';
 import Status from './components/Status';
 import Mint from './components/Mint';
 import Game from './components/Game';
+import StatusContext from './components/StatusContext';
 import './App.css';
-
-export const StatusContext = createContext({
-  currentAccount: null,
-  statusMsg: '',
-  updateStatus: () => {},
-});
 
 export const PageName = {
   GAME: 'game',
@@ -59,9 +54,9 @@ function App() {
   return (
     <StatusContext.Provider value={value}>
       <div className='App'>
-        <Navbar {...{connectWalletHandler}} />
-        {currPage === PageName.GAME && <Game {...{changePage}} />}
-        {currPage === PageName.MINT && <Mint {...{changePage}} />}
+        <Navbar {...{ connectWalletHandler }} />
+        {currPage === PageName.GAME && <Game {...{ changePage }} />}
+        {currPage === PageName.MINT && <Mint {...{ changePage }} />}
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>

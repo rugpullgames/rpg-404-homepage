@@ -1,9 +1,15 @@
 .status {
   position: fixed;
   bottom: 10px;
-  left: max(20px, calc((100vw - var(--vendor-width)) / 2));
-  width: var(--vendor-width);
+  left: 0;
+  right: 0;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
   word-wrap: break-word;
   color: white;
   font-size: 8px;
+  text-align: left;
+  z-index: -1;
+  /* background-color: magenta; */
 }
