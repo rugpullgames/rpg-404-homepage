@@ -5,5 +5,5 @@
   width: var(--vendor-width);
   word-wrap: break-word;
   color: white;
-  font-size: smaller;
+  font-size: 8px;
 }
