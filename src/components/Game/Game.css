@@ -28,7 +28,7 @@
   width: 100%;
 }
 
-.btn-game-mint {
+.btn-game-to-mint {
   position: absolute;
   right: 40px;
   bottom: min(180px, 10vh);
