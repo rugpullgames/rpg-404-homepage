@@ -21,15 +21,16 @@ export const NFT = (props) => {
   };
 
   return (
-    <div className='nft-item'>
+    <div className='nft-item' onClick={selectNft} draggable='true' onDragStart={dragStartHandler} onDrag={dragHandler}>
+      <img
+        className='nft-item-loading'
+        src={process.env.PUBLIC_URL + '/img/placehold_nft_loading.png'}
+        alt='NFT Loading'
+      />
       <img
         className='nft-image'
         src={`https://ipfs.io/ipfs/${props.metadata.image.split('ipfs://')[1]}`}
         alt={props.metadata.name}
-        onClick={selectNft}
-        draggable='true'
-        onDragStart={dragStartHandler}
-        onDrag={dragHandler}
       />
     </div>
   );
