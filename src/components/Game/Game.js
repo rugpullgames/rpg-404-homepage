@@ -108,7 +108,7 @@ export default function Game() {
         src={process.env.PUBLIC_URL + '/game/game.html'}
         frameBorder='0'
         scrolling='no'
-        crossorigin='anonymous'
+        crossOrigin='anonymous'
       />
       ;
       <img
