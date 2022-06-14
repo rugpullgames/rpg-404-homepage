@@ -1,0 +1,17 @@
+.nft-panel {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: -140px;
+  bottom: 0;
+  margin: auto;
+  width: 900px;
+  height: 300px;
+  background-color: aquamarine;
+}
+
+.nft-item {
+  width: 200px;
+  height: 200px;
+  background-color: blueviolet;
+}

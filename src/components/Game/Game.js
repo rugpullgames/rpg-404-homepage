@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { ethers } from 'ethers';
 import NFTContext from '../NFTContext';
+import NFTPanel from './NFTPanel';
 import { PageName } from '../../App';
 import './Game.css';
 
@@ -116,6 +117,7 @@ export default function Game() {
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
+      <NFTPanel />
     </div>
   );
 }
