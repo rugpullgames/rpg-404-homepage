@@ -5,6 +5,7 @@ export const NFT = (props) => {
   const [posX, setPosX] = useState(null);
   const selectNft = () => {
     props.selectNft(props.metadata);
+    props.hideNftPanel();
   };
 
   const dragStartHandler = (e) => {
@@ -58,6 +59,7 @@ export default function NFTPanel(props) {
           const attr = {
             metadata: mt,
             selectNft: props.selectNft,
+            hideNftPanel: props.hideNftPanel,
             scrollPanel,
           };
           return <NFT {...attr} key={`nft-metadata-${mt.dna}`} />;

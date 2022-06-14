@@ -30,6 +30,19 @@ export default function Game() {
     }
   };
 
+  //! open NFT panel
+  const openNftPanel = () => {
+    if (currentAccount) {
+      if (metadata.length > 0) {
+        setShowNftPanel(true);
+      } else {
+        updateStatus('No NFT loaded');
+      }
+    } else {
+      updateStatus('Please connect wallet first');
+    }
+  };
+
   //! load NFTs
   useEffect(() => {
     const { ethereum } = window;
@@ -71,7 +84,7 @@ export default function Game() {
 
         const meta = [];
         if (nfts.length > 0) {
-          // TODO: show selected switch nft
+          //* show selected switch nft
           updateStatus(`You have ${nfts.length} NFTs`);
           for (const bg of nfts) {
             const nftIdx = bg.toNumber();
@@ -88,23 +101,9 @@ export default function Game() {
           }
           setMetadata([...meta]);
         } else {
-          // TODO: you don't have any RPG404 nfts, please mint or buy on opensea.io
+          //* you don't have any RPG404 nfts, please mint or buy on opensea.io
           updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
         }
-        // for (let i = 0; i < nfts.length; i++) {
-        //   const nftIdx = nfts[i].toNumber();
-        //   console.log(nftIdx);
-        //   const options = { method: 'GET' };
-
-        //   fetch(
-        //     `https://${isRinkeby ? 'testnets-api' : 'api'}.opensea.io/api/v1/asset/${contractAddress}/${nftIdx}/`,
-        //     options
-        //   )
-        //     .then((response) => response.json())
-        //     .then((response) => console.log(response))
-        //     .catch((err) => console.error(err));
-
-        // }
       } catch (err) {
         const errMsg = parseEther(err);
         updateStatus(errMsg);
@@ -136,12 +135,21 @@ export default function Game() {
     gameFrame = (
       <div className='game-cover'>
         <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
-        <img className='btn-game-play' src={process.env.PUBLIC_URL + '/img/btn_game_play.png'} alt='Play Game Button' />
-        <img
-          className='btn-select-nft'
-          src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
-          alt='Select NFT Button'
-        />
+        {!showNftPanel && (
+          <img
+            className='btn-game-play'
+            src={process.env.PUBLIC_URL + '/img/btn_game_play.png'}
+            alt='Play Game Button'
+          />
+        )}
+        {!showNftPanel && (
+          <img
+            className='btn-select-nft'
+            src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
+            alt='Select NFT Button'
+            onClick={openNftPanel}
+          />
+        )}
       </div>
     );
   }
@@ -156,7 +164,9 @@ export default function Game() {
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
-      {showNftPanel && <NFTPanel metadata={metadata} selectNft={selectNft} />}
+      {showNftPanel && (
+        <NFTPanel metadata={metadata} selectNft={selectNft} hideNftPanel={() => setShowNftPanel(false)} />
+      )}
     </div>
   );
 }
