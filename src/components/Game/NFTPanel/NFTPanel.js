@@ -2,16 +2,23 @@ import React from 'react';
 import './NFTPanel.css';
 
 export const NFT = (props) => {
+  const selectNft = () => {
+    props.selectNft(props.metadata);
+  };
+
   return (
     <div className='nft-item'>
-      <img className='nft-image' src={`https://ipfs.io/ipfs/${props.image.split('ipfs://')[1]}`} alt={props.name} />
+      <img
+        className='nft-image'
+        src={`https://ipfs.io/ipfs/${props.metadata.image.split('ipfs://')[1]}`}
+        alt={props.metadata.name}
+        onClick={selectNft}
+      />
     </div>
   );
 };
 
 export default function NFTPanel(props) {
-  console.log(props.metadata);
-
   const onScroll = (e) => {
     if (e.deltaY > 0) {
       e.currentTarget.scrollLeft += 30;
@@ -25,7 +32,7 @@ export default function NFTPanel(props) {
     <div className='nft-panel'>
       <div className='nft-container' onWheel={onScroll}>
         {props.metadata.map((mt) => {
-          return <NFT {...mt} key={`nft-metadata-${mt.dna}`} />;
+          return <NFT metadata={mt} selectNft={props.selectNft} key={`nft-metadata-${mt.dna}`} />;
         })}
       </div>
     </div>

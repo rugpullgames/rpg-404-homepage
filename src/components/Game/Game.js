@@ -7,7 +7,9 @@ import './Game.css';
 
 export default function Game() {
   const [metadata, setMetadata] = useState([]);
-  //! web3 APIs
+  const [currMetadata, setCurrMetadata] = useState({});
+
+  //! web3 API in NFTContext
   const {
     currentAccount,
     contractAddress,
@@ -19,6 +21,15 @@ export default function Game() {
     setCurrPage,
   } = useContext(NFTContext);
 
+  //! select NFT
+  const selectNft = (metadata) => {
+    if (metadata) {
+      setCurrMetadata(metadata);
+      updateStatus(`Selected NFT: ${currMetadata.name}`);
+    }
+  };
+
+  //! load NFTs
   useEffect(() => {
     const { ethereum } = window;
     if (!ethereum) {
@@ -122,7 +133,7 @@ export default function Game() {
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
-      <NFTPanel metadata={metadata} />
+      <NFTPanel metadata={metadata} selectNft={selectNft} />
     </div>
   );
 }
