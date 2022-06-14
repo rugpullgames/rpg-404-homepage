@@ -105,6 +105,8 @@ export default function Game() {
         className='game-iframe'
         title='RPG 404'
         src={process.env.PUBLIC_URL + '/game/game.html'}
+        frameBorder='0'
+        scrolling='no'
         crossorigin='anonymous'
       />
       ;
