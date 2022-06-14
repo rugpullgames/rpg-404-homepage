@@ -24,13 +24,12 @@ export default function Game() {
     }
 
     const loadNft = async () => {
+      const { ethereum } = window;
+      if (!ethereum) {
+        updateStatus('Please install MetaMask.');
+        return;
+      }
       try {
-        const { ethereum } = window;
-
-        if (!ethereum) {
-          updateStatus('Please install MetaMask.');
-          return;
-        }
         //* check network
         await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
