@@ -133,6 +133,7 @@ export default function Game() {
   //! cover or iframe
   let gameFrame;
   if (currentAccount && currMetadata.name) {
+    //* iframe
     gameFrame = (
       <iframe
         className='game-iframe'
@@ -144,6 +145,7 @@ export default function Game() {
       />
     );
   } else {
+    //* cover image
     gameFrame = (
       <div className='game-cover'>
         <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
