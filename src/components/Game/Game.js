@@ -101,6 +101,7 @@ export default function Game() {
     <div className='game'>
       <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
       <img className='game-cover' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />
+      <iframe className='game-iframe' title='RPG 404' src='https://www.youtube.com/embed/cWDJoK8zw58' />;
       <img
         className='btn-game-to-mint'
         src={process.env.PUBLIC_URL + '/img/btn_game_to_mint.png'}

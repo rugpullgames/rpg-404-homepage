@@ -29,6 +29,17 @@
   width: 900px;
 }
 
+.game-iframe {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: -140px;
+  bottom: 0;
+  margin: auto;
+  width: 900px;
+  height: 300px;
+}
+
 .btn-game-to-mint {
   position: absolute;
   right: 20px;
