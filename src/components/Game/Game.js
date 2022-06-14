@@ -91,6 +91,21 @@ export default function Game() {
     }
   };
 
+  //! load NFTs effect
+  useEffect(() => {
+    const { ethereum } = window;
+    if (!ethereum) {
+      return;
+    }
+
+    loadNft();
+    ethereum.on('accountsChanged', loadNft);
+    return () => {
+      ethereum?.removeListener('accountsChanged', loadNft);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentAccount]);
+
   //! select NFT
   const selectNft = (selectedMetadata) => {
     console.log(selectedMetadata);
@@ -117,20 +132,24 @@ export default function Game() {
     }
   };
 
-  //! load NFTs
-  useEffect(() => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      return;
+  //! play game
+  const playGame = () => {
+    if (currentAccount) {
+      if (metadata.length > 0) {
+        if (currMetadata.name) {
+          //TODO: Play Game!!
+          updateStatus('Game start, enjoy!');
+        } else {
+          updateStatus('Please select your favor NFT before playing');
+        }
+      } else {
+        updateStatus('No NFT loaded');
+        loadNft();
+      }
+    } else {
+      updateStatus('Please connect wallet first');
     }
-
-    loadNft();
-    ethereum.on('accountsChanged', loadNft);
-    return () => {
-      ethereum?.removeListener('accountsChanged', loadNft);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount]);
+  };
 
   //! cover or iframe
   let gameFrame;
@@ -156,6 +175,7 @@ export default function Game() {
             className='btn-game-play'
             src={process.env.PUBLIC_URL + '/img/btn_game_play.png'}
             alt='Play Game Button'
+            onClick={playGame}
           />
         )}
         {!showNftPanel && (
@@ -170,7 +190,6 @@ export default function Game() {
     );
   }
 
-  console.log(showNftPanelAnim);
   return (
     <div className='game'>
       <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
