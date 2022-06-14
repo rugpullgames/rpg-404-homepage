@@ -7,7 +7,8 @@ import './Game.css';
 
 export default function Game() {
   const [metadata, setMetadata] = useState([]);
-  const [currMetadata, setCurrMetadata] = useState({});
+  const [currMetadata, setCurrMetadata] = useState(null);
+  const [showNftPanel, setShowNftPanel] = useState(false);
 
   //! web3 API in NFTContext
   const {
@@ -56,6 +57,10 @@ export default function Game() {
           updateStatus('Contract is not available');
           return;
         }
+
+        // clean metadata
+        setCurrMetadata(null);
+
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
@@ -114,10 +119,10 @@ export default function Game() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
 
-  return (
-    <div className='game'>
-      <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
-      <img className='game-cover' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />
+  //! cover or iframe
+  let gameFrame;
+  if (currMetadata) {
+    gameFrame = (
       <iframe
         className='game-iframe'
         title='RPG 404'
@@ -126,14 +131,32 @@ export default function Game() {
         scrolling='no'
         crossOrigin='anonymous'
       />
-      ;
+    );
+  } else {
+    gameFrame = (
+      <div className='game-cover'>
+        <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
+        <img className='btn-game-play' src={process.env.PUBLIC_URL + '/img/btn_game_play.png'} alt='Play Game Button' />
+        <img
+          className='btn-select-nft'
+          src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
+          alt='Select NFT Button'
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className='game'>
+      <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
+      {gameFrame}
       <img
         className='btn-game-to-mint'
         src={process.env.PUBLIC_URL + '/img/btn_game_to_mint.png'}
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
-      <NFTPanel metadata={metadata} selectNft={selectNft} />
+      {showNftPanel && <NFTPanel metadata={metadata} selectNft={selectNft} />}
     </div>
   );
 }

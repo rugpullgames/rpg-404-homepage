@@ -19,6 +19,7 @@
   z-index: -1;
 }
 
+.game-iframe,
 .game-cover {
   position: absolute;
   left: 14px;
@@ -27,17 +28,47 @@
   bottom: 0;
   margin: auto;
   width: 900px;
+  height: 300px;
 }
 
-.game-iframe {
+.game-cover-img {
   position: absolute;
-  left: 14px;
-  right: 14px;
-  top: -140px;
+  left: 0;
+  right: 0;
+  top: 0;
   bottom: 0;
-  margin: auto;
-  width: 900px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-game-play {
+  position: absolute;
+  top: 100px;
+  right: 300px;
+  width: 80px;
+  height: 80px;
+  transition: transform 0.2s; /* Animation */
+  cursor: pointer;
+}
+
+.btn-game-play:hover {
+  transform: scale(1.2);
+  filter: brightness(120%);
+}
+
+.btn-select-nft {
+  position: absolute;
+  top: 100px;
+  right: 160px;
+  width: 80px;
+  height: 80px;
+  transition: transform 0.2s; /* Animation */
+  cursor: pointer;
+}
+
+.btn-select-nft:hover {
+  transform: scale(1.2);
+  filter: brightness(120%);
 }
 
 .btn-game-to-mint {
