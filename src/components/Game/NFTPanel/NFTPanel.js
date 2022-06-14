@@ -1,8 +1,12 @@
 import React from 'react';
 import './NFTPanel.css';
 
-export const NFT = () => {
-  return <div className='nft-item'>NFT</div>;
+export const NFT = (props) => {
+  return (
+    <div className='nft-item'>
+      <img className='nft-image' src={`https://ipfs.io/ipfs/${props.image.split('ipfs://')[1]}`} alt={props.name} />
+    </div>
+  );
 };
 
 export default function NFTPanel(props) {
@@ -20,12 +24,9 @@ export default function NFTPanel(props) {
   return (
     <div className='nft-panel'>
       <div className='nft-container' onWheel={onScroll}>
-        <NFT />
-        <NFT />
-        <NFT />
-        <NFT />
-        <NFT />
-        <NFT />
+        {props.metadata.map((mt) => {
+          return <NFT {...mt} key={`nft-metadata-${mt.dna}`} />;
+        })}
       </div>
     </div>
   );

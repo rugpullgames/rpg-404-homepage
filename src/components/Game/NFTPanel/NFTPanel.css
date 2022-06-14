@@ -27,10 +27,23 @@
 .nft-item {
   width: 200px;
   height: 200px;
-  margin-top: 50px;
+  margin-top: 25px;
   margin-left: 20px;
   margin-right: 20px;
   vertical-align: center;
   background-color: blueviolet;
   display: inline-block;
+}
+
+.nft-image {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.8);
+  cursor: pointer;
+}
+
+.nft-image:hover {
+  width: 100%;
+  height: 100%;
+  filter: brightness(1);
 }
