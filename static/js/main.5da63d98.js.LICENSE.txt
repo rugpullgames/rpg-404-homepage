@@ -53,6 +53,8 @@
 
 //! is busy
 
+//! load NFTs
+
 //! load from contract
 
 //! mint NFTs
@@ -76,5 +78,3 @@
 //! utils, read only
 
 //! wallet
-
-//! web3 APIs
