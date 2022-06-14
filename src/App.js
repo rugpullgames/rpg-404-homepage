@@ -14,6 +14,8 @@ export const PageName = {
 };
 
 //! utils
+
+// parse error from MetaMask
 const parseEther = (err) => {
   let msg = 'error';
   if (err && err.message) {
@@ -26,6 +28,31 @@ const parseEther = (err) => {
     }
   }
   return msg;
+};
+
+// check network
+const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
+  const { ethereum } = window;
+  if (!ethereum) {
+    throw new Error('Please install MetaMask.');
+  }
+  const network = await ethereum.networkVersion;
+  if (rinkeby && network !== '4') {
+    //* testnet rinkeby
+    funcLog(`Please change network to Rinkeby`);
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: `0x${Number(4).toString(16)}` }],
+    });
+  }
+  if (!rinkeby && network !== '1') {
+    //* main network
+    funcLog(`Please change network to ethereum Mainnet`);
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: `0x${Number(1).toString(16)}` }],
+    });
+  }
 };
 
 function App() {
@@ -59,6 +86,7 @@ function App() {
       isRinkeby,
       //! utils
       parseEther,
+      checkAndSwitchNetwork,
       //! load from contract
       price,
       setPrice,
@@ -106,24 +134,8 @@ function App() {
     }
 
     try {
-      //* network
-      const network = await ethereum.networkVersion;
-      if (isRinkeby && network !== '4') {
-        //* testnet rinkeby
-        updateStatus(`Please change network to Rinkeby`);
-        await ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${Number(4).toString(16)}` }],
-        });
-      }
-      if (!isRinkeby && network !== '1') {
-        //* main network
-        updateStatus(`Please change network to ethereum Mainnet`);
-        await ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${Number(1).toString(16)}` }],
-        });
-      }
+      //* check network
+      await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
       //* accouts
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });

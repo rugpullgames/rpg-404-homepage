@@ -9,6 +9,7 @@ export const NFTContext = createContext({
   isRinkeby: true,
   //! utils, read only
   parseEtherError: () => {},
+  checkAndSwitchNetwork: () => {},
   //! load from contract
   price: -1,
   setPrice: () => {},
