@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ethers } from 'ethers';
 import NFTContext from '../NFTContext';
 import NFTPanel from './NFTPanel';
@@ -6,6 +6,7 @@ import { PageName } from '../../App';
 import './Game.css';
 
 export default function Game() {
+  const [metadata, setMetadata] = useState([]);
   //! web3 APIs
   const {
     currentAccount,
@@ -52,6 +53,7 @@ export default function Game() {
 
         let nfts = await nftContract.walletOfOwner(currentAccount);
 
+        const meta = [];
         if (nfts.length > 0) {
           // TODO: show selected switch nft
           updateStatus(`You have ${nfts.length} NFTs`);
@@ -63,10 +65,12 @@ export default function Game() {
               tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split('ipfs://')[1]}`;
             }
 
-            console.log(tokenMetadataURI);
+            // console.log(tokenMetadataURI);
             const tokenMetadata = await fetch(tokenMetadataURI).then((response) => response.json());
-            console.log(tokenMetadata);
+            // console.log(tokenMetadata);
+            meta.push(tokenMetadata);
           }
+          setMetadata([...meta]);
         } else {
           // TODO: you don't have any RPG404 nfts, please mint or buy on opensea.io
           updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
@@ -83,6 +87,7 @@ export default function Game() {
         //     .then((response) => response.json())
         //     .then((response) => console.log(response))
         //     .catch((err) => console.error(err));
+
         // }
       } catch (err) {
         const errMsg = parseEther(err);
@@ -117,7 +122,7 @@ export default function Game() {
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
-      <NFTPanel />
+      <NFTPanel metadata={metadata} />
     </div>
   );
 }

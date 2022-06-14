@@ -7,11 +7,30 @@
   margin: auto;
   width: 900px;
   height: 300px;
-  background-color: aquamarine;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.nft-container {
+  position: absolute;
+  top: 0;
+  bottom: -17px;
+  left: 0;
+  right: 0; /* Increase/Decrease this value for cross-browser compatibility */
+  overflow-y: scroll;
+  overflow: auto;
+  white-space: nowrap;
+  width: 100%;
+  height: calc(100% + 17px);
 }
 
 .nft-item {
   width: 200px;
   height: 200px;
+  margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+  vertical-align: center;
   background-color: blueviolet;
+  display: inline-block;
 }
