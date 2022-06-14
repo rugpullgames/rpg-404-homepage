@@ -53,7 +53,7 @@
 
 //! is busy
 
-//! load NFTs
+//! load NFTs effect
 
 //! load from contract
 
