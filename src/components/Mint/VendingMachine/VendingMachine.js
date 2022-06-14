@@ -21,6 +21,7 @@ export default function VendingMachine() {
     isRinkeby,
     //! utils
     parseEther,
+    checkAndSwitchNetwork,
     //! load from contract
     price,
     setPrice,
@@ -44,49 +45,52 @@ export default function VendingMachine() {
 
   useEffect(() => {
     const loadMintInfo = async () => {
+      const { ethereum } = window;
+      if (!ethereum) {
+        updateStatus('Please install MetaMask.');
+        return;
+      }
+      
+      if (currentAccount === null) {
+        updateStatus('Please connect wallet first');
+        return;
+      }
+
+      updateStatus(contractAddress);
+      if (!contractAddress || contractAddress === '') {
+        updateStatus('Contract is not available');
+        return;
+      }
+
       try {
-        const { ethereum } = window;
-        if (ethereum) {
-          if (currentAccount === null) {
-            updateStatus('Please connect wallet first');
-            return;
-          }
-          updateStatus(contractAddress);
-          if (!contractAddress || contractAddress === '') {
-            updateStatus('Contract is not available');
-            return;
-          }
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-          updateStatus('Loading mint contract info...');
+        updateStatus('Loading mint contract info...');
 
-          let maxSupplyNum = await nftContract.maxSupply();
-          setMaxSupply(maxSupplyNum.toNumber());
-          let maxFreeSupplyNum = await nftContract.maxFreeSupply();
-          setMaxFreeSupply(maxFreeSupplyNum.toNumber());
-          let totalSupplyNum = await nftContract.totalSupply();
-          setTotalSupply(totalSupplyNum.toNumber());
-          let maxPerTxDuringMintNum = await nftContract.maxPerTxDuringMint();
-          setMaxPerTxDuringMint(maxPerTxDuringMintNum.toNumber());
-          let maxPerAddressDuringFreeMintNum = await nftContract.maxPerAddressDuringFreeMint();
-          setMaxPerAddressDuringFreeMint(maxPerAddressDuringFreeMintNum.toNumber());
+        let maxSupplyNum = await nftContract.maxSupply();
+        setMaxSupply(maxSupplyNum.toNumber());
+        let maxFreeSupplyNum = await nftContract.maxFreeSupply();
+        setMaxFreeSupply(maxFreeSupplyNum.toNumber());
+        let totalSupplyNum = await nftContract.totalSupply();
+        setTotalSupply(totalSupplyNum.toNumber());
+        let maxPerTxDuringMintNum = await nftContract.maxPerTxDuringMint();
+        setMaxPerTxDuringMint(maxPerTxDuringMintNum.toNumber());
+        let maxPerAddressDuringFreeMintNum = await nftContract.maxPerAddressDuringFreeMint();
+        setMaxPerAddressDuringFreeMint(maxPerAddressDuringFreeMintNum.toNumber());
 
-          //* mint price
-          if (totalSupply < maxFreeSupply) {
-            //* free mint
-            setPrice(0);
-          } else {
-            //* public sales
-            let priceWei = await nftContract.cost();
-            setPrice(ethers.utils.formatEther(priceWei));
-          }
-
-          updateStatus('Mint contract info loaded');
+        //* mint price
+        if (totalSupply < maxFreeSupply) {
+          //* free mint
+          setPrice(0);
         } else {
-          updateStatus('Ethereum object does not exist');
+          //* public sales
+          let priceWei = await nftContract.cost();
+          setPrice(ethers.utils.formatEther(priceWei));
         }
+
+        updateStatus('Mint contract info loaded');
       } catch (err) {
         const errMsg = parseEther(err);
         updateStatus(errMsg);
@@ -122,31 +126,34 @@ export default function VendingMachine() {
   //! total supply
   useEffect(() => {
     const updateTotalSupply = async () => {
+      const { ethereum } = window;
+      if (!ethereum) {
+        updateStatus('Please install MetaMask.');
+        return;
+      }
+      if (currentAccount === null) {
+        return;
+      }
+      if (!contractAddress || contractAddress === '') {
+        return;
+      }
       try {
-        const { ethereum } = window;
-        if (ethereum) {
-          if (currentAccount === null) {
-            return;
-          }
-          if (!contractAddress || contractAddress === '') {
-            return;
-          }
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+        //* check network
+        await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
-          let totalSupplyNum = await nftContract.totalSupply();
-          setTotalSupply(totalSupplyNum.toNumber());
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-          //* mint price
-          if (totalSupply < maxFreeSupply) {
-            setPrice(0);
-          } else {
-            let priceWei = await nftContract.cost();
-            setPrice(ethers.utils.formatEther(priceWei));
-          }
+        let totalSupplyNum = await nftContract.totalSupply();
+        setTotalSupply(totalSupplyNum.toNumber());
+
+        //* mint price
+        if (totalSupply < maxFreeSupply) {
+          setPrice(0);
         } else {
-          updateStatus('Ethereum object does not exist.');
+          let priceWei = await nftContract.cost();
+          setPrice(ethers.utils.formatEther(priceWei));
         }
       } catch (err) {
         const errMsg = parseEther(err);
@@ -171,54 +178,55 @@ export default function VendingMachine() {
       return;
     }
 
+    const { ethereum } = window;
+    if (!ethereum) {
+      updateStatus('Please install MetaMask.');
+      return;
+    }
+    if (currentAccount === null) {
+      updateStatus('Please connect wallet first');
+      return;
+    }
+    if (isBusy) {
+      updateStatus('Busy... please wait');
+      return;
+    }
+    if (!contractAddress || contractAddress === '') {
+      updateStatus('Contract is not available');
+      return;
+    }
+    if (price < -1) {
+      updateStatus('Load contract info first');
+      return;
+    }
     try {
-      const { ethereum } = window;
+      //* check network
+      await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
-      if (ethereum) {
-        if (currentAccount === null) {
-          updateStatus('Please connect wallet first');
-          return;
-        }
-        if (isBusy) {
-          updateStatus('Busy... please wait');
-          return;
-        }
-        if (!contractAddress || contractAddress === '') {
-          updateStatus('Contract is not available');
-          return;
-        }
-        if (price < -1) {
-          updateStatus('Load contract info first');
-          return;
-        }
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-        updateStatus('Initialize minting...');
-        setIsBusy(true);
+      updateStatus('Initialize minting...');
+      setIsBusy(true);
 
-        let nftTxn;
-        if (totalSupply < maxFreeSupply) {
-          //* free mint
-          nftTxn = await nftContract.freeMint(quantity);
-        } else {
-          //* public sales
-          nftTxn = await nftContract.mint(quantity, {
-            value: ethers.utils.parseEther((0.0078 * quantity).toString()),
-          });
-        }
-
-        updateStatus(`Mint (price: ${price}, quantity: ${quantity})... please wait`);
-
-        await nftTxn.wait();
-
-        updateStatus(`Mined, see transction: https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/tx/${nftTxn.hash}`);
-        setIsBusy(false);
+      let nftTxn;
+      if (totalSupply < maxFreeSupply) {
+        //* free mint
+        nftTxn = await nftContract.freeMint(quantity);
       } else {
-        updateStatus('Ethereum object does not exist');
-        setIsBusy(false);
+        //* public sales
+        nftTxn = await nftContract.mint(quantity, {
+          value: ethers.utils.parseEther((0.0078 * quantity).toString()),
+        });
       }
+
+      updateStatus(`Mint (price: ${price}, quantity: ${quantity})... please wait`);
+
+      await nftTxn.wait();
+
+      updateStatus(`Mined, see transction: https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/tx/${nftTxn.hash}`);
+      setIsBusy(false);
     } catch (err) {
       const errMsg = parseEther(err);
       updateStatus(errMsg);
