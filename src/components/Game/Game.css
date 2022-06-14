@@ -77,3 +77,27 @@
   bottom: min(20px, 4vh);
   cursor: pointer;
 }
+
+/* NFTPanel Animation */
+.open {
+  animation: bounce-in 0.2s ease-in;
+}
+.close {
+  animation: bounce-out 0.2s ease-in;
+}
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes bounce-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

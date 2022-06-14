@@ -9,6 +9,7 @@ export default function Game() {
   const [metadata, setMetadata] = useState([]);
   const [currMetadata, setCurrMetadata] = useState({});
   const [showNftPanel, setShowNftPanel] = useState(false);
+  const [showNftPanelAnim, setShowNftPanelAnim] = useState('open');
 
   //! web3 API in NFTContext
   const {
@@ -95,7 +96,7 @@ export default function Game() {
     console.log(selectedMetadata);
     if (selectedMetadata) {
       const newMetadata = selectedMetadata;
-      setCurrMetadata({...newMetadata});
+      setCurrMetadata({ ...newMetadata });
       console.log(currMetadata);
       updateStatus(`Selected NFT: ${newMetadata.name}`);
     }
@@ -105,6 +106,7 @@ export default function Game() {
   const openNftPanel = () => {
     if (currentAccount) {
       if (metadata.length > 0) {
+        setShowNftPanelAnim('open');
         setShowNftPanel(true);
       } else {
         updateStatus('No NFT loaded');
@@ -168,6 +170,7 @@ export default function Game() {
     );
   }
 
+  console.log(showNftPanelAnim);
   return (
     <div className='game'>
       <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
@@ -178,9 +181,19 @@ export default function Game() {
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
-      {showNftPanel && (
-        <NFTPanel metadata={metadata} selectNft={selectNft} hideNftPanel={() => setShowNftPanel(false)} />
-      )}
+      {showNftPanel ? (
+        <div className={showNftPanelAnim}>
+          <NFTPanel
+            metadata={metadata}
+            selectNft={selectNft}
+            hideNftPanel={async () => {
+              setShowNftPanelAnim('close');
+              await new Promise((r) => setTimeout(r, 200));
+              setShowNftPanel(false);
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
