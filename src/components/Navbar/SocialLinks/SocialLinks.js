@@ -2,7 +2,7 @@ import React, { useRef, useContext } from 'react';
 import NFTContext from '../../NFTContext';
 import './SocialLinks.css';
 
-function SocialLink(props) {
+const SocialLink = (props) => {
   const image = useRef();
   return (
     <div
@@ -17,7 +17,7 @@ function SocialLink(props) {
       <img ref={image} className='social-icon-img' src={process.env.PUBLIC_URL + props.iconNormal} alt={props.alt} />
     </div>
   );
-}
+};
 
 export default function SocialLinks(props) {
   const { contractAddress, openseaColletionName, isRinkeby } = useContext(NFTContext);
@@ -71,7 +71,7 @@ export default function SocialLinks(props) {
   ];
 
   return (
-    <div className='social-links' onClick={() => {}}>
+    <div className='social-links'>
       {links.map((sl) => {
         return <SocialLink {...sl} key={`social-icon-${sl.alt}`} />;
       })}
