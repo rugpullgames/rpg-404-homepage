@@ -7,7 +7,7 @@ import './Game.css';
 
 export default function Game() {
   const [metadata, setMetadata] = useState([]);
-  const [currMetadata, setCurrMetadata] = useState(null);
+  const [currMetadata, setCurrMetadata] = useState({});
   const [showNftPanel, setShowNftPanel] = useState(false);
 
   //! web3 API in NFTContext
@@ -22,11 +22,82 @@ export default function Game() {
     setCurrPage,
   } = useContext(NFTContext);
 
+  //! load NFTs
+  const loadNft = async () => {
+    const { ethereum } = window;
+    if (!ethereum) {
+      updateStatus('Please install MetaMask.');
+      return;
+    }
+    try {
+      //* check network
+      await checkAndSwitchNetwork(isRinkeby, updateStatus);
+
+      if (currentAccount === null) {
+        updateStatus('Please connect wallet first');
+        return;
+      }
+
+      updateStatus(contractAddress);
+      if (!contractAddress || contractAddress === '') {
+        updateStatus('Contract is not available');
+        return;
+      }
+
+      // clean metadata
+      setCurrMetadata({});
+
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+
+      updateStatus('Loading NFTs from blockchain...');
+
+      let nfts = await nftContract.walletOfOwner(currentAccount);
+
+      const meta = [];
+      if (nfts.length > 0) {
+        //* show selected switch nft
+        updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? 'NFTs' : 'NFT'}. Loading metadata...`);
+        for (const bg of nfts) {
+          const nftIdx = bg.toNumber();
+          nftContract.tokenURI(nftIdx).then((tokenMetadataURI) => {
+            if (tokenMetadataURI.startsWith('ipfs://')) {
+              tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split('ipfs://')[1]}`;
+            }
+            // console.log(tokenMetadataURI);
+            fetch(tokenMetadataURI)
+              .then((response) => response.json())
+              .then((tokenMetadata) => {
+                // console.log(tokenMetadata);
+                meta.push(tokenMetadata);
+                setMetadata([...meta]);
+                updateStatus(
+                  `You have ${nfts.length} ${nfts.length > 1 ? 'NFTs' : 'NFT'}. ${meta.length} loaded. ${
+                    metadata.length === nfts.length ? 'Select your favor NFT and play.' : ''
+                  }`
+                );
+              });
+          });
+        }
+      } else {
+        //* you don't have any RPG404 nfts, please mint or buy on opensea.io
+        updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
+      }
+    } catch (err) {
+      const errMsg = parseEther(err);
+      updateStatus(errMsg);
+    }
+  };
+
   //! select NFT
-  const selectNft = (metadata) => {
-    if (metadata) {
-      setCurrMetadata(metadata);
-      updateStatus(`Selected NFT: ${currMetadata.name}`);
+  const selectNft = (selectedMetadata) => {
+    console.log(selectedMetadata);
+    if (selectedMetadata) {
+      const newMetadata = selectedMetadata;
+      setCurrMetadata({...newMetadata});
+      console.log(currMetadata);
+      updateStatus(`Selected NFT: ${newMetadata.name}`);
     }
   };
 
@@ -37,6 +108,7 @@ export default function Game() {
         setShowNftPanel(true);
       } else {
         updateStatus('No NFT loaded');
+        loadNft();
       }
     } else {
       updateStatus('Please connect wallet first');
@@ -50,66 +122,6 @@ export default function Game() {
       return;
     }
 
-    const loadNft = async () => {
-      const { ethereum } = window;
-      if (!ethereum) {
-        updateStatus('Please install MetaMask.');
-        return;
-      }
-      try {
-        //* check network
-        await checkAndSwitchNetwork(isRinkeby, updateStatus);
-
-        if (currentAccount === null) {
-          updateStatus('Please connect wallet first');
-          return;
-        }
-
-        updateStatus(contractAddress);
-        if (!contractAddress || contractAddress === '') {
-          updateStatus('Contract is not available');
-          return;
-        }
-
-        // clean metadata
-        setCurrMetadata(null);
-
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
-
-        updateStatus('Loading NFTs from blockchain...');
-
-        let nfts = await nftContract.walletOfOwner(currentAccount);
-
-        const meta = [];
-        if (nfts.length > 0) {
-          //* show selected switch nft
-          updateStatus(`You have ${nfts.length} NFTs`);
-          for (const bg of nfts) {
-            const nftIdx = bg.toNumber();
-            let tokenMetadataURI = await nftContract.tokenURI(nftIdx);
-
-            if (tokenMetadataURI.startsWith('ipfs://')) {
-              tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split('ipfs://')[1]}`;
-            }
-
-            // console.log(tokenMetadataURI);
-            const tokenMetadata = await fetch(tokenMetadataURI).then((response) => response.json());
-            // console.log(tokenMetadata);
-            meta.push(tokenMetadata);
-          }
-          setMetadata([...meta]);
-        } else {
-          //* you don't have any RPG404 nfts, please mint or buy on opensea.io
-          updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
-        }
-      } catch (err) {
-        const errMsg = parseEther(err);
-        updateStatus(errMsg);
-      }
-    };
-
     loadNft();
     ethereum.on('accountsChanged', loadNft);
     return () => {
@@ -120,7 +132,7 @@ export default function Game() {
 
   //! cover or iframe
   let gameFrame;
-  if (currMetadata) {
+  if (currentAccount && currMetadata.name) {
     gameFrame = (
       <iframe
         className='game-iframe'
