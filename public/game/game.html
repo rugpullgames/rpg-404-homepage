@@ -165,7 +165,7 @@
       };
       var engine = new Engine(GODOT_CONFIG);
 
-      (function () {
+      var startGame = function () {
         const INDETERMINATE_STATUS_STEP_MS = 100;
         var statusProgress = document.getElementById('status-progress');
         var statusProgressInner = document.getElementById('status-progress-inner');
@@ -264,7 +264,7 @@
               initializing = false;
             }, displayFailureNotice);
         }
-      })();
+      };
       //]]>
     </script>
   </body>
