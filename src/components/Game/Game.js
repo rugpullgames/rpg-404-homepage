@@ -75,7 +75,7 @@ export default function Game() {
                 meta.push(tokenMetadata);
                 setMetadata([...meta]);
                 updateStatus(
-                  `You have ${nfts.length} ${nfts.length > 1 ? 'NFTs' : 'NFT'}. ${meta.length} loaded. ${
+                  `You have ${nfts.length} ${nfts.length > 1 ? 'NFTs' : 'NFT'}. ${meta.length} / ${nfts.length} loaded. ${
                     metadata.length === nfts.length ? 'Select your favor NFT and play.' : ''
                   }`
                 );
