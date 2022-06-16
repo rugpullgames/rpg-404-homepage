@@ -10,6 +10,7 @@ export default function Game() {
   const [currMetadata, setCurrMetadata] = useState({});
   const [showNftPanel, setShowNftPanel] = useState(false);
   const [showNftPanelAnim, setShowNftPanelAnim] = useState('open');
+  const [playing, setPlaying] = useState(false);
 
   //! web3 API in NFTContext
   const {
@@ -137,8 +138,15 @@ export default function Game() {
     if (currentAccount) {
       if (metadata.length > 0) {
         if (currMetadata.name) {
-          //TODO: Play Game!!
-          updateStatus('Game start, enjoy!');
+          //* Play Game!!
+          if (document.getElementById('godot-game')) {
+            setPlaying(true);
+            document.getElementById('godot-game').contentWindow.startGame();
+            updateStatus('Game start, enjoy!');
+          } else {
+            setPlaying(false);
+            updateStatus('Cannot find game :-(');
+          }
         } else {
           updateStatus('Please select your favor NFT before playing');
         }
@@ -151,12 +159,11 @@ export default function Game() {
     }
   };
 
-  //! cover or iframe
-  let gameFrame;
-  if (currentAccount && currMetadata.name) {
-    //* iframe
-    gameFrame = (
+  return (
+    <div className='game'>
+      <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
       <iframe
+        id='godot-game'
         className='game-iframe'
         title='RPG 404'
         src={process.env.PUBLIC_URL + '/game/game.html'}
@@ -164,36 +171,27 @@ export default function Game() {
         scrolling='no'
         crossOrigin='anonymous'
       />
-    );
-  } else {
-    //* cover image
-    gameFrame = (
-      <div className='game-cover'>
-        <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
-        {!showNftPanel && (
-          <img
-            className='btn-game-play'
-            src={process.env.PUBLIC_URL + '/img/btn_game_play.png'}
-            alt='Play Game Button'
-            onClick={playGame}
-          />
-        )}
-        {!showNftPanel && (
-          <img
-            className='btn-select-nft'
-            src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
-            alt='Select NFT Button'
-            onClick={openNftPanel}
-          />
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className='game'>
-      <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
-      {gameFrame}
+      {!playing && (
+        <div className='game-cover'>
+          <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
+          {!showNftPanel && (
+            <img
+              className='btn-game-play'
+              src={process.env.PUBLIC_URL + '/img/btn_game_play.png'}
+              alt='Play Game Button'
+              onClick={playGame}
+            />
+          )}
+          {!showNftPanel && (
+            <img
+              className='btn-select-nft'
+              src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
+              alt='Select NFT Button'
+              onClick={openNftPanel}
+            />
+          )}
+        </div>
+      )}
       <img
         className='btn-game-to-mint'
         src={process.env.PUBLIC_URL + '/img/btn_game_to_mint.png'}
