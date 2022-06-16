@@ -48,7 +48,6 @@
   width: 80px;
   height: 80px;
   transition: transform 0.2s; /* Animation */
-  cursor: pointer;
 }
 
 .btn-game-play:hover {
@@ -63,7 +62,14 @@
   width: 80px;
   height: 80px;
   transition: transform 0.2s; /* Animation */
+}
+
+.btn-clickable {
   cursor: pointer;
+}
+
+.btn-unclickable {
+  cursor: not-allowed;
 }
 
 .btn-select-nft:hover {

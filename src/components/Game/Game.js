@@ -176,7 +176,7 @@ export default function Game() {
           <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
           {!showNftPanel && (
             <img
-              className='btn-game-play'
+              className={`btn-game-play ${currentAccount && currMetadata.name ? 'btn-clickable' : 'btn-unclickable'}`}
               src={process.env.PUBLIC_URL + '/img/btn_game_play.png'}
               alt='Play Game Button'
               onClick={playGame}
@@ -184,7 +184,7 @@ export default function Game() {
           )}
           {!showNftPanel && (
             <img
-              className='btn-select-nft'
+              className={`btn-select-nft ${currentAccount ? 'btn-clickable' : 'btn-unclickable'}`}
               src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
               alt='Select NFT Button'
               onClick={openNftPanel}
