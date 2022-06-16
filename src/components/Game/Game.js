@@ -109,11 +109,9 @@ export default function Game() {
 
   //! select NFT
   const selectNft = (selectedMetadata) => {
-    console.log(selectedMetadata);
     if (selectedMetadata) {
       const newMetadata = selectedMetadata;
       setCurrMetadata({ ...newMetadata });
-      console.log(currMetadata);
       updateStatus(`Selected NFT: ${newMetadata.name}`);
     }
   };
@@ -139,9 +137,12 @@ export default function Game() {
       if (metadata.length > 0) {
         if (currMetadata.name) {
           //* Play Game!!
-          if (document.getElementById('godot-game')) {
+          const elem = document.getElementById('godot-game');
+          if (elem) {
+            elem.contentWindow.nftMetadata = { ...currMetadata };
+            window.nftMetadata = JSON.stringify(currMetadata);
             setPlaying(true);
-            document.getElementById('godot-game').contentWindow.startGame();
+            elem.contentWindow.startGame();
             updateStatus('Game start, enjoy!');
           } else {
             setPlaying(false);
