@@ -49,14 +49,6 @@
         visibility: hidden;
       }
 
-      #status-progress {
-        width: 366px;
-        height: 6px;
-        background-color: black;
-        border: 6px solid #00423b;
-        visibility: visible;
-      }
-
       #status-outline {
         position: absolute;
         left: 0;
@@ -66,6 +58,14 @@
         -webkit-box-shadow: inset 0px 0px 0px 6px #00796b;
         -moz-box-shadow: inset 0px 0px 0px 6px #00796b;
         box-shadow: inset 0px 0px 0px 6px #00796b;
+        visibility: visible;
+      }
+
+      #status-progress {
+        width: 366px;
+        height: 6px;
+        background-color: black;
+        border: 6px solid #00423b;
         visibility: visible;
       }
 
@@ -131,8 +131,9 @@
         visibility: visible;
       }
     </style>
-    <link id="-gd-engine-icon" rel="icon" type="image/png" href="game.icon.png" />
-    <link rel="apple-touch-icon" href="game.apple-touch-icon.png" />
+    <link id='-gd-engine-icon' rel='icon' type='image/png' href='game.icon.png' />
+<link rel='apple-touch-icon' href='game.apple-touch-icon.png'/>
+
   </head>
   <body>
     <canvas id="canvas">
@@ -141,9 +142,9 @@
     </canvas>
     <div id="status">
       <div id="status-outline" style="display: none"></div>
-      <div id="status-progress" style="display: none" oncontextmenu="event.preventDefault();"
-        ><div id="status-progress-inner"></div
-      ></div>
+      <div id="status-progress" style="display: none" oncontextmenu="event.preventDefault();">
+        <div id="status-progress-inner"></div>
+      </div>
       <div id="status-indeterminate" style="display: none" oncontextmenu="event.preventDefault();">
         <div></div>
         <div></div>
@@ -161,15 +162,7 @@
     <script type="text/javascript">
       //<![CDATA[
 
-      const GODOT_CONFIG = {
-        args: [],
-        canvasResizePolicy: 1,
-        executable: 'game',
-        experimentalVK: false,
-        fileSizes: { 'game.pck': 44672, 'game.wasm': 17503191 },
-        focusCanvas: true,
-        gdnativeLibs: [],
-      };
+      const GODOT_CONFIG = {"args":[],"canvasResizePolicy":1,"executable":"game","experimentalVK":false,"fileSizes":{"game.pck":45632,"game.wasm":13351459},"focusCanvas":true,"gdnativeLibs":[]};
       var engine = new Engine(GODOT_CONFIG);
 
       var startGame = function () {
@@ -278,3 +271,4 @@
     </script>
   </body>
 </html>
+
