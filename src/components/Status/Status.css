@@ -10,6 +10,5 @@
   color: white;
   font-size: 8px;
   text-align: left;
-  z-index: -1;
-  /* background-color: magenta; */
+  z-index: 200;
 }
