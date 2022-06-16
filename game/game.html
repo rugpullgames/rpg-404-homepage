@@ -125,8 +125,9 @@
         visibility: visible;
       }
     </style>
-    <link id="-gd-engine-icon" rel="icon" type="image/png" href="game.icon.png" />
-    <link rel="apple-touch-icon" href="game.apple-touch-icon.png" />
+    <link id='-gd-engine-icon' rel='icon' type='image/png' href='game.icon.png' />
+<link rel='apple-touch-icon' href='game.apple-touch-icon.png'/>
+
   </head>
   <body>
     <canvas id="canvas">
@@ -154,15 +155,7 @@
     <script type="text/javascript">
       //<![CDATA[
 
-      const GODOT_CONFIG = {
-        args: [],
-        canvasResizePolicy: 1,
-        executable: 'game',
-        experimentalVK: false,
-        fileSizes: { 'game.pck': 60768, 'game.wasm': 17503191 },
-        focusCanvas: true,
-        gdnativeLibs: [],
-      };
+      const GODOT_CONFIG = {"args":[],"canvasResizePolicy":1,"executable":"game","experimentalVK":false,"fileSizes":{"game.pck":44672,"game.wasm":17503191},"focusCanvas":true,"gdnativeLibs":[]};
       var engine = new Engine(GODOT_CONFIG);
 
       var startGame = function () {
@@ -269,3 +262,4 @@
     </script>
   </body>
 </html>
+
