@@ -93,8 +93,8 @@
 .vending-price {
   position: absolute;
   top: 90px;
-  right: 90px;
-  width: 160px;
+  right: 10px;
+  width: 240px;
   color: white;
   font-size: 8px;
   text-align: left;
@@ -102,9 +102,9 @@
 
 .vending-supply {
   position: absolute;
-  top: 100px;
-  right: 90px;
-  width: 160px;
+  top: 102px;
+  right: 10px;
+  width: 240px;
   color: white;
   font-size: 8px;
   text-align: left;
