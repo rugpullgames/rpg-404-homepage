@@ -1,27 +1,27 @@
-import { useState, useEffect, useContext, useMemo } from 'react';
-import Navbar from './components/Navbar';
-import WalletAccount from './components/WalletAccount';
-import Status from './components/Status';
-import Mint from './components/Mint';
-import Game from './components/Game';
-import NFTContext from './components/NFTContext';
-import './App.css';
+import { useState, useEffect, useContext, useMemo } from "react";
+import Navbar from "./components/Navbar";
+import WalletAccount from "./components/WalletAccount";
+import Status from "./components/Status";
+import Mint from "./components/Mint";
+import Game from "./components/Game";
+import NFTContext from "./components/NFTContext";
+import "./App.css";
 
 //! as Enum
 export const PageName = {
-  GAME: 'game',
-  MINT: 'mint',
+  GAME: "game",
+  MINT: "mint",
 };
 
 //! utils
 
 // parse error from MetaMask
 const parseEther = (err) => {
-  let msg = 'error';
+  let msg = "error";
   if (err && err.message) {
     console.error(err.message);
     const errs = err.message.match(/(?<="message":)".*?"/g);
-    if (errs && errs.length > 0 && errs[0] !== '') {
+    if (errs && errs.length > 0 && errs[0] !== "") {
       msg = errs[0];
     } else {
       msg = err.message;
@@ -34,22 +34,22 @@ const parseEther = (err) => {
 const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
   const { ethereum } = window;
   if (!ethereum) {
-    throw new Error('Please install MetaMask.');
+    throw new Error("Please install MetaMask.");
   }
   const network = await ethereum.networkVersion;
-  if (rinkeby && network !== '4') {
+  if (rinkeby && network !== "4") {
     //* testnet rinkeby
     funcLog(`Please change network to Rinkeby`);
     await ethereum.request({
-      method: 'wallet_switchEthereumChain',
+      method: "wallet_switchEthereumChain",
       params: [{ chainId: `0x${Number(4).toString(16)}` }],
     });
   }
-  if (!rinkeby && network !== '1') {
+  if (!rinkeby && network !== "1") {
     //* main network
     funcLog(`Please change network to ethereum Mainnet`);
     await ethereum.request({
-      method: 'wallet_switchEthereumChain',
+      method: "wallet_switchEthereumChain",
       params: [{ chainId: `0x${Number(1).toString(16)}` }],
     });
   }
@@ -70,7 +70,7 @@ function App() {
   //! wallet
   const [currentAccount, setCurrentAccount] = useState(null);
   //! status
-  const [statusMsg, setStatusMsg] = useState('');
+  const [statusMsg, setStatusMsg] = useState("");
 
   const updateStatus = (msg) => {
     console.log(msg);
@@ -129,7 +129,7 @@ function App() {
   const connectWalletHandler = async () => {
     const { ethereum } = window;
     if (!ethereum) {
-      alert('Please install MetaMask.');
+      alert("Please install MetaMask.");
       return;
     }
 
@@ -138,13 +138,13 @@ function App() {
       await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
       //* accouts
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
       if (accounts.length !== 0) {
         const account = accounts[0];
         setCurrentAccount(account);
         updateStatus(`Connected (address: ${account})`);
       } else {
-        updateStatus('No authorized account found');
+        updateStatus("No authorized account found");
       }
     } catch (err) {
       const errMsg = parseEther(err);
@@ -160,17 +160,21 @@ function App() {
     const handleAccountChange = (...args) => {
       const accounts = args[0];
       if (accounts.length === 0) {
-        updateStatus('No authorized account found');
+        updateStatus("No authorized account found");
       } else if (accounts[0] !== currentAccount) {
         const account = accounts[0];
         setCurrentAccount(account);
         updateStatus(`Connected (address: ${account})`);
       }
     };
-    ethereum.on('accountsChanged', handleAccountChange);
+    ethereum.on("accountsChanged", handleAccountChange);
     return () => {
-      ethereum?.removeListener('accountsChanged', handleAccountChange);
+      ethereum?.removeListener("accountsChanged", handleAccountChange);
     };
+  });
+
+  useEffect(() => {
+    connectWalletHandler();
   });
 
   //! reture
