@@ -188,8 +188,8 @@ function App() {
     <NFTContext.Provider value={ctxValue}>
       <div className='App'>
         <Navbar {...{ connectWalletHandler }} />
-        {currPage === PageName.GAME && <Game />}
-        {currPage === PageName.MINT && <Mint />}
+        {currPage === PageName.GAME && <Game {...{ connectWalletHandler }} />}
+        {currPage === PageName.MINT && <Mint {...{ connectWalletHandler }} />}
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>

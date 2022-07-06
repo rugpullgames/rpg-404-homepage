@@ -5,7 +5,7 @@ import NFTPanel from "./NFTPanel";
 import { PageName } from "../../App";
 import "./Game.css";
 
-export default function Game() {
+export default function Game(props) {
   const [metadata, setMetadata] = useState([]);
   const [currMetadata, setCurrMetadata] = useState({});
   const [showNftPanel, setShowNftPanel] = useState(false);
@@ -37,6 +37,7 @@ export default function Game() {
 
       if (currentAccount === null) {
         updateStatus("Please connect wallet first");
+        props.connectWalletHandler();
         return;
       }
 
@@ -128,6 +129,7 @@ export default function Game() {
       }
     } else {
       updateStatus("Please connect wallet first");
+      props.connectWalletHandler();
     }
   };
 
@@ -157,6 +159,7 @@ export default function Game() {
       }
     } else {
       updateStatus("Please connect wallet first");
+      props.connectWalletHandler();
     }
   };
 

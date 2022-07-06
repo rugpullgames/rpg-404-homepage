@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { ethers } from 'ethers';
-import NFTContext from '../../NFTContext';
-import { PageName } from '../../../App';
-import './VendingMachine.css';
+import React, { useEffect, useState, useContext } from "react";
+import { ethers } from "ethers";
+import NFTContext from "../../NFTContext";
+import { PageName } from "../../../App";
+import "./VendingMachine.css";
 
-export default function VendingMachine() {
+export default function VendingMachine(props) {
   //! is busy
   const [isBusy, setIsBusy] = useState(false);
 
@@ -47,18 +47,19 @@ export default function VendingMachine() {
     const loadMintInfo = async () => {
       const { ethereum } = window;
       if (!ethereum) {
-        updateStatus('Please install MetaMask.');
+        updateStatus("Please install MetaMask.");
         return;
       }
-      
+
       if (currentAccount === null) {
-        updateStatus('Please connect wallet first');
+        updateStatus("Please connect wallet first");
+        props.connectWalletHandler();
         return;
       }
 
       updateStatus(contractAddress);
-      if (!contractAddress || contractAddress === '') {
-        updateStatus('Contract is not available');
+      if (!contractAddress || contractAddress === "") {
+        updateStatus("Contract is not available");
         return;
       }
 
@@ -67,7 +68,7 @@ export default function VendingMachine() {
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-        updateStatus('Loading mint contract info...');
+        updateStatus("Loading mint contract info...");
 
         let maxSupplyNum = await nftContract.maxSupply();
         setMaxSupply(maxSupplyNum.toNumber());
@@ -90,7 +91,7 @@ export default function VendingMachine() {
           setPrice(ethers.utils.formatEther(priceWei));
         }
 
-        updateStatus('Mint contract info loaded');
+        updateStatus("Mint contract info loaded");
       } catch (err) {
         const errMsg = parseEther(err);
         updateStatus(errMsg);
@@ -128,13 +129,13 @@ export default function VendingMachine() {
     const updateTotalSupply = async () => {
       const { ethereum } = window;
       if (!ethereum) {
-        updateStatus('Please install MetaMask.');
+        updateStatus("Please install MetaMask.");
         return;
       }
       if (currentAccount === null) {
         return;
       }
-      if (!contractAddress || contractAddress === '') {
+      if (!contractAddress || contractAddress === "") {
         return;
       }
       try {
@@ -174,29 +175,30 @@ export default function VendingMachine() {
       alert(
         `Thank you for your interest. \nGohan-kun is sold out. \nPlease check https://opensea.io/collection/gohan-kun.`
       );
-      window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
+      window.open(`https://${isRinkeby ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
       return;
     }
 
     const { ethereum } = window;
     if (!ethereum) {
-      updateStatus('Please install MetaMask.');
+      updateStatus("Please install MetaMask.");
       return;
     }
     if (currentAccount === null) {
-      updateStatus('Please connect wallet first');
+      updateStatus("Please connect wallet first");
+      props.connectWalletHandler();
       return;
     }
     if (isBusy) {
-      updateStatus('Busy... please wait');
+      updateStatus("Busy... please wait");
       return;
     }
-    if (!contractAddress || contractAddress === '') {
-      updateStatus('Contract is not available');
+    if (!contractAddress || contractAddress === "") {
+      updateStatus("Contract is not available");
       return;
     }
     if (price < -1) {
-      updateStatus('Load contract info first');
+      updateStatus("Load contract info first");
       return;
     }
     try {
@@ -207,7 +209,7 @@ export default function VendingMachine() {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-      updateStatus('Initialize minting...');
+      updateStatus("Initialize minting...");
       setIsBusy(true);
 
       let nftTxn;
@@ -225,7 +227,7 @@ export default function VendingMachine() {
 
       await nftTxn.wait();
 
-      updateStatus(`Mined, see transction: https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/tx/${nftTxn.hash}`);
+      updateStatus(`Mined, see transction: https://${isRinkeby ? "rinkeby." : ""}etherscan.io/tx/${nftTxn.hash}`);
       setIsBusy(false);
     } catch (err) {
       const errMsg = parseEther(err);
@@ -242,30 +244,30 @@ export default function VendingMachine() {
       <div className='vending-mint'>
         <img
           className='vending-btn-add'
-          src={process.env.PUBLIC_URL + '/img/btn_mint_add.png'}
+          src={process.env.PUBLIC_URL + "/img/btn_mint_add.png"}
           alt='Button of Increasing Mint Quantity'
           onClick={add}
         />
         <img
           className='vending-btn-sub'
-          src={process.env.PUBLIC_URL + '/img/btn_mint_sub.png'}
+          src={process.env.PUBLIC_URL + "/img/btn_mint_sub.png"}
           alt='Button of Decreasing Mint Quantity'
           onClick={sub}
         />
         <img
           className='vending-bg-input-frame'
-          src={process.env.PUBLIC_URL + '/img/bg_mint_input_frame.png'}
+          src={process.env.PUBLIC_URL + "/img/bg_mint_input_frame.png"}
           alt='Mint Quantity Input Frame'
         />
         <img
           className='vending-btn-mint'
-          src={process.env.PUBLIC_URL + '/img/btn_mint.png'}
+          src={process.env.PUBLIC_URL + "/img/btn_mint.png"}
           alt='Mint Quantity Input Frame'
           onClick={mintNftHandler}
         />
-        <div className='vending-price'>{price > 0 ? `Price: ${price} eth` : price === 0 ? 'Price: Free' : ''}</div>
-        <div className='vending-supply'>{price > -1 ? `Mint#: ${totalSupply} / ${maxSupply}` : ''}</div>
-        <div className='vending-quantity'>{price > -1 ? quantity : '???'}</div>
+        <div className='vending-price'>{price > 0 ? `Price: ${price} eth` : price === 0 ? "Price: Free" : ""}</div>
+        <div className='vending-supply'>{price > -1 ? `Mint#: ${totalSupply} / ${maxSupply}` : ""}</div>
+        <div className='vending-quantity'>{price > -1 ? quantity : "???"}</div>
       </div>
     );
   } else {
@@ -273,10 +275,10 @@ export default function VendingMachine() {
     mintOrBuy = (
       <img
         className='vending-btn-opensea'
-        src={process.env.PUBLIC_URL + '/img/btn_mint_opensea.png'}
+        src={process.env.PUBLIC_URL + "/img/btn_mint_opensea.png"}
         alt='Buy NFTs on Opensea'
         onClick={() => {
-          window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
+          window.open(`https://${isRinkeby ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
         }}
       />
     );
@@ -286,12 +288,12 @@ export default function VendingMachine() {
     <div className='vending-machine'>
       <img
         className='vending-bg'
-        src={process.env.PUBLIC_URL + '/img/bg_vending_machine.png'}
+        src={process.env.PUBLIC_URL + "/img/bg_vending_machine.png"}
         alt='Vending Machine Background'
       />
       <img
         className='vending-btn-to-game'
-        src={process.env.PUBLIC_URL + '/img/btn_mint_to_game.png'}
+        src={process.env.PUBLIC_URL + "/img/btn_mint_to_game.png"}
         alt='Button of Vending Machine to Game'
         onClick={() => setCurrPage(PageName.GAME)}
       />
