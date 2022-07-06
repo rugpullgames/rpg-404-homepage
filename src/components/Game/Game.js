@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ethers } from 'ethers';
-import NFTContext from '../NFTContext';
-import NFTPanel from './NFTPanel';
-import { PageName } from '../../App';
-import './Game.css';
+import React, { useState, useEffect, useContext } from "react";
+import { ethers } from "ethers";
+import NFTContext from "../NFTContext";
+import NFTPanel from "./NFTPanel";
+import { PageName } from "../../App";
+import "./Game.css";
 
 export default function Game() {
   const [metadata, setMetadata] = useState([]);
   const [currMetadata, setCurrMetadata] = useState({});
   const [showNftPanel, setShowNftPanel] = useState(false);
-  const [showNftPanelAnim, setShowNftPanelAnim] = useState('open');
+  const [showNftPanelAnim, setShowNftPanelAnim] = useState("open");
   const [playing, setPlaying] = useState(false);
 
   //! web3 API in NFTContext
@@ -28,7 +28,7 @@ export default function Game() {
   const loadNft = async () => {
     const { ethereum } = window;
     if (!ethereum) {
-      updateStatus('Please install MetaMask.');
+      updateStatus("Please install MetaMask.");
       return;
     }
     try {
@@ -36,13 +36,13 @@ export default function Game() {
       await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
       if (currentAccount === null) {
-        updateStatus('Please connect wallet first');
+        updateStatus("Please connect wallet first");
         return;
       }
 
       updateStatus(contractAddress);
-      if (!contractAddress || contractAddress === '') {
-        updateStatus('Contract is not available');
+      if (!contractAddress || contractAddress === "") {
+        updateStatus("Contract is not available");
         return;
       }
 
@@ -53,19 +53,19 @@ export default function Game() {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-      updateStatus('Loading NFTs from blockchain...');
+      updateStatus("Loading NFTs from blockchain...");
 
       let nfts = await nftContract.walletOfOwner(currentAccount);
 
       const meta = [];
       if (nfts.length > 0) {
         //* show selected switch nft
-        updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? 'NFTs' : 'NFT'}. Loading metadata...`);
+        updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
         for (const bg of nfts) {
           const nftIdx = bg.toNumber();
           nftContract.tokenURI(nftIdx).then((tokenMetadataURI) => {
-            if (tokenMetadataURI.startsWith('ipfs://')) {
-              tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split('ipfs://')[1]}`;
+            if (tokenMetadataURI.startsWith("ipfs://")) {
+              tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split("ipfs://")[1]}`;
             }
             // console.log(tokenMetadataURI);
             fetch(tokenMetadataURI)
@@ -75,9 +75,9 @@ export default function Game() {
                 meta.push(tokenMetadata);
                 setMetadata([...meta]);
                 updateStatus(
-                  `You have ${nfts.length} ${nfts.length > 1 ? 'NFTs' : 'NFT'}. ${meta.length} / ${nfts.length} loaded. ${
-                    metadata.length === nfts.length ? 'Select your favor NFT and play.' : ''
-                  }`
+                  `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
+                    nfts.length
+                  } loaded. ${metadata.length === nfts.length ? "Select your favor NFT and play." : ""}`
                 );
               });
           });
@@ -100,9 +100,9 @@ export default function Game() {
     }
 
     loadNft();
-    ethereum.on('accountsChanged', loadNft);
+    ethereum.on("accountsChanged", loadNft);
     return () => {
-      ethereum?.removeListener('accountsChanged', loadNft);
+      ethereum?.removeListener("accountsChanged", loadNft);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount]);
@@ -120,14 +120,14 @@ export default function Game() {
   const openNftPanel = () => {
     if (currentAccount) {
       if (metadata.length > 0) {
-        setShowNftPanelAnim('open');
+        setShowNftPanelAnim("open");
         setShowNftPanel(true);
       } else {
-        updateStatus('No NFT loaded');
+        updateStatus("No NFT loaded");
         loadNft();
       }
     } else {
-      updateStatus('Please connect wallet first');
+      updateStatus("Please connect wallet first");
     }
   };
 
@@ -137,56 +137,56 @@ export default function Game() {
       if (metadata.length > 0) {
         if (currMetadata.name) {
           //* Play Game!!
-          const elem = document.getElementById('godot-game');
+          const elem = document.getElementById("godot-game");
           if (elem) {
             elem.contentWindow.nftMetadata = { ...currMetadata };
             window.nftMetadata = JSON.stringify(currMetadata);
             setPlaying(true);
             elem.contentWindow.startGame();
-            updateStatus('Game start, enjoy!');
+            updateStatus("Game start, enjoy!");
           } else {
             setPlaying(false);
-            updateStatus('Cannot find game :-(');
+            updateStatus("Cannot find game :-(");
           }
         } else {
-          updateStatus('Please select your favor NFT before playing');
+          updateStatus("Please select your favor NFT before playing");
         }
       } else {
-        updateStatus('No NFT loaded');
+        updateStatus("No NFT loaded");
         loadNft();
       }
     } else {
-      updateStatus('Please connect wallet first');
+      updateStatus("Please connect wallet first");
     }
   };
 
   return (
     <div className='game'>
-      <img className='game-bg' src={process.env.PUBLIC_URL + '/img/game_bg.png'} alt='Game Background' />
+      <img className='game-bg' src={process.env.PUBLIC_URL + "/img/game_bg.png"} alt='Game Background' />
       <iframe
         id='godot-game'
         className='game-iframe'
         title='RPG 404'
-        src={process.env.PUBLIC_URL + '/game/game.html'}
+        src={process.env.PUBLIC_URL + "/game/game.html"}
         frameBorder='0'
         scrolling='no'
         crossOrigin='anonymous'
       />
       {!playing && (
         <div className='game-cover'>
-          <img className='game-cover-img' src={process.env.PUBLIC_URL + '/img/game_cover.png'} alt='Game Cover' />;
+          <img className='game-cover-img' src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt='Game Cover' />;
           {!showNftPanel && (
             <img
-              className={`btn-game-play ${currentAccount && currMetadata.name ? 'btn-clickable' : 'btn-unclickable'}`}
-              src={process.env.PUBLIC_URL + '/img/btn_game_play.png'}
+              className={`btn-game-play ${currentAccount && currMetadata.name ? "btn-clickable" : "btn-unclickable"}`}
+              src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
               alt='Play Game Button'
               onClick={playGame}
             />
           )}
           {!showNftPanel && (
             <img
-              className={`btn-select-nft ${currentAccount ? 'btn-clickable' : 'btn-unclickable'}`}
-              src={process.env.PUBLIC_URL + '/img/btn_game_select_nft.png'}
+              className={`btn-select-nft ${currentAccount ? "btn-clickable" : "btn-unclickable"}`}
+              src={process.env.PUBLIC_URL + "/img/btn_game_select_nft.png"}
               alt='Select NFT Button'
               onClick={openNftPanel}
             />
@@ -195,7 +195,7 @@ export default function Game() {
       )}
       <img
         className='btn-game-to-mint'
-        src={process.env.PUBLIC_URL + '/img/btn_game_to_mint.png'}
+        src={process.env.PUBLIC_URL + "/img/btn_game_to_mint.png"}
         alt='Mint Button'
         onClick={() => setCurrPage(PageName.MINT)}
       />
@@ -205,7 +205,7 @@ export default function Game() {
             metadata={metadata}
             selectNft={selectNft}
             hideNftPanel={async () => {
-              setShowNftPanelAnim('close');
+              setShowNftPanelAnim("close");
               await new Promise((r) => setTimeout(r, 200));
               setShowNftPanel(false);
             }}
