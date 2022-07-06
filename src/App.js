@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from "react";
+import { useState, useEffect, useContext, useMemo, useCallback } from "react";
 import Navbar from "./components/Navbar";
 import WalletAccount from "./components/WalletAccount";
 import Status from "./components/Status";
@@ -126,7 +126,7 @@ function App() {
     ]
   );
 
-  const connectWalletHandler = async () => {
+  const connectWalletHandler = useCallback(async () => {
     const { ethereum } = window;
     if (!ethereum) {
       alert("Please install MetaMask.");
@@ -138,6 +138,9 @@ function App() {
       await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
       //* accouts
+      if (currentAccount) {
+        return;
+      }
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
       if (accounts.length !== 0) {
         const account = accounts[0];
@@ -150,7 +153,7 @@ function App() {
       const errMsg = parseEther(err);
       updateStatus(errMsg);
     }
-  };
+  }, [currentAccount, isRinkeby]);
 
   useEffect(() => {
     const { ethereum } = window;
@@ -174,8 +177,11 @@ function App() {
   });
 
   useEffect(() => {
-    connectWalletHandler();
-  });
+    const connectWallet = () => {
+      connectWalletHandler();
+    };
+    connectWallet();
+  }, [connectWalletHandler]);
 
   //! reture
   return (
