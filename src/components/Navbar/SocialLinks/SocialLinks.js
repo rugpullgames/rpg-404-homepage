@@ -29,7 +29,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_twitter_hover.png',
       alt: 'Twitter',
       onClick: () => {
-        window.open('https://twitter.com/rug_pull_games');
+        window.open('https://twitter.com/intent/follow?screen_name=rug_pull_games');
       },
     },
     {
