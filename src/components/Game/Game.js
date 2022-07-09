@@ -66,7 +66,7 @@ export default function Game(props) {
           const nftIdx = bg.toNumber();
           nftContract.tokenURI(nftIdx).then((tokenMetadataURI) => {
             if (tokenMetadataURI.startsWith("ipfs://")) {
-              tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split("ipfs://")[1]}`;
+              tokenMetadataURI = `https://rpg.mypinata.cloud/ipfs/${tokenMetadataURI.split("ipfs://")[1]}`;
             }
             // console.log(tokenMetadataURI);
             fetch(tokenMetadataURI)

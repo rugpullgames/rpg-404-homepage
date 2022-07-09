@@ -30,7 +30,7 @@ export const NFT = (props) => {
       />
       <img
         className='nft-image'
-        src={`https://ipfs.io/ipfs/${props.metadata.image.split('ipfs://')[1]}`}
+        src={`https://rpg.mypinata.cloud/ipfs/${props.metadata.image.split('ipfs://')[1]}`}
         alt={props.metadata.name}
       />
     </div>
