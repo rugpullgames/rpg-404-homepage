@@ -3,9 +3,9 @@ import contract from '../../contracts/RPG404.json';
 
 export const NFTContext = createContext({
   //! read only
-  contractAddress: '0x5887e5C10f0dd72aA592713e7112aab5D47C5e4C',
+  contractAddress: '0x76C319Df03AE7488153a9eaE3a43eb97ae752f2e',
   contractAbi: contract.abi,
-  openseaColletionName: 'rpg-404-v2',
+  openseaColletionName: 'rpg-404-v3',
   isRinkeby: true,
   //! utils, read only
   parseEtherError: () => {},
