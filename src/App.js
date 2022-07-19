@@ -15,56 +15,14 @@ export const PageName = {
 
 //! utils
 
-// Get Browser Version
-const browserVersion = () => {
-  var ua = navigator.userAgent;
-  var tem;
-  var M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-  if (/trident/i.test(M[1])) {
-    tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-    return "IE " + (tem[1] || "");
-  }
-  if (M[1] === "Chrome") {
-    tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-    if (tem != null) return tem.slice(1).join(" ").replace("OPR", "Opera");
-  }
-  M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, "-?"];
-  if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
-  return M.join(" ");
-};
-
-const checkRegexLookbehind = () => {
-  const browserInfo = browserVersion().split("");
-  if (browserInfo.length >= 2) {
-    console.log(browserVersion());
-    const name = browserInfo[0].toLowerCase();
-    const version = parseFloat(browserInfo[1] || "0");
-    // ref: https://caniuse.com/js-regexp-lookbehind
-    if (
-      (name === "chrome" && version >= 103) ||
-      (name === "edge" && version >= 79) ||
-      (name === "firefox" && version >= 64) ||
-      (name === "opera" && version >= 49)
-    ) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
 // parse error from MetaMask
 const parseEtherError = (err) => {
   let msg = "error";
   if (err && err.message) {
-    // console.error(err.message);
-    if (checkRegexLookbehind()) {
-      const errs = err.message.match(/(?<="message":)".*?"/g);
-      if (errs && errs.length > 0 && errs[0] !== "") {
-        msg = errs[0];
-      } else {
-        msg = err.message;
-      }
+    console.error(err.message);
+    const errs = err.message.match(/(?:"message":)".*?"/g);
+    if (errs && errs.length > 0 && errs[0] !== "") {
+      msg = errs[0].replace(`"message":`, "");
     } else {
       msg = err.message;
     }
