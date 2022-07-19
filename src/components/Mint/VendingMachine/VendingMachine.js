@@ -20,7 +20,7 @@ export default function VendingMachine(props) {
     openseaColletionName,
     isRinkeby,
     //! utils
-    parseEther,
+    parseEtherError,
     checkAndSwitchNetwork,
     //! load from contract
     price,
@@ -93,7 +93,7 @@ export default function VendingMachine(props) {
 
         updateStatus("Mint contract info loaded");
       } catch (err) {
-        const errMsg = parseEther(err);
+        const errMsg = parseEtherError(err);
         updateStatus(errMsg);
       }
     };
@@ -157,7 +157,7 @@ export default function VendingMachine(props) {
           setPrice(ethers.utils.formatEther(priceWei));
         }
       } catch (err) {
-        const errMsg = parseEther(err);
+        const errMsg = parseEtherError(err);
         updateStatus(errMsg);
       }
     };
@@ -230,7 +230,7 @@ export default function VendingMachine(props) {
       updateStatus(`Mined, see transction: https://${isRinkeby ? "rinkeby." : ""}etherscan.io/tx/${nftTxn.hash}`);
       setIsBusy(false);
     } catch (err) {
-      const errMsg = parseEther(err);
+      const errMsg = parseEtherError(err);
       updateStatus(errMsg);
       setIsBusy(false);
     }

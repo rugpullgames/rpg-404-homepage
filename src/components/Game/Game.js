@@ -17,7 +17,7 @@ export default function Game(props) {
     currentAccount,
     contractAddress,
     contractAbi,
-    parseEther,
+    parseEtherError,
     checkAndSwitchNetwork,
     isRinkeby,
     updateStatus,
@@ -88,7 +88,7 @@ export default function Game(props) {
         updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
       }
     } catch (err) {
-      const errMsg = parseEther(err);
+      const errMsg = parseEtherError(err);
       updateStatus(errMsg);
     }
   };

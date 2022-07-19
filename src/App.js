@@ -16,7 +16,7 @@ export const PageName = {
 //! utils
 
 // parse error from MetaMask
-const parseEther = (err) => {
+const parseEtherError = (err) => {
   let msg = "error";
   if (err && err.message) {
     console.error(err.message);
@@ -85,7 +85,7 @@ function App() {
       openseaColletionName,
       isRinkeby,
       //! utils
-      parseEther,
+      parseEtherError,
       checkAndSwitchNetwork,
       //! load from contract
       price,
@@ -150,7 +150,7 @@ function App() {
         updateStatus("No authorized account found");
       }
     } catch (err) {
-      const errMsg = parseEther(err);
+      const errMsg = parseEtherError(err);
       updateStatus(errMsg);
     }
   }, [currentAccount, isRinkeby]);
