@@ -32,15 +32,15 @@ export default function SocialLinks(props) {
         window.open('https://twitter.com/intent/follow?screen_name=rug_pull_games');
       },
     },
-    {
-      ref: null,
-      iconNormal: '/img/social/icon_discord.png',
-      iconHover: '/img/social/icon_discord_hover.png',
-      alt: 'Discord',
-      onClick: () => {
-        window.open('https://discord.com/');
-      },
-    },
+    // {
+    //   ref: null,
+    //   iconNormal: '/img/social/icon_discord.png',
+    //   iconHover: '/img/social/icon_discord_hover.png',
+    //   alt: 'Discord',
+    //   onClick: () => {
+    //     window.open('https://discord.com/');
+    //   },
+    // },
     {
       ref: null,
       iconNormal: '/img/social/icon_opensea.png',
