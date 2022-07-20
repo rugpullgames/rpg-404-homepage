@@ -219,7 +219,7 @@ export default function VendingMachine(props) {
       } else {
         //* public sales
         nftTxn = await nftContract.mint(quantity, {
-          value: ethers.utils.parseEther((0.0078 * quantity).toString()),
+          value: ethers.utils.parseEther((price * quantity).toString()),
         });
       }
 
