@@ -63,11 +63,15 @@
 
 //! mint quantity
 
+//! open NFT panel
+
 //! quantity
 
 //! read only
 
 //! reture
+
+//! select NFT
 
 //! status
 
