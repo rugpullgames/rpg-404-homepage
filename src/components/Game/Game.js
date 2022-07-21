@@ -156,6 +156,7 @@ export default function Game(props) {
           }
         } else {
           updateStatus("Please select your favor NFT before playing");
+          openNftPanel();
         }
       } else {
         updateStatus("No NFT loaded");
@@ -184,7 +185,7 @@ export default function Game(props) {
           <img className='game-cover-img' src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt='Game Cover' />;
           {!showNftPanel && (
             <img
-              className={`btn-game-play ${currentAccount && currMetadata.name ? "btn-clickable" : "btn-unclickable"}`}
+              className={`btn-game-play ${currentAccount ? "btn-clickable" : "btn-unclickable"}`}
               src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
               alt='Play Game Button'
               onClick={playGame}
