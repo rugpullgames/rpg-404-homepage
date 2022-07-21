@@ -80,6 +80,10 @@ export default function Game(props) {
                     nfts.length
                   } loaded. ${metadata.length === nfts.length ? "Select your favor NFT and play." : ""}`
                 );
+              })
+              .catch((err) => {
+                const errMsg = parseEtherError(err);
+                updateStatus(errMsg);
               });
           });
         }
