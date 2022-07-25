@@ -179,6 +179,7 @@ function App() {
   useEffect(() => {
     const connectWallet = () => {
       connectWalletHandler();
+      console.log(process.env.REACT_APP_TEST)
     };
     connectWallet();
   }, [connectWalletHandler]);
