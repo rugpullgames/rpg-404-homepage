@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
 env:
-  REACT_APP_TEST: ${{ secrets.REACT_APP_TEST }}
+  REACT_APP_WALLETCONNECTION_PROJECT_ID: ${{ secrets.REACT_APP_WALLETCONNECTION_PROJECT_ID }}
 
 jobs:
   build:
