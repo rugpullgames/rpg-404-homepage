@@ -164,8 +164,9 @@
 
   .vending-btn-mint {
     position: absolute;
-    top: 120px;
-    right: 126px;
+    top: 30vw;
+    right: 20vw;
+    height: 16vw;
     transition: transform 0.2s; /* Animation */
     cursor: pointer;
   }
@@ -181,14 +182,16 @@
 
   .vending-bg-input-frame {
     position: absolute;
-    top: 36px;
-    right: 124px;
+    top: 10vw;
+    height: 8vw;
+    right: 20vw;
   }
 
   .vending-btn-add {
     position: absolute;
-    top: 36px;
-    right: 64px;
+    top:  10vw;
+    right: 10vw;
+    height: 8vw;
     transition: transform 0.2s; /* Animation */
     cursor: pointer;
   }
@@ -200,8 +203,9 @@
 
   .vending-btn-sub {
     position: absolute;
-    top: 36px;
-    right: 264px;
+    top: 10vw;
+    right: 44vw;
+    height: 8vw;
     transition: transform 0.2s; /* Animation */
     cursor: pointer;
   }
@@ -213,9 +217,9 @@
 
   .vending-price {
     position: absolute;
-    top: 90px;
-    right: 10px;
-    width: 240px;
+    top: 20vw;
+    right: 2vw;
+    width: 50vw;
     color: white;
     font-size: 8px;
     text-align: left;
@@ -223,9 +227,9 @@
 
   .vending-supply {
     position: absolute;
-    top: 102px;
-    right: 10px;
-    width: 240px;
+    top: 24vw;
+    right: 2vw;
+    width: 50vw;
     color: white;
     font-size: 8px;
     text-align: left;
@@ -233,10 +237,11 @@
 
   .vending-quantity {
     position: absolute;
-    top: 52px;
-    right: 124px;
-    width: 125px;
+    top: 12.5vw;
+    right: 21vw;
+    width: 20vw;
     color: white;
+    font-size: 1rem;
     text-align: center;
   }
 }
