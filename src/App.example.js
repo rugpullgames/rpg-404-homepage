@@ -13,8 +13,8 @@ const providerOptions = {
   walletlink: {
     package: CoinbaseWalletSDK, // Required
     options: {
-      appName: "Web 3 Modal Demo", // Required
-      infuraId: process.env.INFURA_KEY, // Required unless you provide a JSON RPC url; see `rpc` below
+      appName: "RPG 404", // Required
+      infuraId: process.env.REACT_APP_WALLETCONNECTION_PROJECT_ID, // Required unless you provide a JSON RPC url; see `rpc` below
     },
   },
   walletconnect: {
@@ -26,9 +26,12 @@ const providerOptions = {
 };
 
 const web3Modal = new Web3Modal({
-  cacheProvider: true, // optional
-  providerOptions, // required
+  // cacheProvider: true, // optional
+  theme: "dark",
+  providerOptions,
 });
+
+console.log(process.env.REACT_APP_WALLETCONNECTION_PROJECT_ID);
 
 function App() {
   const [provider, setProvider] = useState();
@@ -45,6 +48,7 @@ function App() {
   const connectWallet = async () => {
     try {
       const provider = await web3Modal.connect();
+      console.log(provider);
       const library = new ethers.providers.Web3Provider(provider);
       const accounts = await library.listAccounts();
       const network = await library.getNetwork();
@@ -52,6 +56,7 @@ function App() {
       setLibrary(library);
       if (accounts) setAccount(accounts[0]);
       setChainId(network.chainId);
+      await web3Modal.toggleModal();
     } catch (error) {
       setError(error);
     }
