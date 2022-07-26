@@ -112,19 +112,19 @@
   .game {
     position: absolute;
     top: 60px;
-    bottom: 0;
     left: 0;
     right: 0;
+    margin-top: 10vh;
+    height: 100vw;
     overflow: hidden;
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 0, 255, 0.5);
   }
 
   .game-bg {
     position: absolute;
     left: 0;
     right: 0;
-    top: -140px;
-    bottom: 0;
+    top: 0;
     margin: auto;
     width: 100%;
     z-index: -1;
@@ -133,31 +133,29 @@
   .game-iframe,
   .game-cover {
     position: absolute;
-    left: 14px;
-    right: 14px;
-    top: -140px;
-    bottom: 0;
+    left: 0;
+    right: 0;
+    top: -1.3vw;
     margin: auto;
-    width: 900px;
-    height: 300px;
+    width: 100vw;
+    height: 33.33333vw;
+    background-color: blue;
   }
 
   .game-cover-img {
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    width: 100%;
-    height: 100%;
   }
 
   .btn-game-play {
     position: absolute;
-    top: 100px;
-    right: 300px;
-    width: 80px;
-    height: 80px;
+    top: 25%;
+    right: 36vw;
+    width: 12vw;
+    height: 12vw;
     transition: transform 0.2s; /* Animation */
   }
 
@@ -168,10 +166,10 @@
 
   .btn-select-nft {
     position: absolute;
-    top: 100px;
-    right: 160px;
-    width: 80px;
-    height: 80px;
+    top: 25%;
+    right: 12vw;
+    width: 12vw;
+    height: 12vw;
     transition: transform 0.2s; /* Animation */
   }
 
@@ -191,7 +189,8 @@
   .btn-game-to-mint {
     position: absolute;
     right: 20px;
-    bottom: min(20px, 4vh);
+    width: 80vw;
+    bottom: 0;
     cursor: pointer;
   }
 }
