@@ -48,37 +48,3 @@
  * @copyright Chen, Yi-Cyuan 2015-2018
  * @license MIT
  */
-
-//! current page
-
-//! is busy
-
-//! load NFTs effect
-
-//! load from contract
-
-//! mint NFTs
-
-//! mint or buy
-
-//! mint quantity
-
-//! open NFT panel
-
-//! quantity
-
-//! read only
-
-//! reture
-
-//! select NFT
-
-//! status
-
-//! total supply
-
-//! utils
-
-//! utils, read only
-
-//! wallet
