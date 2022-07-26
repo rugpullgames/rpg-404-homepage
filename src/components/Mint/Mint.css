@@ -20,9 +20,7 @@
     top: 60px;
     left: 0;
     right: 0;
-    height: calc(-webkit-fill-available - 60px);
-    height: calc(-moz-available - 60px);
-    height: calc(100vh - 60px);
+    height: calc(85vh - 60px);
     background-color: blueviolet;
     overflow: hidden;
   }
