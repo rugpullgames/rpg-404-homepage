@@ -13,3 +13,22 @@
   margin-right: -100vw;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 900px) {
+  .mint {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    height: calc(85vh - 60px);
+    /* background-color: blueviolet; */
+    overflow: hidden;
+  }
+
+  .mint-market-bg {
+    margin-left: -100px;
+    margin-right: -100px;
+    height: 40vh;
+    cursor: pointer;
+  }
+}

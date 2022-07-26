@@ -72,3 +72,52 @@
   height: 100%;
   filter: brightness(1);
 }
+
+@media only screen and (max-width: 900px) {
+  .nft-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1.3vw;
+    bottom: 0;
+    margin: auto;
+    width: 100vw;
+    height: 33.33333vw;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .nft-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; /* Increase/Decrease this value for cross-browser compatibility */
+    overflow-y: scroll;
+    overflow: auto;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .nft-item {
+    position: relative;
+    width: 24vw;
+    height: 24vw;
+    margin-top: 4vw;
+    margin-left: 4vw;
+    margin-right: 4vw;
+  }
+
+  .nft-item:first-child {
+    margin-left: 8vw;
+  }
+
+  .nft-item:last-child {
+    margin-right: 8vw;
+  }
+
+  .nft-item-loading {
+    width: 24vw;
+    height: 24vw;
+  }
+}

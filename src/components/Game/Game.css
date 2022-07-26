@@ -107,3 +107,90 @@
     opacity: 0;
   }
 }
+
+@media only screen and (max-width: 900px) {
+  .game {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    margin-top: 10vh;
+    height: 100vw;
+    overflow: hidden;
+    /* background-color: rgba(255, 0, 255, 0.5); */
+  }
+
+  .game-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    width: 100%;
+    z-index: -1;
+  }
+
+  .game-iframe,
+  .game-cover {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1.3vw;
+    margin: auto;
+    width: 100vw;
+    height: 33.33333vw;
+    /* background-color: blue; */
+  }
+
+  .game-cover-img {
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .btn-game-play {
+    position: absolute;
+    top: 25%;
+    right: 36vw;
+    width: 12vw;
+    height: 12vw;
+    transition: transform 0.2s; /* Animation */
+  }
+
+  .btn-game-play:hover {
+    transform: scale(1.2);
+    filter: brightness(120%);
+  }
+
+  .btn-select-nft {
+    position: absolute;
+    top: 25%;
+    right: 12vw;
+    width: 12vw;
+    height: 12vw;
+    transition: transform 0.2s; /* Animation */
+  }
+
+  .btn-clickable {
+    cursor: pointer;
+  }
+
+  .btn-unclickable {
+    cursor: not-allowed;
+  }
+
+  .btn-select-nft:hover {
+    transform: scale(1.2);
+    filter: brightness(120%);
+  }
+
+  .btn-game-to-mint {
+    position: absolute;
+    right: 20px;
+    width: 80vw;
+    bottom: 0;
+    cursor: pointer;
+  }
+}

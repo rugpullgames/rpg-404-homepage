@@ -19,3 +19,25 @@
   height: 120px;
   pointer-events: none;
 }
+
+@media only screen and (max-width: 900px) {
+  .social-links {
+    position: absolute;
+    top: 0;
+    right: 10px;
+  }
+
+  .social-icon {
+    height: 20px;
+    width: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  .social-icon-img {
+    margin-top: -10px;
+    margin-left: -20px;
+    height: 60px;
+    pointer-events: none;
+  }
+}

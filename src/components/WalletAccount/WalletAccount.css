@@ -6,3 +6,14 @@
   text-align: right;
   color: white;
 }
+
+@media only screen and (max-width: 900px) {
+  .wallet-acc {
+    position: absolute;
+    top: 48px;
+    right: 12px;
+    font-size: 4px;
+    text-align: right;
+    color: white;
+  }
+}
