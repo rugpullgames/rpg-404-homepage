@@ -119,3 +119,124 @@
   text-align: center;
 }
 
+@media only screen and (max-width: 900px) {
+  .vending-machine {
+    position: absolute;
+    width: 100vw;
+    height: calc(100% - 40vh);
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: aqua;
+  }
+
+  .vending-bg {
+    display: none;
+  }
+
+  .vending-btn-opensea {
+    position: absolute;
+    top: 0px;
+    right: 10vw;
+    height: 20vw;
+    transition: transform 0.2s; /* Animation */
+    cursor: pointer;
+  }
+
+  .vending-btn-opensea:hover {
+    transform: scale(1.2);
+    filter: brightness(120%);
+  }
+
+  .vending-btn-to-game {
+    position: absolute;
+    top: 0px;
+    left: 10vw;
+    height: 20vw;
+    transition: transform 0.2s; /* Animation */
+    cursor: pointer;
+  }
+
+  .vending-btn-to-game:hover {
+    transform: scale(1.2);
+    filter: brightness(120%);
+  }
+
+  .vending-btn-mint {
+    position: absolute;
+    top: 120px;
+    right: 126px;
+    transition: transform 0.2s; /* Animation */
+    cursor: pointer;
+  }
+
+  .vending-btn-mint:hover {
+    -webkit-transform: translate(-20px, -10px);
+    -moz-transform: translate(-20px, -10px);
+    -ms-transform: translate(-20px, -10px);
+    -o-transform: translate(-20px, -10px);
+    transform: translate(-20px, -10px);
+    filter: brightness(150%);
+  }
+
+  .vending-bg-input-frame {
+    position: absolute;
+    top: 36px;
+    right: 124px;
+  }
+
+  .vending-btn-add {
+    position: absolute;
+    top: 36px;
+    right: 64px;
+    transition: transform 0.2s; /* Animation */
+    cursor: pointer;
+  }
+
+  .vending-btn-add:hover {
+    transform: scale(1.2);
+    filter: brightness(120%);
+  }
+
+  .vending-btn-sub {
+    position: absolute;
+    top: 36px;
+    right: 264px;
+    transition: transform 0.2s; /* Animation */
+    cursor: pointer;
+  }
+
+  .vending-btn-sub:hover {
+    transform: scale(1.2);
+    filter: brightness(120%);
+  }
+
+  .vending-price {
+    position: absolute;
+    top: 90px;
+    right: 10px;
+    width: 240px;
+    color: white;
+    font-size: 8px;
+    text-align: left;
+  }
+
+  .vending-supply {
+    position: absolute;
+    top: 102px;
+    right: 10px;
+    width: 240px;
+    color: white;
+    font-size: 8px;
+    text-align: left;
+  }
+
+  .vending-quantity {
+    position: absolute;
+    top: 52px;
+    right: 124px;
+    width: 125px;
+    color: white;
+    text-align: center;
+  }
+}
