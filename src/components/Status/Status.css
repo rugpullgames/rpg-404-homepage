@@ -12,3 +12,21 @@
   text-align: left;
   z-index: 200;
 }
+
+@media only screen and (max-width: 900px) {
+  .status {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+    color: white;
+    font-size: xx-small;
+    text-align: left;
+    z-index: 200;
+    scale: 0.4
+  }
+}
