@@ -21,7 +21,7 @@
     left: 0;
     right: 0;
     height: calc(85vh - 60px);
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
     overflow: hidden;
   }
 
