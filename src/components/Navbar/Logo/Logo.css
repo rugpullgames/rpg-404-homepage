@@ -20,3 +20,21 @@
   left: 70px;
   cursor: not-allowed;
 }
+
+@media only screen and (max-width: 900px) {
+  .logo-rpg-icon {
+    position: absolute;
+    height: 40px;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    image-rendering: auto;
+  }
+
+  .logo-rpg-404-icon {
+    position: absolute;
+    height: 32px;
+    top: 14px;
+    left: 46px;
+  }
+}
