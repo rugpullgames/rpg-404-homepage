@@ -22,5 +22,7 @@ img {
     bottom: 0;
     width: 100vw;
     height: -webkit-fill-available;
+    height: -moz-available;
+    height: 100vh;
   }
 }
