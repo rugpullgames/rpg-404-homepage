@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import WalletConnect from "@walletconnect/web3-provider";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
-import { networkParams } from "./web3/networks";
+import { networkConfig } from "./web3/networks";
 import { toHex } from "./utils/utils";
 import "./App.css";
 
@@ -30,7 +30,6 @@ const web3Modal = new Web3Modal({
   theme: "dark",
   providerOptions,
 });
-
 
 function App() {
   const [provider, setProvider] = useState();
@@ -82,7 +81,7 @@ function App() {
         try {
           await library.provider.request({
             method: "wallet_addEthereumChain",
-            params: [networkParams[toHex(network)]],
+            params: [networkConfig[toHex(network)]],
           });
         } catch (error) {
           setError(error);
