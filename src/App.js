@@ -1,58 +1,20 @@
 import { useState, useEffect, useContext, useMemo, useCallback } from "react";
+import { ethers } from "ethers";
 import Navbar from "./components/Navbar";
 import WalletAccount from "./components/WalletAccount";
 import Status from "./components/Status";
 import Mint from "./components/Mint";
 import Game from "./components/Game";
 import NFTContext from "./components/NFTContext";
+import { toHex, parseEtherError, checkAndSwitchNetwork } from "./utils/utils";
+import { web3Modal } from "./web3/web3provider";
+import { networkConfig } from "./web3/networks";
 import "./App.css";
 
 //! as Enum
 export const PageName = {
   GAME: "game",
   MINT: "mint",
-};
-
-//! utils
-
-// parse error from MetaMask
-const parseEtherError = (err) => {
-  let msg = "error";
-  if (err && err.message) {
-    console.error(err.message);
-    const errs = err.message.match(/(?:"message":)".*?"/g);
-    if (errs && errs.length > 0 && errs[0] !== "") {
-      msg = errs[0].replace(`"message":`, "");
-    } else {
-      msg = err.message;
-    }
-  }
-  return msg;
-};
-
-// check network
-const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
-  const { ethereum } = window;
-  if (!ethereum) {
-    throw new Error("Please install MetaMask.");
-  }
-  const network = await ethereum.networkVersion;
-  if (rinkeby && network !== "4") {
-    //* testnet rinkeby
-    funcLog(`Please change network to Rinkeby`);
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(4).toString(16)}` }],
-    });
-  }
-  if (!rinkeby && network !== "1") {
-    //* main network
-    funcLog(`Please change network to ethereum Mainnet`);
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(1).toString(16)}` }],
-    });
-  }
 };
 
 function App() {
@@ -65,6 +27,16 @@ function App() {
   const [maxFreeSupply, setMaxFreeSupply] = useState(0);
   const [maxPerTxDuringMint, setMaxPerTxDuringMint] = useState(0);
   const [maxPerAddressDuringFreeMint, setMaxPerAddressDuringFreeMint] = useState(0);
+  const [provider, setProvider] = useState();
+  const [library, setLibrary] = useState();
+  const [account, setAccount] = useState();
+  const [signature, setSignature] = useState("");
+  const [error, setError] = useState("");
+  const [chainId, setChainId] = useState();
+  const [network, setNetwork] = useState();
+  const [message, setMessage] = useState("");
+  const [signedMessage, setSignedMessage] = useState("");
+  const [verified, setVerified] = useState();
   //! page
   const [currPage, setCurrPage] = useState(PageName.GAME);
   //! wallet
@@ -127,33 +99,109 @@ function App() {
   );
 
   const connectWalletHandler = useCallback(async () => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      alert("Please install MetaMask.");
-      return;
-    }
-
     try {
-      //* check network
-      await checkAndSwitchNetwork(isRinkeby, updateStatus);
-
-      //* accouts
-      if (currentAccount) {
-        return;
-      }
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      if (accounts.length !== 0) {
-        const account = accounts[0];
-        setCurrentAccount(account);
-        updateStatus(`Connected (address: ${account})`);
-      } else {
-        updateStatus("No authorized account found");
-      }
-    } catch (err) {
-      const errMsg = parseEtherError(err);
-      updateStatus(errMsg);
+      const provider = await web3Modal.connect();
+      console.log(provider);
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+      setProvider(provider);
+      setLibrary(library);
+      if (accounts) setAccount(accounts[0]);
+      setChainId(network.chainId);
+      await web3Modal.toggleModal();
+    } catch (error) {
+      setError(error);
     }
-  }, [currentAccount, isRinkeby]);
+  }, []);
+
+  const connectWallet = async () => {
+    try {
+      const provider = await web3Modal.connect();
+      console.log(provider);
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+      setProvider(provider);
+      setLibrary(library);
+      if (accounts) setAccount(accounts[0]);
+      setChainId(network.chainId);
+      await web3Modal.toggleModal();
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const handleNetwork = (e) => {
+    const id = e.target.value;
+    setNetwork(Number(id));
+  };
+
+  const handleInput = (e) => {
+    const msg = e.target.value;
+    setMessage(msg);
+  };
+
+  const switchNetwork = async () => {
+    try {
+      await library.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: toHex(network) }],
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await library.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [networkConfig[toHex(network)]],
+          });
+        } catch (error) {
+          setError(error);
+        }
+      }
+    }
+  };
+
+  const signMessage = async () => {
+    if (!library) return;
+    try {
+      const signature = await library.provider.request({
+        method: "personal_sign",
+        params: [message, account],
+      });
+      setSignedMessage(message);
+      setSignature(signature);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const verifyMessage = async () => {
+    if (!library) return;
+    try {
+      const verify = await library.provider.request({
+        method: "personal_ecRecover",
+        params: [signedMessage, signature],
+      });
+      setVerified(verify === account.toLowerCase());
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const refreshState = () => {
+    setAccount();
+    setChainId();
+    setNetwork("");
+    setMessage("");
+    setSignature("");
+    setVerified(undefined);
+  };
+
+  const disconnect = async () => {
+    await web3Modal.clearCachedProvider();
+    refreshState();
+  };
 
   useEffect(() => {
     const { ethereum } = window;
@@ -177,8 +225,38 @@ function App() {
   });
 
   useEffect(() => {
+    if (provider?.on) {
+      const handleAccountsChanged = (accounts) => {
+        console.log("accountsChanged", accounts);
+        if (accounts) setAccount(accounts[0]);
+      };
+
+      const handleChainChanged = (_hexChainId) => {
+        setChainId(_hexChainId);
+      };
+
+      const handleDisconnect = () => {
+        console.log("disconnect", error);
+        disconnect();
+      };
+
+      provider.on("accountsChanged", handleAccountsChanged);
+      provider.on("chainChanged", handleChainChanged);
+      provider.on("disconnect", handleDisconnect);
+
+      return () => {
+        if (provider.removeListener) {
+          provider.removeListener("accountsChanged", handleAccountsChanged);
+          provider.removeListener("chainChanged", handleChainChanged);
+          provider.removeListener("disconnect", handleDisconnect);
+        }
+      };
+    }
+  }, [provider]);
+
+  useEffect(() => {
     const connectWallet = () => {
-      connectWalletHandler();
+      // connectWalletHandler();
     };
     connectWallet();
   }, [connectWalletHandler]);

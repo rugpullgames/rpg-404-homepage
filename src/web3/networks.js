@@ -1,4 +1,4 @@
-export const networkParams = {
+export const networkConfig = {
   "0x63564c40": {
     chainId: "0x63564c40",
     rpcUrls: ["https://api.harmony.one"],
