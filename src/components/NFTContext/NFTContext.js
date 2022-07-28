@@ -1,11 +1,11 @@
-import { createContext } from 'react';
-import contract from '../../contracts/RPG404.json';
+import { createContext } from "react";
+import contract from "../../contracts/RPG404.json";
 
 export const NFTContext = createContext({
   //! read only
-  contractAddress: '0xc21dCcA393Fe26D585db6598533b655816A87543',
+  contractAddress: "0xc21dCcA393Fe26D585db6598533b655816A87543",
   contractAbi: contract.abi,
-  openseaColletionName: 'rpg-404',
+  openseaColletionName: "rpg-404",
   isRinkeby: false,
   //! utils, read only
   parseEtherError: () => {},
@@ -29,6 +29,6 @@ export const NFTContext = createContext({
   //! wallet
   currentAccount: null,
   //! status
-  statusMsg: '',
+  statusMsg: "",
   updateStatus: () => {},
 });
