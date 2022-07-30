@@ -1,3 +1,9 @@
+// To Hex Address
+export const toHex = (num) => {
+  const val = Number(num);
+  return "0x" + val.toString(16);
+};
+
 // check network
 export const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
   const { ethereum } = window;
@@ -10,7 +16,7 @@ export const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
     funcLog(`Please change network to Rinkeby`);
     await ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(4).toString(16)}` }],
+      params: [{ chainId: toHex(4) }],
     });
   }
   if (!rinkeby && network !== "1") {
@@ -18,7 +24,7 @@ export const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
     funcLog(`Please change network to ethereum Mainnet`);
     await ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(1).toString(16)}` }],
+      params: [{ chainId: toHex(1) }],
     });
   }
 };
@@ -43,9 +49,4 @@ export const truncateAddress = (address) => {
   const match = address.match(/^(0x[a-zA-Z0-9]{2})[a-zA-Z0-9]+([a-zA-Z0-9]{2})$/);
   if (!match) return address;
   return `${match[1]}…${match[2]}`;
-};
-
-export const toHex = (num) => {
-  const val = Number(num);
-  return "0x" + val.toString(16);
 };
