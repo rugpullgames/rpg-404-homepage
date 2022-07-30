@@ -29,14 +29,13 @@ function App() {
   const [maxPerAddressDuringFreeMint, setMaxPerAddressDuringFreeMint] = useState(0);
   const [provider, setProvider] = useState();
   const [library, setLibrary] = useState();
-  const [account, setAccount] = useState();
   const [error, setError] = useState("");
   const [chainId, setChainId] = useState();
   const [network, setNetwork] = useState();
   //! page
   const [currPage, setCurrPage] = useState(PageName.GAME);
   //! wallet
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const [account, setAccount] = useState();
   //! status
   const [statusMsg, setStatusMsg] = useState("");
 
@@ -72,7 +71,7 @@ function App() {
       currPage,
       setCurrPage,
       //! wallet
-      currentAccount,
+      account,
       //! status
       statusMsg,
       updateStatus,
@@ -81,7 +80,7 @@ function App() {
       contractAbi,
       contractAddress,
       currPage,
-      currentAccount,
+      account,
       isRinkeby,
       maxFreeSupply,
       maxPerAddressDuringFreeMint,
@@ -151,9 +150,9 @@ function App() {
       const accounts = args[0];
       if (accounts.length === 0) {
         updateStatus("No authorized account found");
-      } else if (accounts[0] !== currentAccount) {
+      } else if (accounts[0] !== account) {
         const account = accounts[0];
-        setCurrentAccount(account);
+        setAccount(account);
         updateStatus(`Connected (address: ${account})`);
       }
     };

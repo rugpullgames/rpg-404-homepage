@@ -38,7 +38,7 @@ export default function VendingMachine(props) {
     //! current page
     setCurrPage,
     //! wallet
-    currentAccount,
+    account,
     //! status
     updateStatus,
   } = useContext(NFTContext);
@@ -51,7 +51,7 @@ export default function VendingMachine(props) {
         return;
       }
 
-      if (currentAccount === null) {
+      if (account === null) {
         updateStatus("Please connect wallet first");
         props.connectWallet();
         return;
@@ -100,7 +100,7 @@ export default function VendingMachine(props) {
 
     loadMintInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount]);
+  }, [account]);
 
   //! mint quantity
   const add = () => {
@@ -132,7 +132,7 @@ export default function VendingMachine(props) {
         updateStatus("Please install MetaMask.");
         return;
       }
-      if (currentAccount === null) {
+      if (account === null) {
         return;
       }
       if (!contractAddress || contractAddress === "") {
@@ -184,7 +184,7 @@ export default function VendingMachine(props) {
       updateStatus("Please install MetaMask.");
       return;
     }
-    if (currentAccount === null) {
+    if (account === null) {
       updateStatus("Please connect wallet first");
       props.connectWallet();
       return;

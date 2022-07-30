@@ -14,7 +14,7 @@ export default function Game(props) {
 
   //! web3 API in NFTContext
   const {
-    currentAccount,
+    account,
     contractAddress,
     contractAbi,
     parseEtherError,
@@ -35,7 +35,7 @@ export default function Game(props) {
       //* check network
       await checkAndSwitchNetwork(isRinkeby, updateStatus);
 
-      if (currentAccount === null) {
+      if (account === null) {
         updateStatus("Please connect wallet first");
         props.connectWallet();
         return;
@@ -56,7 +56,7 @@ export default function Game(props) {
 
       updateStatus("Loading NFTs from blockchain...");
 
-      let nfts = await nftContract.walletOfOwner(currentAccount);
+      let nfts = await nftContract.walletOfOwner(account);
 
       const meta = [];
       if (nfts.length > 0) {
@@ -110,7 +110,7 @@ export default function Game(props) {
       ethereum?.removeListener("accountsChanged", loadNft);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount]);
+  }, [account]);
 
   //! select NFT
   const selectNft = (selectedMetadata) => {
@@ -123,7 +123,7 @@ export default function Game(props) {
 
   //! open NFT panel
   const openNftPanel = () => {
-    if (currentAccount) {
+    if (account) {
       if (metadata.length > 0) {
         setShowNftPanelAnim("open");
         setShowNftPanel(true);
@@ -139,7 +139,7 @@ export default function Game(props) {
 
   //! play game
   const playGame = () => {
-    if (currentAccount) {
+    if (account) {
       if (metadata.length > 0) {
         if (currMetadata.name) {
           //* Play Game!!
@@ -185,7 +185,7 @@ export default function Game(props) {
           <img className='game-cover-img' src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt='Game Cover' />
           {!showNftPanel && (
             <img
-              className={`btn-game-play ${currentAccount ? "btn-clickable" : "btn-unclickable"}`}
+              className={`btn-game-play ${account ? "btn-clickable" : "btn-unclickable"}`}
               src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
               alt='Play Game Button'
               onClick={playGame}
@@ -193,7 +193,7 @@ export default function Game(props) {
           )}
           {!showNftPanel && (
             <img
-              className={`btn-select-nft ${currentAccount ? "btn-clickable" : "btn-unclickable"}`}
+              className={`btn-select-nft ${account ? "btn-clickable" : "btn-unclickable"}`}
               src={process.env.PUBLIC_URL + "/img/btn_game_select_nft.png"}
               alt='Select NFT Button'
               onClick={openNftPanel}

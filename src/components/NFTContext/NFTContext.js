@@ -27,7 +27,7 @@ export const NFTContext = createContext({
   currPage: null,
   setCurrPage: () => {},
   //! wallet
-  currentAccount: null,
+  account: null,
   //! status
   statusMsg: "",
   updateStatus: () => {},
