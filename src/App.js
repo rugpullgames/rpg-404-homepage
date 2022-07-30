@@ -30,13 +30,9 @@ function App() {
   const [provider, setProvider] = useState();
   const [library, setLibrary] = useState();
   const [account, setAccount] = useState();
-  const [signature, setSignature] = useState("");
   const [error, setError] = useState("");
   const [chainId, setChainId] = useState();
   const [network, setNetwork] = useState();
-  const [message, setMessage] = useState("");
-  const [signedMessage, setSignedMessage] = useState("");
-  const [verified, setVerified] = useState();
   //! page
   const [currPage, setCurrPage] = useState(PageName.GAME);
   //! wallet
@@ -132,16 +128,6 @@ function App() {
     }
   };
 
-  const handleNetwork = (e) => {
-    const id = e.target.value;
-    setNetwork(Number(id));
-  };
-
-  const handleInput = (e) => {
-    const msg = e.target.value;
-    setMessage(msg);
-  };
-
   const switchNetwork = async () => {
     try {
       await library.provider.request({
@@ -162,40 +148,10 @@ function App() {
     }
   };
 
-  const signMessage = async () => {
-    if (!library) return;
-    try {
-      const signature = await library.provider.request({
-        method: "personal_sign",
-        params: [message, account],
-      });
-      setSignedMessage(message);
-      setSignature(signature);
-    } catch (error) {
-      setError(error);
-    }
-  };
-
-  const verifyMessage = async () => {
-    if (!library) return;
-    try {
-      const verify = await library.provider.request({
-        method: "personal_ecRecover",
-        params: [signedMessage, signature],
-      });
-      setVerified(verify === account.toLowerCase());
-    } catch (error) {
-      setError(error);
-    }
-  };
-
   const refreshState = () => {
     setAccount();
     setChainId();
     setNetwork("");
-    setMessage("");
-    setSignature("");
-    setVerified(undefined);
   };
 
   const disconnect = async () => {
