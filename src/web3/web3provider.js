@@ -22,4 +22,5 @@ export const web3Modal = new Web3Modal({
   // cacheProvider: true, // optional
   theme: "dark",
   providerOptions,
+  disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
 });
