@@ -37,7 +37,7 @@ export default function Game(props) {
 
       if (currentAccount === null) {
         updateStatus("Please connect wallet first");
-        props.connectWalletHandler();
+        props.connectWallet();
         return;
       }
 
@@ -133,7 +133,7 @@ export default function Game(props) {
       }
     } else {
       updateStatus("Please connect wallet first");
-      props.connectWalletHandler();
+      props.connectWallet();
     }
   };
 
@@ -164,7 +164,7 @@ export default function Game(props) {
       }
     } else {
       updateStatus("Please connect wallet first");
-      props.connectWalletHandler();
+      props.connectWallet();
     }
   };
 

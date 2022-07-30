@@ -53,7 +53,7 @@ export default function VendingMachine(props) {
 
       if (currentAccount === null) {
         updateStatus("Please connect wallet first");
-        props.connectWalletHandler();
+        props.connectWallet();
         return;
       }
 
@@ -186,7 +186,7 @@ export default function VendingMachine(props) {
     }
     if (currentAccount === null) {
       updateStatus("Please connect wallet first");
-      props.connectWalletHandler();
+      props.connectWallet();
       return;
     }
     if (isBusy) {

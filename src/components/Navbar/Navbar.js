@@ -7,7 +7,7 @@ export default function Navbar(props) {
   return (
     <div className='navbar'>
       <Logo />
-      <SocialLinks connectWalletHandler={props.connectWalletHandler} />
+      <SocialLinks connectWallet={props.connectWallet} />
     </div>
   );
 }

@@ -65,7 +65,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_metamask_hover.png',
       alt: 'MetaMask',
       onClick: () => {
-        props.connectWalletHandler();
+        props.connectWallet();
       },
     },
   ];

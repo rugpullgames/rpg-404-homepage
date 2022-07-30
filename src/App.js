@@ -94,7 +94,7 @@ function App() {
     ]
   );
 
-  const connectWalletHandler = useCallback(async () => {
+  const connectWallet = useCallback(async () => {
     try {
       const provider = await web3Modal.connect();
       console.log(provider);
@@ -110,23 +110,6 @@ function App() {
       setError(error);
     }
   }, []);
-
-  const connectWallet = async () => {
-    try {
-      const provider = await web3Modal.connect();
-      console.log(provider);
-      const library = new ethers.providers.Web3Provider(provider);
-      const accounts = await library.listAccounts();
-      const network = await library.getNetwork();
-      setProvider(provider);
-      setLibrary(library);
-      if (accounts) setAccount(accounts[0]);
-      setChainId(network.chainId);
-      await web3Modal.toggleModal();
-    } catch (error) {
-      setError(error);
-    }
-  };
 
   const switchNetwork = async () => {
     try {
@@ -212,18 +195,18 @@ function App() {
 
   useEffect(() => {
     const connectWallet = () => {
-      // connectWalletHandler();
+      // connectWallet();
     };
     connectWallet();
-  }, [connectWalletHandler]);
+  }, [connectWallet]);
 
   //! reture
   return (
     <NFTContext.Provider value={ctxValue}>
       <div className='App'>
-        <Navbar {...{ connectWalletHandler }} />
-        {currPage === PageName.GAME && <Game {...{ connectWalletHandler }} />}
-        {currPage === PageName.MINT && <Mint {...{ connectWalletHandler }} />}
+        <Navbar {...{ connectWallet }} />
+        {currPage === PageName.GAME && <Game {...{ connectWallet }} />}
+        {currPage === PageName.MINT && <Mint {...{ connectWallet }} />}
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>
