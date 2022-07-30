@@ -96,7 +96,6 @@ function App() {
   const connectWallet = useCallback(async () => {
     try {
       const provider = await web3Modal.connect();
-      console.log(provider);
       const library = new ethers.providers.Web3Provider(provider);
       const accounts = await library.listAccounts();
       const network = await library.getNetwork();
@@ -142,31 +141,16 @@ function App() {
   };
 
   useEffect(() => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      return;
-    }
-    const handleAccountChange = (...args) => {
-      const accounts = args[0];
-      if (accounts.length === 0) {
-        updateStatus("No authorized account found");
-      } else if (accounts[0] !== account) {
-        const account = accounts[0];
-        setAccount(account);
-        updateStatus(`Connected (address: ${account})`);
-      }
-    };
-    ethereum.on("accountsChanged", handleAccountChange);
-    return () => {
-      ethereum?.removeListener("accountsChanged", handleAccountChange);
-    };
-  });
-
-  useEffect(() => {
     if (provider?.on) {
-      const handleAccountsChanged = (accounts) => {
-        console.log("accountsChanged", accounts);
-        if (accounts) setAccount(accounts[0]);
+      const handleAccountsChanged = (...args) => {
+        const accounts = args[0];
+        if (accounts.length === 0) {
+          updateStatus("No authorized account found");
+        } else if (accounts[0] !== account) {
+          const account = accounts[0];
+          setAccount(account);
+          updateStatus(`Connected (address: ${account})`);
+        }
       };
 
       const handleChainChanged = (_hexChainId) => {
