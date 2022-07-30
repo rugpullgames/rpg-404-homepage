@@ -27,14 +27,14 @@ function App() {
   const [maxFreeSupply, setMaxFreeSupply] = useState(0);
   const [maxPerTxDuringMint, setMaxPerTxDuringMint] = useState(0);
   const [maxPerAddressDuringFreeMint, setMaxPerAddressDuringFreeMint] = useState(0);
-  const [provider, setProvider] = useState();
-  const [library, setLibrary] = useState();
-  const [error, setError] = useState("");
-  const [chainId, setChainId] = useState();
-  const [network, setNetwork] = useState();
+
   //! page
   const [currPage, setCurrPage] = useState(PageName.GAME);
   //! wallet
+  const [provider, setProvider] = useState();
+  const [library, setLibrary] = useState();
+  const [chainId, setChainId] = useState();
+  const [network, setNetwork] = useState();
   const [account, setAccount] = useState();
   //! status
   const [statusMsg, setStatusMsg] = useState("");
@@ -105,8 +105,8 @@ function App() {
       if (accounts) setAccount(accounts[0]);
       setChainId(network.chainId);
       await web3Modal.toggleModal();
-    } catch (error) {
-      setError(error);
+    } catch (err) {
+      updateStatus(err);
     }
   }, []);
 
@@ -123,8 +123,8 @@ function App() {
             method: "wallet_addEthereumChain",
             params: [networkConfig[toHex(network)]],
           });
-        } catch (error) {
-          setError(error);
+        } catch (err) {
+          updateStatus(err);
         }
       }
     }
@@ -173,8 +173,8 @@ function App() {
         setChainId(_hexChainId);
       };
 
-      const handleDisconnect = () => {
-        console.log("disconnect", error);
+      const handleDisconnect = (err) => {
+        console.log("disconnect", err);
         disconnect();
       };
 
