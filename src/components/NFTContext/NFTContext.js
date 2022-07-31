@@ -9,7 +9,6 @@ export const NFTContext = createContext({
   isTestnet: false,
   //! utils, read only
   parseEtherError: () => {},
-  checkAndSwitchNetwork: () => {},
   //! load from contract
   price: -1,
   setPrice: () => {},
@@ -29,7 +28,9 @@ export const NFTContext = createContext({
   //! wallet
   provider: null,
   library: null,
+  chainId: null,
   account: null,
+  checkAndSwitchNetwork: () => {},
   //! status
   statusMsg: "",
   updateStatus: () => {},

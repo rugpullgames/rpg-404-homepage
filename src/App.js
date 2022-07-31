@@ -174,8 +174,11 @@ function App() {
       currPage,
       setCurrPage,
       //! wallet
-      checkAndSwitchNetwork,
+      provider,
+      library,
+      chainId,
       account,
+      checkAndSwitchNetwork,
       //! status
       statusMsg,
       updateStatus,
@@ -184,6 +187,9 @@ function App() {
       contractAbi,
       contractAddress,
       currPage,
+      provider,
+      library,
+      chainId,
       account,
       checkAndSwitchNetwork,
       isTestnet,
