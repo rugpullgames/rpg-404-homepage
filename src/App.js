@@ -1,10 +1,14 @@
 import { useState, useEffect, useContext, useMemo, useCallback } from "react";
+import { ethers } from "ethers";
 import Navbar from "./components/Navbar";
 import WalletAccount from "./components/WalletAccount";
 import Status from "./components/Status";
 import Mint from "./components/Mint";
 import Game from "./components/Game";
 import NFTContext from "./components/NFTContext";
+import { toHex, parseEtherError } from "./utils/utils";
+import { web3Modal } from "./web3/web3provider";
+import { networkConfig } from "./web3/networks";
 import "./App.css";
 
 //! as Enum
@@ -13,51 +17,9 @@ export const PageName = {
   MINT: "mint",
 };
 
-//! utils
-
-// parse error from MetaMask
-const parseEtherError = (err) => {
-  let msg = "error";
-  if (err && err.message) {
-    console.error(err.message);
-    const errs = err.message.match(/(?:"message":)".*?"/g);
-    if (errs && errs.length > 0 && errs[0] !== "") {
-      msg = errs[0].replace(`"message":`, "");
-    } else {
-      msg = err.message;
-    }
-  }
-  return msg;
-};
-
-// check network
-const checkAndSwitchNetwork = async (rinkeby, funcLog) => {
-  const { ethereum } = window;
-  if (!ethereum) {
-    throw new Error("Please install MetaMask.");
-  }
-  const network = await ethereum.networkVersion;
-  if (rinkeby && network !== "4") {
-    //* testnet rinkeby
-    funcLog(`Please change network to Rinkeby`);
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(4).toString(16)}` }],
-    });
-  }
-  if (!rinkeby && network !== "1") {
-    //* main network
-    funcLog(`Please change network to ethereum Mainnet`);
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(1).toString(16)}` }],
-    });
-  }
-};
-
 function App() {
   //! read only
-  const { contractAddress, contractAbi, openseaColletionName, isRinkeby } = useContext(NFTContext);
+  const { contractAddress, contractAbi, openseaColletionName, isTestnet } = useContext(NFTContext);
   //! load from contract
   const [price, setPrice] = useState(0);
   const [maxSupply, setMaxSupply] = useState(0);
@@ -65,10 +27,14 @@ function App() {
   const [maxFreeSupply, setMaxFreeSupply] = useState(0);
   const [maxPerTxDuringMint, setMaxPerTxDuringMint] = useState(0);
   const [maxPerAddressDuringFreeMint, setMaxPerAddressDuringFreeMint] = useState(0);
+
   //! page
   const [currPage, setCurrPage] = useState(PageName.GAME);
   //! wallet
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const [provider, setProvider] = useState();
+  const [library, setLibrary] = useState();
+  const [chainId, setChainId] = useState();
+  const [account, setAccount] = useState();
   //! status
   const [statusMsg, setStatusMsg] = useState("");
 
@@ -77,16 +43,121 @@ function App() {
     setStatusMsg(`Status: ${msg}`);
   };
 
+  const connectWallet = useCallback(async () => {
+    try {
+      const provider = await web3Modal.connect();
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+      setProvider(provider);
+      setLibrary(library);
+      if (accounts) setAccount(accounts[0]);
+      setChainId(network.chainId);
+      await web3Modal.toggleModal();
+    } catch (err) {
+      updateStatus(err);
+    }
+  }, []);
+
+  const switchNetwork = useCallback(
+    async (network) => {
+      try {
+        await library.provider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: toHex(network) }],
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          try {
+            await library.provider.request({
+              method: "wallet_addEthereumChain",
+              params: [networkConfig[toHex(network)]],
+            });
+          } catch (err) {
+            updateStatus(err);
+          }
+        }
+      }
+    },
+    [library]
+  );
+
+  // check network
+  const checkAndSwitchNetwork = useCallback(
+    async (testnet, funcLog) => {
+      if (!provider) {
+        updateStatus("Please connect wallet first.");
+        return;
+      }
+      if (testnet && chainId !== "4") {
+        //* testnet testnet
+        funcLog(`Please change network to testnet`);
+        switchNetwork("4");
+      }
+      if (!testnet && chainId !== "1") {
+        //* main network
+        funcLog(`Please change network to ethereum Mainnet`);
+        switchNetwork("1");
+      }
+    },
+    [chainId, provider, switchNetwork]
+  );
+
+  const refreshState = () => {
+    setAccount();
+    setChainId();
+  };
+
+  const disconnect = useCallback(async () => {
+    await web3Modal.clearCachedProvider();
+    refreshState();
+  }, []);
+
+  useEffect(() => {
+    if (provider?.on) {
+      const handleAccountsChanged = (...args) => {
+        const accounts = args[0];
+        if (accounts.length === 0) {
+          updateStatus("No authorized account found");
+        } else if (accounts[0] !== account) {
+          const account = accounts[0];
+          setAccount(account);
+          updateStatus(`Connected (address: ${account})`);
+        }
+      };
+
+      const handleChainChanged = (_hexChainId) => {
+        setChainId(_hexChainId);
+      };
+
+      const handleDisconnect = (err) => {
+        console.log("disconnect", err);
+        disconnect();
+      };
+
+      provider.on("accountsChanged", handleAccountsChanged);
+      provider.on("chainChanged", handleChainChanged);
+      provider.on("disconnect", handleDisconnect);
+
+      return () => {
+        if (provider.removeListener) {
+          provider.removeListener("accountsChanged", handleAccountsChanged);
+          provider.removeListener("chainChanged", handleChainChanged);
+          provider.removeListener("disconnect", handleDisconnect);
+        }
+      };
+    }
+  }, [account, disconnect, provider]);
+
   const ctxValue = useMemo(
     () => ({
       //! read only
       contractAddress,
       contractAbi,
       openseaColletionName,
-      isRinkeby,
+      isTestnet,
       //! utils
       parseEtherError,
-      checkAndSwitchNetwork,
       //! load from contract
       price,
       setPrice,
@@ -104,7 +175,11 @@ function App() {
       currPage,
       setCurrPage,
       //! wallet
-      currentAccount,
+      provider,
+      library,
+      chainId,
+      account,
+      checkAndSwitchNetwork,
       //! status
       statusMsg,
       updateStatus,
@@ -113,8 +188,12 @@ function App() {
       contractAbi,
       contractAddress,
       currPage,
-      currentAccount,
-      isRinkeby,
+      provider,
+      library,
+      chainId,
+      account,
+      checkAndSwitchNetwork,
+      isTestnet,
       maxFreeSupply,
       maxPerAddressDuringFreeMint,
       maxPerTxDuringMint,
@@ -126,70 +205,13 @@ function App() {
     ]
   );
 
-  const connectWalletHandler = useCallback(async () => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      alert("Please install MetaMask.");
-      return;
-    }
-
-    try {
-      //* check network
-      await checkAndSwitchNetwork(isRinkeby, updateStatus);
-
-      //* accouts
-      if (currentAccount) {
-        return;
-      }
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      if (accounts.length !== 0) {
-        const account = accounts[0];
-        setCurrentAccount(account);
-        updateStatus(`Connected (address: ${account})`);
-      } else {
-        updateStatus("No authorized account found");
-      }
-    } catch (err) {
-      const errMsg = parseEtherError(err);
-      updateStatus(errMsg);
-    }
-  }, [currentAccount, isRinkeby]);
-
-  useEffect(() => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      return;
-    }
-    const handleAccountChange = (...args) => {
-      const accounts = args[0];
-      if (accounts.length === 0) {
-        updateStatus("No authorized account found");
-      } else if (accounts[0] !== currentAccount) {
-        const account = accounts[0];
-        setCurrentAccount(account);
-        updateStatus(`Connected (address: ${account})`);
-      }
-    };
-    ethereum.on("accountsChanged", handleAccountChange);
-    return () => {
-      ethereum?.removeListener("accountsChanged", handleAccountChange);
-    };
-  });
-
-  useEffect(() => {
-    const connectWallet = () => {
-      connectWalletHandler();
-    };
-    connectWallet();
-  }, [connectWalletHandler]);
-
   //! reture
   return (
     <NFTContext.Provider value={ctxValue}>
       <div className='App'>
-        <Navbar {...{ connectWalletHandler }} />
-        {currPage === PageName.GAME && <Game {...{ connectWalletHandler }} />}
-        {currPage === PageName.MINT && <Mint {...{ connectWalletHandler }} />}
+        <Navbar {...{ connectWallet }} />
+        {currPage === PageName.GAME && <Game {...{ connectWallet }} />}
+        {currPage === PageName.MINT && <Mint {...{ connectWallet }} />}
         <WalletAccount />
         <Status statusMsg={statusMsg} />
       </div>

@@ -18,7 +18,7 @@ export default function VendingMachine(props) {
     contractAddress,
     contractAbi,
     openseaColletionName,
-    isRinkeby,
+    isTestnet,
     //! utils
     parseEtherError,
     checkAndSwitchNetwork,
@@ -38,7 +38,7 @@ export default function VendingMachine(props) {
     //! current page
     setCurrPage,
     //! wallet
-    currentAccount,
+    account,
     //! status
     updateStatus,
   } = useContext(NFTContext);
@@ -51,9 +51,9 @@ export default function VendingMachine(props) {
         return;
       }
 
-      if (currentAccount === null) {
+      if (!account) {
         updateStatus("Please connect wallet first");
-        props.connectWalletHandler();
+        props.connectWallet();
         return;
       }
 
@@ -100,7 +100,7 @@ export default function VendingMachine(props) {
 
     loadMintInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount]);
+  }, [account]);
 
   //! mint quantity
   const add = () => {
@@ -132,7 +132,7 @@ export default function VendingMachine(props) {
         updateStatus("Please install MetaMask.");
         return;
       }
-      if (currentAccount === null) {
+      if (!account) {
         return;
       }
       if (!contractAddress || contractAddress === "") {
@@ -140,7 +140,7 @@ export default function VendingMachine(props) {
       }
       try {
         //* check network
-        await checkAndSwitchNetwork(isRinkeby, updateStatus);
+        await checkAndSwitchNetwork(isTestnet, updateStatus);
 
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -175,7 +175,7 @@ export default function VendingMachine(props) {
       alert(
         `Thank you for your interest. \nGohan-kun is sold out. \nPlease check https://opensea.io/collection/gohan-kun.`
       );
-      window.open(`https://${isRinkeby ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
+      window.open(`https://${isTestnet ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
       return;
     }
 
@@ -184,9 +184,9 @@ export default function VendingMachine(props) {
       updateStatus("Please install MetaMask.");
       return;
     }
-    if (currentAccount === null) {
+    if (!account) {
       updateStatus("Please connect wallet first");
-      props.connectWalletHandler();
+      props.connectWallet();
       return;
     }
     if (isBusy) {
@@ -203,7 +203,7 @@ export default function VendingMachine(props) {
     }
     try {
       //* check network
-      await checkAndSwitchNetwork(isRinkeby, updateStatus);
+      await checkAndSwitchNetwork(isTestnet, updateStatus);
 
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
@@ -227,7 +227,7 @@ export default function VendingMachine(props) {
 
       await nftTxn.wait();
 
-      updateStatus(`Mined, see transction: https://${isRinkeby ? "rinkeby." : ""}etherscan.io/tx/${nftTxn.hash}`);
+      updateStatus(`Mined, see transction: https://${isTestnet ? "rinkeby." : ""}etherscan.io/tx/${nftTxn.hash}`);
       setIsBusy(false);
     } catch (err) {
       const errMsg = parseEtherError(err);
@@ -280,7 +280,7 @@ export default function VendingMachine(props) {
         src={process.env.PUBLIC_URL + "/img/btn_mint_opensea.png"}
         alt='Buy NFTs on Opensea'
         onClick={() => {
-          window.open(`https://${isRinkeby ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
+          window.open(`https://${isTestnet ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
         }}
       />
     );

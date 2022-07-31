@@ -20,7 +20,7 @@ const SocialLink = (props) => {
 };
 
 export default function SocialLinks(props) {
-  const { contractAddress, openseaColletionName, isRinkeby } = useContext(NFTContext);
+  const { contractAddress, openseaColletionName, isTestnet } = useContext(NFTContext);
 
   const links = [
     {
@@ -47,7 +47,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_opensea_hover.png',
       alt: 'Opensea',
       onClick: () => {
-        window.open(`https://${isRinkeby ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
+        window.open(`https://${isTestnet ? 'testnets.' : ''}opensea.io/collection/${openseaColletionName}`);
       },
     },
     {
@@ -56,7 +56,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_etherscan_hover.png',
       alt: 'Etherscan',
       onClick: () => {
-        window.open(`https://${isRinkeby ? 'rinkeby.' : ''}etherscan.io/address/${contractAddress}`);
+        window.open(`https://${isTestnet ? 'rinkeby.' : ''}etherscan.io/address/${contractAddress}`);
       },
     },
     {
@@ -65,7 +65,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_metamask_hover.png',
       alt: 'MetaMask',
       onClick: () => {
-        props.connectWalletHandler();
+        props.connectWallet();
       },
     },
   ];

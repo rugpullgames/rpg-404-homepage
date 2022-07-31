@@ -18,7 +18,7 @@ export default function Mint(props) {
         onClick={handleClick}
       />
       <div ref={ref}>
-        <VendingMachine {...props.connectWalletHandler} />
+        <VendingMachine {...props.connectWallet} />
       </div>
     </div>
   );
