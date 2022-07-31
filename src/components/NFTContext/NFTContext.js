@@ -6,7 +6,7 @@ export const NFTContext = createContext({
   contractAddress: "0xc21dCcA393Fe26D585db6598533b655816A87543",
   contractAbi: contract.abi,
   openseaColletionName: "rpg-404",
-  isRinkeby: false,
+  isTestnet: false,
   //! utils, read only
   parseEtherError: () => {},
   checkAndSwitchNetwork: () => {},
@@ -27,6 +27,8 @@ export const NFTContext = createContext({
   currPage: null,
   setCurrPage: () => {},
   //! wallet
+  provider: null,
+  library: null,
   account: null,
   //! status
   statusMsg: "",

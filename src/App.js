@@ -19,7 +19,7 @@ export const PageName = {
 
 function App() {
   //! read only
-  const { contractAddress, contractAbi, openseaColletionName, isRinkeby } = useContext(NFTContext);
+  const { contractAddress, contractAbi, openseaColletionName, isTestnet } = useContext(NFTContext);
   //! load from contract
   const [price, setPrice] = useState(0);
   const [maxSupply, setMaxSupply] = useState(0);
@@ -50,7 +50,7 @@ function App() {
       contractAddress,
       contractAbi,
       openseaColletionName,
-      isRinkeby,
+      isTestnet,
       //! utils
       parseEtherError,
       checkAndSwitchNetwork,
@@ -81,7 +81,7 @@ function App() {
       contractAddress,
       currPage,
       account,
-      isRinkeby,
+      isTestnet,
       maxFreeSupply,
       maxPerAddressDuringFreeMint,
       maxPerTxDuringMint,

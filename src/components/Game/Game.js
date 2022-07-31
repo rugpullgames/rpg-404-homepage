@@ -19,7 +19,7 @@ export default function Game(props) {
     contractAbi,
     parseEtherError,
     checkAndSwitchNetwork,
-    isRinkeby,
+    isTestnet,
     updateStatus,
     setCurrPage,
   } = useContext(NFTContext);
@@ -33,7 +33,7 @@ export default function Game(props) {
     }
     try {
       //* check network
-      await checkAndSwitchNetwork(isRinkeby, updateStatus);
+      await checkAndSwitchNetwork(isTestnet, updateStatus);
 
       if (account === null) {
         updateStatus("Please connect wallet first");
