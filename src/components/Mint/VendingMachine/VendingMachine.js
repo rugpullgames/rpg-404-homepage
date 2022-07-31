@@ -51,7 +51,7 @@ export default function VendingMachine(props) {
         return;
       }
 
-      if (account === null) {
+      if (!account) {
         updateStatus("Please connect wallet first");
         props.connectWallet();
         return;
@@ -132,7 +132,7 @@ export default function VendingMachine(props) {
         updateStatus("Please install MetaMask.");
         return;
       }
-      if (account === null) {
+      if (!account) {
         return;
       }
       if (!contractAddress || contractAddress === "") {
@@ -184,7 +184,7 @@ export default function VendingMachine(props) {
       updateStatus("Please install MetaMask.");
       return;
     }
-    if (account === null) {
+    if (!account) {
       updateStatus("Please connect wallet first");
       props.connectWallet();
       return;

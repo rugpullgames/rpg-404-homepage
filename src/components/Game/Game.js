@@ -35,7 +35,7 @@ export default function Game(props) {
       //* check network
       await checkAndSwitchNetwork(isTestnet, updateStatus);
 
-      if (account === null) {
+      if (!account) {
         updateStatus("Please connect wallet first");
         props.connectWallet();
         return;
