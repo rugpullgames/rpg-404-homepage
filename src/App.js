@@ -86,7 +86,8 @@ function App() {
   const checkAndSwitchNetwork = useCallback(
     async (testnet, funcLog) => {
       if (!provider) {
-        throw new Error("Please connect wallet first.");
+        updateStatus("Please connect wallet first.");
+        return;
       }
       if (testnet && chainId !== "4") {
         //* testnet testnet
