@@ -6,7 +6,7 @@ import Status from "./components/Status";
 import Mint from "./components/Mint";
 import Game from "./components/Game";
 import NFTContext from "./components/NFTContext";
-import { toHex, parseEtherError, checkAndSwitchNetwork } from "./utils/utils";
+import { toHex, parseEtherError } from "./utils/utils";
 import { web3Modal } from "./web3/web3provider";
 import { networkConfig } from "./web3/networks";
 import "./App.css";
@@ -34,7 +34,6 @@ function App() {
   const [provider, setProvider] = useState();
   const [library, setLibrary] = useState();
   const [chainId, setChainId] = useState();
-  const [network, setNetwork] = useState();
   const [account, setAccount] = useState();
   //! status
   const [statusMsg, setStatusMsg] = useState("");
@@ -43,55 +42,6 @@ function App() {
     console.log(msg);
     setStatusMsg(`Status: ${msg}`);
   };
-
-  const ctxValue = useMemo(
-    () => ({
-      //! read only
-      contractAddress,
-      contractAbi,
-      openseaColletionName,
-      isTestnet,
-      //! utils
-      parseEtherError,
-      checkAndSwitchNetwork,
-      //! load from contract
-      price,
-      setPrice,
-      maxSupply,
-      setMaxSupply,
-      maxFreeSupply,
-      setMaxFreeSupply,
-      totalSupply,
-      setTotalSupply,
-      maxPerTxDuringMint,
-      setMaxPerTxDuringMint,
-      maxPerAddressDuringFreeMint,
-      setMaxPerAddressDuringFreeMint,
-      //! current page
-      currPage,
-      setCurrPage,
-      //! wallet
-      account,
-      //! status
-      statusMsg,
-      updateStatus,
-    }),
-    [
-      contractAbi,
-      contractAddress,
-      currPage,
-      account,
-      isTestnet,
-      maxFreeSupply,
-      maxPerAddressDuringFreeMint,
-      maxPerTxDuringMint,
-      maxSupply,
-      openseaColletionName,
-      price,
-      statusMsg,
-      totalSupply,
-    ]
-  );
 
   const connectWallet = useCallback(async () => {
     try {
@@ -109,36 +59,58 @@ function App() {
     }
   }, []);
 
-  const switchNetwork = async () => {
-    try {
-      await library.provider.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: toHex(network) }],
-      });
-    } catch (switchError) {
-      if (switchError.code === 4902) {
-        try {
-          await library.provider.request({
-            method: "wallet_addEthereumChain",
-            params: [networkConfig[toHex(network)]],
-          });
-        } catch (err) {
-          updateStatus(err);
+  const switchNetwork = useCallback(
+    async (network) => {
+      try {
+        await library.provider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: toHex(network) }],
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          try {
+            await library.provider.request({
+              method: "wallet_addEthereumChain",
+              params: [networkConfig[toHex(network)]],
+            });
+          } catch (err) {
+            updateStatus(err);
+          }
         }
       }
-    }
-  };
+    },
+    [library]
+  );
+
+  // check network
+  const checkAndSwitchNetwork = useCallback(
+    async (testnet, funcLog) => {
+      if (!provider) {
+        throw new Error("Please connect wallet first.");
+      }
+      if (testnet && chainId !== "4") {
+        //* testnet testnet
+        funcLog(`Please change network to testnet`);
+        switchNetwork("4");
+      }
+      if (!testnet && chainId !== "1") {
+        //* main network
+        funcLog(`Please change network to ethereum Mainnet`);
+        switchNetwork("1");
+      }
+    },
+    [chainId, provider, switchNetwork]
+  );
 
   const refreshState = () => {
     setAccount();
     setChainId();
-    setNetwork("");
   };
 
-  const disconnect = async () => {
+  const disconnect = useCallback(async () => {
     await web3Modal.clearCachedProvider();
     refreshState();
-  };
+  }, []);
 
   useEffect(() => {
     if (provider?.on) {
@@ -174,14 +146,57 @@ function App() {
         }
       };
     }
-  }, [provider]);
+  }, [account, disconnect, provider]);
 
-  useEffect(() => {
-    const connectWallet = () => {
-      // connectWallet();
-    };
-    connectWallet();
-  }, [connectWallet]);
+  const ctxValue = useMemo(
+    () => ({
+      //! read only
+      contractAddress,
+      contractAbi,
+      openseaColletionName,
+      isTestnet,
+      //! utils
+      parseEtherError,
+      //! load from contract
+      price,
+      setPrice,
+      maxSupply,
+      setMaxSupply,
+      maxFreeSupply,
+      setMaxFreeSupply,
+      totalSupply,
+      setTotalSupply,
+      maxPerTxDuringMint,
+      setMaxPerTxDuringMint,
+      maxPerAddressDuringFreeMint,
+      setMaxPerAddressDuringFreeMint,
+      //! current page
+      currPage,
+      setCurrPage,
+      //! wallet
+      checkAndSwitchNetwork,
+      account,
+      //! status
+      statusMsg,
+      updateStatus,
+    }),
+    [
+      contractAbi,
+      contractAddress,
+      currPage,
+      account,
+      checkAndSwitchNetwork,
+      isTestnet,
+      maxFreeSupply,
+      maxPerAddressDuringFreeMint,
+      maxPerTxDuringMint,
+      maxSupply,
+      openseaColletionName,
+      price,
+      statusMsg,
+      totalSupply,
+    ]
+  );
 
   //! reture
   return (

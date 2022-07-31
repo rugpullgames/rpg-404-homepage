@@ -4,31 +4,6 @@ export const toHex = (num) => {
   return "0x" + val.toString(16);
 };
 
-// check network
-export const checkAndSwitchNetwork = async (testnet, funcLog) => {
-  const { ethereum } = window;
-  if (!ethereum) {
-    throw new Error("Please install MetaMask.");
-  }
-  const network = await ethereum.networkVersion;
-  if (testnet && network !== "4") {
-    //* testnet testnet
-    funcLog(`Please change network to testnet`);
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: toHex(4) }],
-    });
-  }
-  if (!testnet && network !== "1") {
-    //* main network
-    funcLog(`Please change network to ethereum Mainnet`);
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: toHex(1) }],
-    });
-  }
-};
-
 // parse error from MetaMask
 export const parseEtherError = (err) => {
   let msg = "error";
