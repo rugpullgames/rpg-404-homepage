@@ -185,7 +185,7 @@ export default function Game(props) {
           <img className='game-cover-img' src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt='Game Cover' />
           {!showNftPanel && (
             <img
-              className={`btn-game-play ${account ? "btn-clickable" : "btn-unclickable"}`}
+              className='btn-game-play btn-clickable'
               src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
               alt='Play Game Button'
               onClick={playGame}
@@ -193,7 +193,7 @@ export default function Game(props) {
           )}
           {!showNftPanel && (
             <img
-              className={`btn-select-nft ${account ? "btn-clickable" : "btn-unclickable"}`}
+              className='btn-select-nft btn-clickable'
               src={process.env.PUBLIC_URL + "/img/btn_game_select_nft.png"}
               alt='Select NFT Button'
               onClick={openNftPanel}
