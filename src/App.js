@@ -87,16 +87,16 @@ function App() {
     async (testnet, funcLog) => {
       if (!provider) {
         updateStatus("Please connect wallet first.");
-        throw new Error('Please connect wallet first.');
+        throw new Error("Please connect wallet first.");
       }
-      if (testnet && chainId !== "4") {
+      if (testnet && chainId !== 4) {
         //* testnet testnet
         funcLog(`Please change network to testnet`);
         switchNetwork("4");
       }
-      if (!testnet && chainId !== "1") {
+      if (!testnet && chainId !== 1) {
         //* main network
-        funcLog(`Please change network to ethereum Mainnet`);
+        funcLog(`Please change network to Ethereum Mainnet`);
         switchNetwork("1");
       }
     },
@@ -208,7 +208,7 @@ function App() {
   //! reture
   return (
     <NFTContext.Provider value={ctxValue}>
-      <div className='App'>
+      <div className="App">
         <Navbar {...{ connectWallet }} />
         {currPage === PageName.GAME && <Game {...{ connectWallet }} />}
         {currPage === PageName.MINT && <Mint {...{ connectWallet }} />}
