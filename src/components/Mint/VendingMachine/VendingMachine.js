@@ -53,7 +53,6 @@ export default function VendingMachine(props) {
 
       if (!account) {
         updateStatus("Please connect wallet first");
-        props.connectWallet();
         return;
       }
 
