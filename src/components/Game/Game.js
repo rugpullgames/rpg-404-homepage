@@ -35,12 +35,6 @@ export default function Game(props) {
       //* check network
       await checkAndSwitchNetwork(isTestnet, updateStatus);
 
-      if (!account) {
-        updateStatus("Please connect wallet first");
-        props.connectWallet();
-        return;
-      }
-
       updateStatus(contractAddress);
       if (!contractAddress || contractAddress === "") {
         updateStatus("Contract is not available");
@@ -52,7 +46,11 @@ export default function Game(props) {
 
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+      const nftContract = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        signer
+      );
 
       updateStatus("Loading NFTs from blockchain...");
 
@@ -61,12 +59,18 @@ export default function Game(props) {
       const meta = [];
       if (nfts.length > 0) {
         //* show selected switch nft
-        updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
+        updateStatus(
+          `You have ${nfts.length} ${
+            nfts.length > 1 ? "NFTs" : "NFT"
+          }. Loading metadata...`
+        );
         for (const bg of nfts) {
           const nftIdx = bg.toNumber();
           nftContract.tokenURI(nftIdx).then((tokenMetadataURI) => {
             if (tokenMetadataURI.startsWith("ipfs://")) {
-              tokenMetadataURI = `https://rpg.mypinata.cloud/ipfs/${tokenMetadataURI.split("ipfs://")[1]}`;
+              tokenMetadataURI = `https://rpg.mypinata.cloud/ipfs/${
+                tokenMetadataURI.split("ipfs://")[1]
+              }`;
             }
             // console.log(tokenMetadataURI);
             fetch(tokenMetadataURI)
@@ -76,9 +80,13 @@ export default function Game(props) {
                 meta.push(tokenMetadata);
                 setMetadata([...meta]);
                 updateStatus(
-                  `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
-                    nfts.length
-                  } loaded. ${metadata.length === nfts.length ? "Select your favor NFT and play." : ""}`
+                  `You have ${nfts.length} ${
+                    nfts.length > 1 ? "NFTs" : "NFT"
+                  }. ${meta.length} / ${nfts.length} loaded. ${
+                    metadata.length === nfts.length
+                      ? "Select your favor NFT and play."
+                      : ""
+                  }`
                 );
               })
               .catch((err) => {
@@ -89,7 +97,9 @@ export default function Game(props) {
         }
       } else {
         //* you don't have any RPG404 nfts, please mint or buy on opensea.io
-        updateStatus(`You don't have any RPG404 NFTs. Please mint or buy on opensea.io`);
+        updateStatus(
+          `You don't have any RPG404 NFTs. Please mint or buy on opensea.io`
+        );
       }
     } catch (err) {
       const errMsg = parseEtherError(err);
@@ -169,42 +179,50 @@ export default function Game(props) {
   };
 
   return (
-    <div className='game'>
-      <img className='game-bg' src={process.env.PUBLIC_URL + "/img/game_bg.png"} alt='Game Background' />
+    <div className="game">
+      <img
+        className="game-bg"
+        src={process.env.PUBLIC_URL + "/img/game_bg.png"}
+        alt="Game Background"
+      />
       <iframe
-        id='godot-game'
-        className='game-iframe'
-        title='RPG 404'
+        id="godot-game"
+        className="game-iframe"
+        title="RPG 404"
         src={process.env.PUBLIC_URL + "/game/game.html"}
-        frameBorder='0'
-        scrolling='no'
-        crossOrigin='anonymous'
+        frameBorder="0"
+        scrolling="no"
+        crossOrigin="anonymous"
       />
       {!playing && (
-        <div className='game-cover'>
-          <img className='game-cover-img' src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt='Game Cover' />
+        <div className="game-cover">
+          <img
+            className="game-cover-img"
+            src={process.env.PUBLIC_URL + "/img/game_cover.png"}
+            alt="Game Cover"
+          />
           {!showNftPanel && (
             <img
-              className='btn-game-play btn-clickable'
+              className="btn-game-play btn-clickable"
               src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
-              alt='Play Game Button'
+              alt="Play Game Button"
               onClick={playGame}
             />
           )}
           {!showNftPanel && (
             <img
-              className='btn-select-nft btn-clickable'
+              className="btn-select-nft btn-clickable"
               src={process.env.PUBLIC_URL + "/img/btn_game_select_nft.png"}
-              alt='Select NFT Button'
+              alt="Select NFT Button"
               onClick={openNftPanel}
             />
           )}
         </div>
       )}
       <img
-        className='btn-game-to-mint'
+        className="btn-game-to-mint"
         src={process.env.PUBLIC_URL + "/img/btn_game_to_mint.png"}
-        alt='Mint Button'
+        alt="Mint Button"
         onClick={() => setCurrPage(PageName.MINT)}
       />
       {showNftPanel ? (

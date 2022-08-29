@@ -87,7 +87,7 @@ function App() {
     async (testnet, funcLog) => {
       if (!provider) {
         updateStatus("Please connect wallet first.");
-        return;
+        throw new Error('Please connect wallet first.');
       }
       if (testnet && chainId !== "4") {
         //* testnet testnet
