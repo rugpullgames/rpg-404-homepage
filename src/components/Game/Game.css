@@ -41,6 +41,17 @@
   height: 100%;
 }
 
+.game-guide {
+  position: absolute;
+  /* background-color: blueviolet; */
+  right: 10px;
+  bottom: 10px;
+  font-size: 8px;
+  color: white;
+  text-align: left;
+  pointer-events: none;
+}
+
 .btn-game-play {
   position: absolute;
   top: 100px;
@@ -148,6 +159,18 @@
     right: 0;
     top: 0;
     bottom: 0;
+  }
+
+  .game-guide {
+    position: relative;
+    /* background-color: blueviolet; */
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    font-size: 8px;
+    color: white;
+    text-align: right;
+    pointer-events: none;
   }
 
   .btn-game-play {

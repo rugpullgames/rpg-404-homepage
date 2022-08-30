@@ -13,6 +13,7 @@ export default function Game(props) {
   const [showNftPanelAnim, setShowNftPanelAnim] = useState("open");
   const [playing, setPlaying] = useState(false);
   const [nftDetail, setNftDetail] = useState(null);
+  const [guideMsg, setGuideMsg] = useState(null);
 
   //! web3 API in NFTContext
   const {
@@ -117,6 +118,17 @@ export default function Game(props) {
     }
   };
 
+  //! show guide
+  const showGuild = (msg) => {
+    if (msg) {
+      setGuideMsg(msg);
+    }
+  };
+
+  const hideGuild = () => {
+    setGuideMsg(null);
+  };
+
   //! open NFT panel
   const openNftPanel = () => {
     if (account) {
@@ -180,20 +192,39 @@ export default function Game(props) {
         <div className="game-cover">
           <img className="game-cover-img" src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt="Game Cover" />
           {!showNftPanel && (
-            <img
-              className="btn-game-play btn-clickable"
-              src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
-              alt="Play Game Button"
-              onClick={playGame}
-            />
-          )}
-          {!showNftPanel && (
-            <img
-              className="btn-select-nft btn-clickable"
-              src={process.env.PUBLIC_URL + "/img/btn_game_select_nft.png"}
-              alt="Select NFT Button"
-              onClick={openNftPanel}
-            />
+            <div>
+              <img
+                className="btn-game-play btn-clickable"
+                src={process.env.PUBLIC_URL + "/img/btn_game_play.png"}
+                alt="Play Game Button"
+                onClick={playGame}
+                onMouseOver={() => {
+                  showGuild(`Press "Space", "Enter", or "Mouse Left" to jump.`);
+                }}
+                onMouseOut={hideGuild}
+                onTouchStart={() => {
+                  showGuild(`Touch panel to jump.`);
+                }}
+                onTouchEnd={hideGuild}
+                onTouchCancel={hideGuild}
+              />
+              <img
+                className="btn-select-nft btn-clickable"
+                src={process.env.PUBLIC_URL + "/img/btn_game_select_nft.png"}
+                alt="Select NFT Button"
+                onClick={openNftPanel}
+                onMouseOver={() => {
+                  showGuild(`Select a "RPG 404" NFT as your player.`);
+                }}
+                onMouseOut={hideGuild}
+                onTouchStart={() => {
+                  showGuild(`Select a "RPG 404" NFT as your player.`);
+                }}
+                onTouchEnd={hideGuild}
+                onTouchCancel={hideGuild}
+              />
+              <div className="game-guide">{guideMsg}</div>
+            </div>
           )}
         </div>
       )}
