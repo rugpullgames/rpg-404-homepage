@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./NFTPanel.css";
 
-export default function NFT(props) {
+export default function NFTItem(props) {
   const [posX, setPosX] = useState(null);
   const selectNft = () => {
     props.selectNft(props.metadata);

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import NFT from "./NFT";
+import NFTItem from "./NFTItem";
 import "./NFTPanel.css";
 
 export default function NFTPanel(props) {
@@ -27,7 +27,7 @@ export default function NFTPanel(props) {
             hideNftPanel: props.hideNftPanel,
             scrollPanel,
           };
-          return <NFT {...attr} key={`nft-metadata-${mt.dna}`} />;
+          return <NFTItem {...attr} key={`nft-metadata-${mt.dna}`} />;
         })}
       </div>
     </div>
