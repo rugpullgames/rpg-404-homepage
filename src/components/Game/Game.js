@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import NFTContext from "../NFTContext";
 import NFTPanel from "./NFTPanel";
+import NFTDetail from "./NFTDetail";
 import { PageName } from "../../App";
 import "./Game.css";
 
@@ -11,6 +12,7 @@ export default function Game(props) {
   const [showNftPanel, setShowNftPanel] = useState(false);
   const [showNftPanelAnim, setShowNftPanelAnim] = useState("open");
   const [playing, setPlaying] = useState(false);
+  const [nftDetail, setNftDetail] = useState(null);
 
   //! web3 API in NFTContext
   const {
@@ -202,16 +204,20 @@ export default function Game(props) {
         onClick={() => setCurrPage(PageName.MINT)}
       />
       {showNftPanel ? (
-        <div className={showNftPanelAnim}>
-          <NFTPanel
-            metadata={metadata}
-            selectNft={selectNft}
-            hideNftPanel={async () => {
-              setShowNftPanelAnim("close");
-              await new Promise((r) => setTimeout(r, 200));
-              setShowNftPanel(false);
-            }}
-          />
+        <div>
+          <div className={showNftPanelAnim}>
+            <NFTPanel
+              metadata={metadata}
+              selectNft={selectNft}
+              setNftDetail={setNftDetail}
+              hideNftPanel={async () => {
+                setShowNftPanelAnim("close");
+                await new Promise((r) => setTimeout(r, 200));
+                setShowNftPanel(false);
+              }}
+            />
+          </div>
+          <NFTDetail metadata={nftDetail} />
         </div>
       ) : null}
     </div>

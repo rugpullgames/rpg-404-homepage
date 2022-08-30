@@ -73,12 +73,6 @@
   filter: brightness(1);
 }
 
-.nft-detail {
-  background-color: blueviolet;
-  width: 400px;
-  height: 600px;
-}
-
 @media only screen and (max-width: 900px) {
   .nft-panel {
     position: absolute;

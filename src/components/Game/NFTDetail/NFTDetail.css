@@ -1,0 +1,12 @@
+.nft-detail {
+  position: absolute;
+  /* background-color: blueviolet; */
+  top: 0px;
+  width: 400px;
+  height: 220px;
+  font-size: 8px;
+  color: white;
+  text-align: left;
+  z-index: 300;
+  pointer-events: none;
+}

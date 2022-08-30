@@ -25,6 +25,7 @@ export default function NFTPanel(props) {
             metadata: mt,
             selectNft: props.selectNft,
             hideNftPanel: props.hideNftPanel,
+            setNftDetail: props.setNftDetail,
             scrollPanel,
           };
           return <NFTItem {...attr} key={`nft-metadata-${mt.dna}`} />;

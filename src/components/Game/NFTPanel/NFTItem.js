@@ -8,6 +8,14 @@ export default function NFTItem(props) {
     props.hideNftPanel();
   };
 
+  const hoverNft = () => {
+    props.setNftDetail(props.metadata);
+  };
+
+  const unhoverNft = () => {
+    props.setNftDetail(null);
+  };
+
   const dragStartHandler = (e) => {
     setPosX(e.clientX);
     e.dataTransfer.setDragImage(e.target, 100000, 0);
@@ -22,7 +30,15 @@ export default function NFTItem(props) {
   };
 
   return (
-    <div className="nft-item" onClick={selectNft} draggable="true" onDragStart={dragStartHandler} onDrag={dragHandler}>
+    <div
+      className="nft-item"
+      onClick={selectNft}
+      onMouseOver={hoverNft}
+      onMouseOut={unhoverNft}
+      draggable="true"
+      onDragStart={dragStartHandler}
+      onDrag={dragHandler}
+    >
       <img
         className="nft-item-loading"
         src={process.env.PUBLIC_URL + "/img/placehold_nft_loading.png"}
