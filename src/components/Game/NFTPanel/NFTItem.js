@@ -35,6 +35,9 @@ export default function NFTItem(props) {
       onClick={selectNft}
       onMouseOver={hoverNft}
       onMouseOut={unhoverNft}
+      onTouchStart={hoverNft}
+      onTouchEnd={unhoverNft}
+      onTouchCancel={unhoverNft}
       draggable="true"
       onDragStart={dragStartHandler}
       onDrag={dragHandler}
