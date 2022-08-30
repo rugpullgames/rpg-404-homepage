@@ -25,7 +25,7 @@
       }
 
       .godot {
-        font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+        font-family: "Noto Sans", "Droid Sans", Arial, sans-serif;
         color: #e0e0e0;
         background-color: #3b3943;
         background-image: linear-gradient(to bottom, #403e48, #35333c);
@@ -34,7 +34,7 @@
       }
 
       /* Status display
-		 * ============== */
+* ============== */
 
       #status {
         position: absolute;
@@ -101,24 +101,31 @@
       #status-indeterminate > div:nth-child(1) {
         transform: rotate(22.5deg);
       }
+
       #status-indeterminate > div:nth-child(2) {
         transform: rotate(67.5deg);
       }
+
       #status-indeterminate > div:nth-child(3) {
         transform: rotate(112.5deg);
       }
+
       #status-indeterminate > div:nth-child(4) {
         transform: rotate(157.5deg);
       }
+
       #status-indeterminate > div:nth-child(5) {
         transform: rotate(202.5deg);
       }
+
       #status-indeterminate > div:nth-child(6) {
         transform: rotate(247.5deg);
       }
+
       #status-indeterminate > div:nth-child(7) {
         transform: rotate(292.5deg);
       }
+
       #status-indeterminate > div:nth-child(8) {
         transform: rotate(337.5deg);
       }
@@ -135,6 +142,7 @@
 <link rel='apple-touch-icon' href='game.apple-touch-icon.png'/>
 
   </head>
+
   <body>
     <canvas id="canvas">
       HTML5 canvas appears to be unsupported in the current browser.<br />
@@ -162,21 +170,22 @@
     <script type="text/javascript">
       //<![CDATA[
 
-      const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"game","experimentalVK":false,"fileSizes":{"game.pck":913424,"game.wasm":13351459},"focusCanvas":true,"gdnativeLibs":[]};
+      const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"game","experimentalVK":false,"fileSizes":{"game.pck":1057648,"game.wasm":17860295},"focusCanvas":true,"gdnativeLibs":[]};
       var engine = new Engine(GODOT_CONFIG);
 
       var startGame = function () {
         const INDETERMINATE_STATUS_STEP_MS = 100;
-        var statusOutline = document.getElementById('status-outline');
-        var statusProgress = document.getElementById('status-progress');
-        var statusProgressInner = document.getElementById('status-progress-inner');
-        var statusIndeterminate = document.getElementById('status-indeterminate');
-        var statusNotice = document.getElementById('status-notice');
+        var statusOutline = document.getElementById("status-outline");
+        var statusProgress = document.getElementById("status-progress");
+        var statusProgressInner = document.getElementById("status-progress-inner");
+        var statusIndeterminate = document.getElementById("status-indeterminate");
+        var statusNotice = document.getElementById("status-notice");
 
         var initializing = true;
-        var statusMode = 'hidden';
+        var statusMode = "hidden";
 
         var animationCallbacks = [];
+
         function animate(time) {
           animationCallbacks.forEach((callback) => callback(time));
           requestAnimationFrame(animate);
@@ -186,38 +195,38 @@
         function setStatusMode(mode) {
           if (statusMode === mode || !initializing) return;
           [statusProgress, statusOutline, statusIndeterminate, statusNotice].forEach((elem) => {
-            elem.style.display = 'none';
+            elem.style.display = "none";
           });
           animationCallbacks = animationCallbacks.filter(function (value) {
             return value != animateStatusIndeterminate;
           });
           switch (mode) {
-            case 'progress':
-              statusOutline.style.display = 'block';
-              statusProgress.style.display = 'block';
+            case "progress":
+              statusOutline.style.display = "block";
+              statusProgress.style.display = "block";
               break;
-            case 'indeterminate':
-              statusIndeterminate.style.display = 'block';
+            case "indeterminate":
+              statusIndeterminate.style.display = "block";
               animationCallbacks.push(animateStatusIndeterminate);
               break;
-            case 'notice':
-              statusNotice.style.display = 'block';
+            case "notice":
+              statusNotice.style.display = "block";
               break;
-            case 'hidden':
+            case "hidden":
               break;
             default:
-              throw new Error('Invalid status mode');
+              throw new Error("Invalid status mode");
           }
           statusMode = mode;
         }
 
         function animateStatusIndeterminate(ms) {
           var i = Math.floor((ms / INDETERMINATE_STATUS_STEP_MS) % 8);
-          if (statusIndeterminate.children[i].style.borderTopColor == '') {
+          if (statusIndeterminate.children[i].style.borderTopColor == "") {
             Array.prototype.slice.call(statusIndeterminate.children).forEach((child) => {
-              child.style.borderTopColor = '';
+              child.style.borderTopColor = "";
             });
-            statusIndeterminate.children[i].style.borderTopColor = '#dfdfdf';
+            statusIndeterminate.children[i].style.borderTopColor = "#dfdfdf";
           }
         }
 
@@ -225,10 +234,10 @@
           while (statusNotice.lastChild) {
             statusNotice.removeChild(statusNotice.lastChild);
           }
-          var lines = text.split('\n');
+          var lines = text.split("\n");
           lines.forEach((line) => {
             statusNotice.appendChild(document.createTextNode(line));
-            statusNotice.appendChild(document.createElement('br'));
+            statusNotice.appendChild(document.createElement("br"));
           });
         }
 
@@ -236,33 +245,33 @@
           var msg = err.message || err;
           console.error(msg);
           setStatusNotice(msg);
-          setStatusMode('notice');
+          setStatusMode("notice");
           initializing = false;
         }
 
         if (!Engine.isWebGLAvailable()) {
-          displayFailureNotice('WebGL not available');
+          displayFailureNotice("WebGL not available");
         } else {
-          setStatusMode('indeterminate');
+          setStatusMode("indeterminate");
           engine
             .startGame({
               onProgress: function (current, total) {
                 if (total > 0) {
-                  statusProgressInner.style.width = (current / total) * 100 + '%';
-                  setStatusMode('progress');
+                  statusProgressInner.style.width = (current / total) * 100 + "%";
+                  setStatusMode("progress");
                   if (current === total) {
                     // wait for progress bar animation
                     setTimeout(() => {
-                      setStatusMode('indeterminate');
+                      setStatusMode("indeterminate");
                     }, 500);
                   }
                 } else {
-                  setStatusMode('indeterminate');
+                  setStatusMode("indeterminate");
                 }
               },
             })
             .then(() => {
-              setStatusMode('hidden');
+              setStatusMode("hidden");
               initializing = false;
             }, displayFailureNotice);
         }
