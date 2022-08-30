@@ -40,8 +40,7 @@ export default function WalletAccount() {
       if (account) {
         setName(truncate(account, 4));
         const nameOrAddress = await getName(account);
-        console.log(nameOrAddress);
-        if (nameOrAddress && nameOrAddress.length === 42 && nameOrAddress.startsWith("0x")) {
+        if (!nameOrAddress || (nameOrAddress && nameOrAddress.length === 42 && nameOrAddress.startsWith("0x"))) {
           setName(truncate(account, 4));
         } else {
           setName(nameOrAddress);
@@ -52,8 +51,8 @@ export default function WalletAccount() {
     };
 
     showAccount();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
-  return <div className='wallet-acc'>{name}</div>;
+  return <div className="wallet-acc">{name}</div>;
 }
