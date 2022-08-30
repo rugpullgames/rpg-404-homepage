@@ -1,41 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
+import NFT from "./NFT";
 import "./NFTPanel.css";
-
-export const NFT = (props) => {
-  const [posX, setPosX] = useState(null);
-  const selectNft = () => {
-    props.selectNft(props.metadata);
-    props.hideNftPanel();
-  };
-
-  const dragStartHandler = (e) => {
-    setPosX(e.clientX);
-    e.dataTransfer.setDragImage(e.target, 100000, 0);
-  };
-
-  const dragHandler = (e) => {
-    if (e.clientX > 0) {
-      props.scrollPanel(posX - e.clientX);
-      setPosX(e.clientX);
-    }
-    e.dataTransfer.setDragImage(e.target, 100000, 0);
-  };
-
-  return (
-    <div className='nft-item' onClick={selectNft} draggable='true' onDragStart={dragStartHandler} onDrag={dragHandler}>
-      <img
-        className='nft-item-loading'
-        src={process.env.PUBLIC_URL + "/img/placehold_nft_loading.png"}
-        alt='NFT Loading'
-      />
-      <img
-        className='nft-image'
-        src={`https://rpg.mypinata.cloud/ipfs/${props.metadata.image.split("ipfs://")[1]}`}
-        alt={props.metadata.name}
-      />
-    </div>
-  );
-};
 
 export default function NFTPanel(props) {
   const container = useRef();
@@ -53,8 +18,8 @@ export default function NFTPanel(props) {
   };
 
   return (
-    <div className='nft-panel'>
-      <div className='nft-container' ref={container} onWheel={onScrollHandler}>
+    <div className="nft-panel">
+      <div className="nft-container" ref={container} onWheel={onScrollHandler}>
         {props.metadata.map((mt) => {
           const attr = {
             metadata: mt,
