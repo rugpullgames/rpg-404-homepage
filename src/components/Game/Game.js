@@ -181,7 +181,7 @@ export default function Game(props) {
       <img className="game-bg" src={process.env.PUBLIC_URL + "/img/game_bg.png"} alt="Game Background" />
       <iframe
         id="godot-game"
-        className="game-iframe"
+        className={`game-iframe ${playing ? "game-iframe-show" : "game-iframe-hide"}`}
         title="RPG 404"
         src={process.env.PUBLIC_URL + "/game/game.html"}
         frameBorder="0"

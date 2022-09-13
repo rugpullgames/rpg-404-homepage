@@ -31,6 +31,14 @@
   height: 300px;
 }
 
+.game-iframe-show {
+  display: block;
+}
+
+.game-iframe-hide {
+  display: none;
+}
+
 .game-cover-img {
   position: absolute;
   left: 0;
