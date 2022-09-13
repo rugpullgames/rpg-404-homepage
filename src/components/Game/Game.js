@@ -1,10 +1,34 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 import { ethers } from "ethers";
 import NFTContext from "../NFTContext";
 import NFTPanel from "./NFTPanel";
 import NFTDetail from "./NFTDetail";
 import { PageName } from "../../App";
 import "./Game.css";
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+}
 
 export default function Game(props) {
   const [metadata, setMetadata] = useState([]);
@@ -14,6 +38,9 @@ export default function Game(props) {
   const [playing, setPlaying] = useState(false);
   const [nftDetail, setNftDetail] = useState(null);
   const [guideMsg, setGuideMsg] = useState(null);
+
+  const isMoblie = useMediaQuery({ query: "(max-width: 599px)" });
+  const { height, width } = useWindowDimensions();
 
   //! web3 API in NFTContext
   const {
@@ -178,7 +205,9 @@ export default function Game(props) {
 
   return (
     <div className="game">
-      <img className="game-bg" src={process.env.PUBLIC_URL + "/img/game_bg.png"} alt="Game Background" />
+      {(!playing || !isMoblie) && (
+        <img className="game-bg" src={process.env.PUBLIC_URL + "/img/game_bg.png"} alt="Game Background" />
+      )}
       <iframe
         id="godot-game"
         className={`game-iframe ${playing ? "game-iframe-show" : "game-iframe-hide"}`}
@@ -187,7 +216,12 @@ export default function Game(props) {
         frameBorder="0"
         scrolling="no"
         crossOrigin="anonymous"
+        style={{
+          zoom: isMoblie ? (height / width) * 0.9 : 1,
+          left: isMoblie ? (height / width) * -40 : 0,
+        }}
       />
+      {playing && <div className="game-iframe-cover"></div>}
       {!playing && (
         <div className="game-cover">
           <img className="game-cover-img" src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt="Game Cover" />
