@@ -216,10 +216,14 @@ export default function Game(props) {
         frameBorder="0"
         scrolling="no"
         crossOrigin="anonymous"
-        style={{
-          zoom: isMoblie ? (height / width) * 0.9 : 1,
-          left: isMoblie ? (height / width) * -40 : 0,
-        }}
+        style={
+          isMoblie
+            ? {
+                zoom: (height / width) * 0.9,
+                left: (height / width) * -40,
+              }
+            : {}
+        }
       />
       {playing && <div className="game-iframe-cover"></div>}
       {!playing && (
