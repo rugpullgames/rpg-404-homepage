@@ -10,6 +10,7 @@ import { toHex, parseEtherError } from "./utils/utils";
 import { web3Modal } from "./web3/web3provider";
 import { networkConfig } from "./web3/networks";
 import "./App.css";
+import detectEthereumProvider from "@metamask/detect-provider";
 
 //! as Enum
 export const PageName = {
@@ -56,6 +57,46 @@ function App() {
       await web3Modal.toggleModal();
     } catch (err) {
       updateStatus(err);
+    }
+
+    const providerMetaMask = await detectEthereumProvider();
+    if (providerMetaMask) {
+      console.log("Ethereum successfully detected!");
+      const chainId = await providerMetaMask.request({
+        method: "eth_chainId",
+      });
+      console.log(chainId);
+      if (providerMetaMask !== window.ethereum) {
+        console.error("Do you have multiple wallets installed?");
+      }
+
+      const handleAccountsChanged = (accounts) => {
+        console.log("=================== accounts");
+        console.log(accounts);
+        var currAccount;
+        if (accounts.length === 0) {
+          // MetaMask is locked or the user has not connected any accounts
+          console.log("Please connect to MetaMask.");
+        } else if (accounts[0] !== currAccount) {
+          currAccount = accounts[0];
+          console.log("=================== currAccount");
+          console.log(currAccount);
+          // Do any other work!
+        }
+      };
+
+      providerMetaMask
+        .request({ method: "eth_accounts" })
+        .then(handleAccountsChanged)
+        .catch((err) => {
+          // Some unexpected error.
+          // For backwards compatibility reasons, if no accounts are available,
+          // eth_accounts will return an empty array.
+          console.error(err);
+        });
+    } else {
+      // if the providerMetaMask is not detected, detectEthereumProvider resolves to null
+      console.error("Please install MetaMask!");
     }
   }, []);
 
