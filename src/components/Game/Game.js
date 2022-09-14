@@ -9,6 +9,7 @@ import "./Game.css";
 
 export default function Game(props) {
   const [metadata, setMetadata] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [currMetadata, setCurrMetadata] = useState({});
   const [showNftPanel, setShowNftPanel] = useState(false);
   const [showNftPanelAnim, setShowNftPanelAnim] = useState("open");
@@ -25,6 +26,8 @@ export default function Game(props) {
     account,
     contractAddressRpg404,
     contractAbiRpg404,
+    contractAddressStrxngers,
+    contractAbiStrxngers,
     parseEtherError,
     checkAndSwitchNetwork,
     isTestnet,
@@ -34,28 +37,63 @@ export default function Game(props) {
 
   //! load NFTs
   const loadNft = async () => {
-    try {
-      //* check network
-      await checkAndSwitchNetwork(isTestnet, updateStatus);
+    //* check network
+    await checkAndSwitchNetwork(isTestnet, updateStatus);
 
-      updateStatus(contractAddressRpg404);
-      if (!contractAddressRpg404 || contractAddressRpg404 === "") {
-        updateStatus("Contract is not available");
+    // clean metadata
+    setCurrMetadata({});
+
+    await checkNftStrxngerHolder();
+    await loadNftRpg404();
+  };
+
+  //! check NFT holders: Strxngers
+  const checkNftStrxngerHolder = async () => {
+    try {
+      updateStatus(contractAddressStrxngers);
+      if (!contractAddressStrxngers || contractAddressStrxngers === "") {
+        updateStatus("Strxngers contract is not available");
         return;
       }
+      const signer = library.getSigner();
+      const nftContract = new ethers.Contract(contractAddressStrxngers, contractAbiStrxngers, signer);
+      let isHolder = (await nftContract.balanceOf(account)) > 0;
+      if (!isHolder) {
+        return;
+      }
+      updateStatus("Great! Your are Strxnger!");
+      const tokenMetadata = {
+        nft_type: "Strxngers",
+        name: "Strxngers NFT Holder Special",
+        dna: "strxngers-" + Math.floor(Math.random() * 9999999),
+        attributes: [{ trait_type: "Anything", value: "Random" }],
+      };
+      setMetadata([...[tokenMetadata]]);
+    } catch (err) {
+      const errMsg = parseEtherError(err);
+      updateStatus(errMsg);
+    }
+  };
 
-      // clean metadata
-      setCurrMetadata({});
+  //! load NFTs: RPG 404
+  const loadNftRpg404 = async () => {
+    try {
+      updateStatus(contractAddressRpg404);
+      if (!contractAddressRpg404 || contractAddressRpg404 === "") {
+        updateStatus("RPG 404 contract is not available");
+        return;
+      }
 
       const signer = library.getSigner();
       const nftContract = new ethers.Contract(contractAddressRpg404, contractAbiRpg404, signer);
 
-      updateStatus("Loading NFTs from blockchain...");
+      updateStatus("Loading RPG 404 NFTs from blockchain...");
 
       let nfts = await nftContract.walletOfOwner(account);
 
       const meta = [];
       if (nfts.length > 0) {
+        setIsLoading(true);
         //* show selected switch nft
         updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
         for (const bg of nfts) {
@@ -68,14 +106,18 @@ export default function Game(props) {
             fetch(tokenMetadataURI)
               .then((response) => response.json())
               .then((tokenMetadata) => {
+                tokenMetadata.nft_type = "RPG404";
                 // console.log(tokenMetadata);
                 meta.push(tokenMetadata);
-                setMetadata([...meta]);
+                setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
                 updateStatus(
                   `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
                     nfts.length
-                  } loaded. ${metadata.length === nfts.length ? "Select your favor NFT and play." : ""}`
+                  } loaded.}`
                 );
+                if (meta.length === nfts.length) {
+                  setIsLoading(false);
+                }
               })
               .catch((err) => {
                 const errMsg = parseEtherError(err);
@@ -93,9 +135,19 @@ export default function Game(props) {
     }
   };
 
+  //! check loading
+  useEffect(() => {
+    if (!isLoading && metadata.length > 0) {
+      // console.log(metadata.length);
+      updateStatus("Select your favor NFT and play.");
+    }
+  }, [metadata, isLoading, updateStatus]);
+
   //! load NFTs effect
   useEffect(() => {
-    loadNft();
+    if (library) {
+      loadNft();
+    }
     if (provider?.on) {
       provider.on("accountsChanged", loadNft);
       return () => {

@@ -28,7 +28,7 @@ export default function NFTPanel(props) {
             setNftDetail: props.setNftDetail,
             scrollPanel,
           };
-          return <NFTItem {...attr} key={`nft-metadata-${mt.dna}`} />;
+          return <NFTItem {...attr} key={`nft-metadata-${mt.dna + Math.floor(Math.random() * 9999999)}`} />;
         })}
       </div>
     </div>

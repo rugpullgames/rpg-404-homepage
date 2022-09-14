@@ -19,7 +19,16 @@ export const PageName = {
 
 function App() {
   //! read only
-  const { contractAddressRpg404, contractAbiRpg404, openseaColletionName, isTestnet } = useContext(NFTContext);
+  const {
+    //? RPG 404
+    contractAddressRpg404,
+    contractAbiRpg404,
+    openseaColletionName,
+    isTestnet,
+    //? Strxngers
+    contractAddressStrxngers,
+    contractAbiStrxngers,
+  } = useContext(NFTContext);
   //! load from contract
   const [price, setPrice] = useState(0);
   const [maxSupply, setMaxSupply] = useState(0);
@@ -155,6 +164,8 @@ function App() {
       contractAbiRpg404,
       openseaColletionName,
       isTestnet,
+      contractAddressStrxngers,
+      contractAbiStrxngers,
       //! utils
       parseEtherError,
       //! load from contract
@@ -184,8 +195,10 @@ function App() {
       updateStatus,
     }),
     [
-      contractAbiRpg404,
       contractAddressRpg404,
+      contractAbiRpg404,
+      contractAddressStrxngers,
+      contractAbiStrxngers,
       currPage,
       provider,
       library,

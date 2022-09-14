@@ -49,7 +49,11 @@ export default function NFTItem(props) {
       />
       <img
         className="nft-image"
-        src={`https://rpg.mypinata.cloud/ipfs/${props.metadata.image.split("ipfs://")[1]}`}
+        src={
+          (props.metadata.nft_type === "RPG404" &&
+            `https://rpg.mypinata.cloud/ipfs/${props.metadata.image.split("ipfs://")[1]}`) ||
+          (props.metadata.nft_type === "Strxngers" && "https://rpg404.com/nft/strxngers_icon/strxngers_logo.png")
+        }
         alt={props.metadata.name}
       />
     </div>
