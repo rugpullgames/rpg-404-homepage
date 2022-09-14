@@ -20,7 +20,7 @@ const SocialLink = (props) => {
 };
 
 export default function SocialLinks(props) {
-  const { contractAddress, openseaColletionName, isTestnet } = useContext(NFTContext);
+  const { contractAddressRpg404, openseaColletionName, isTestnet } = useContext(NFTContext);
 
   const links = [
     {
@@ -56,7 +56,7 @@ export default function SocialLinks(props) {
       iconHover: '/img/social/icon_etherscan_hover.png',
       alt: 'Etherscan',
       onClick: () => {
-        window.open(`https://${isTestnet ? 'rinkeby.' : ''}etherscan.io/address/${contractAddress}`);
+        window.open(`https://${isTestnet ? 'rinkeby.' : ''}etherscan.io/address/${contractAddressRpg404}`);
       },
     },
     {

@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import contract from "../../contracts/RPG404.json";
+import contractRpg404 from "../../contracts/RPG404.json";
 
 export const NFTContext = createContext({
   //! read only
-  contractAddress: "0xc21dCcA393Fe26D585db6598533b655816A87543",
-  contractAbi: contract.abi,
+  contractAddressRpg404: "0xc21dCcA393Fe26D585db6598533b655816A87543",
+  contractAbiRpg404: contractRpg404.abi,
   openseaColletionName: "rpg-404",
   isTestnet: false,
   //! utils, read only

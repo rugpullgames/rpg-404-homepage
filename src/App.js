@@ -19,7 +19,7 @@ export const PageName = {
 
 function App() {
   //! read only
-  const { contractAddress, contractAbi, openseaColletionName, isTestnet } = useContext(NFTContext);
+  const { contractAddressRpg404, contractAbiRpg404, openseaColletionName, isTestnet } = useContext(NFTContext);
   //! load from contract
   const [price, setPrice] = useState(0);
   const [maxSupply, setMaxSupply] = useState(0);
@@ -152,8 +152,8 @@ function App() {
   const ctxValue = useMemo(
     () => ({
       //! read only
-      contractAddress,
-      contractAbi,
+      contractAddressRpg404,
+      contractAbiRpg404,
       openseaColletionName,
       isTestnet,
       //! utils
@@ -185,8 +185,8 @@ function App() {
       updateStatus,
     }),
     [
-      contractAbi,
-      contractAddress,
+      contractAbiRpg404,
+      contractAddressRpg404,
       currPage,
       provider,
       library,

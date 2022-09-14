@@ -23,8 +23,8 @@ export default function Game(props) {
     provider,
     library,
     account,
-    contractAddress,
-    contractAbi,
+    contractAddressRpg404,
+    contractAbiRpg404,
     parseEtherError,
     checkAndSwitchNetwork,
     isTestnet,
@@ -38,8 +38,8 @@ export default function Game(props) {
       //* check network
       await checkAndSwitchNetwork(isTestnet, updateStatus);
 
-      updateStatus(contractAddress);
-      if (!contractAddress || contractAddress === "") {
+      updateStatus(contractAddressRpg404);
+      if (!contractAddressRpg404 || contractAddressRpg404 === "") {
         updateStatus("Contract is not available");
         return;
       }
@@ -48,7 +48,7 @@ export default function Game(props) {
       setCurrMetadata({});
 
       const signer = library.getSigner();
-      const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+      const nftContract = new ethers.Contract(contractAddressRpg404, contractAbiRpg404, signer);
 
       updateStatus("Loading NFTs from blockchain...");
 

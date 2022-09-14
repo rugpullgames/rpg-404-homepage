@@ -15,8 +15,8 @@ export default function VendingMachine(props) {
   //! web3 APIs
   const {
     //! read only
-    contractAddress,
-    contractAbi,
+    contractAddressRpg404,
+    contractAbiRpg404,
     openseaColletionName,
     isTestnet,
     //! utils
@@ -51,15 +51,15 @@ export default function VendingMachine(props) {
         return;
       }
 
-      updateStatus(contractAddress);
-      if (!contractAddress || contractAddress === "") {
+      updateStatus(contractAddressRpg404);
+      if (!contractAddressRpg404 || contractAddressRpg404 === "") {
         updateStatus("Contract is not available");
         return;
       }
 
       try {
         const signer = library.getSigner();
-        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+        const nftContract = new ethers.Contract(contractAddressRpg404, contractAbiRpg404, signer);
 
         updateStatus("Loading mint contract info...");
 
@@ -123,7 +123,7 @@ export default function VendingMachine(props) {
       if (!account) {
         return;
       }
-      if (!contractAddress || contractAddress === "") {
+      if (!contractAddressRpg404 || contractAddressRpg404 === "") {
         return;
       }
       try {
@@ -131,7 +131,7 @@ export default function VendingMachine(props) {
         await checkAndSwitchNetwork(isTestnet, updateStatus);
 
         const signer = library.getSigner();
-        const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+        const nftContract = new ethers.Contract(contractAddressRpg404, contractAbiRpg404, signer);
 
         let totalSupplyNum = await nftContract.totalSupply();
         setTotalSupply(totalSupplyNum.toNumber());
@@ -175,7 +175,7 @@ export default function VendingMachine(props) {
       updateStatus("Busy... please wait");
       return;
     }
-    if (!contractAddress || contractAddress === "") {
+    if (!contractAddressRpg404 || contractAddressRpg404 === "") {
       updateStatus("Contract is not available");
       return;
     }
@@ -188,7 +188,7 @@ export default function VendingMachine(props) {
       await checkAndSwitchNetwork(isTestnet, updateStatus);
 
       const signer = library.getSigner();
-      const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
+      const nftContract = new ethers.Contract(contractAddressRpg404, contractAbiRpg404, signer);
 
       updateStatus("Initialize minting...");
       setIsBusy(true);
