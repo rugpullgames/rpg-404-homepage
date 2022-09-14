@@ -100,6 +100,10 @@
   filter: brightness(120%);
 }
 
+.btn-game-rotate {
+  display: none;
+}
+
 .btn-game-to-mint {
   position: absolute;
   right: 20px;
@@ -231,7 +235,7 @@
 }
 
 @media only screen and (max-width: 599px) {
-  .game-iframe {
+  .game-iframe-rotate {
     position: fixed;
     transform: rotate(90deg);
     top: 0;
@@ -242,7 +246,7 @@
     margin-right: auto;
   }
 
-  .game-iframe-cover {
+  .game-iframe-cover-rotate {
     display: block;
     position: fixed;
     top: 0;
@@ -251,5 +255,13 @@
     right: 0;
     z-index: 399;
     background-color: #000000cc;
+  }
+
+  .btn-game-rotate {
+    display: block;
+    position: fixed;
+    left: 20px;
+    bottom: 10vh;
+    cursor: pointer;
   }
 }

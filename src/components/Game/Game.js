@@ -38,7 +38,7 @@ export default function Game(props) {
   const [playing, setPlaying] = useState(false);
   const [nftDetail, setNftDetail] = useState(null);
   const [guideMsg, setGuideMsg] = useState(null);
-
+  const [rotated, setRotated] = useState(false);
   const isMoblie = useMediaQuery({ query: "(max-width: 599px)" });
   const { height, width } = useWindowDimensions();
 
@@ -203,22 +203,24 @@ export default function Game(props) {
       )}
       <iframe
         id="godot-game"
-        className={`game-iframe ${playing ? "game-iframe-show" : "game-iframe-hide"}`}
+        className={`game-iframe ${playing ? "game-iframe-show" : "game-iframe-hide"} ${
+          rotated && "game-iframe-rotate"
+        }`}
         title="RPG 404"
         src={process.env.PUBLIC_URL + "/game/game.html"}
         frameBorder="0"
         scrolling="no"
         crossOrigin="anonymous"
         style={
-          isMoblie
+          isMoblie && rotated
             ? {
-                zoom: (height / width) * 0.9,
-                left: (height / width) * -40,
+                zoom: (height / width) * 1,
+                left: width * -0.25,
               }
             : {}
         }
       />
-      {playing && <div className="game-iframe-cover"></div>}
+      {playing && <div className={`game-iframe-cover ${rotated && "game-iframe-cover-rotate"}`}></div>}
       {!playing && (
         <div className="game-cover">
           <img className="game-cover-img" src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt="Game Cover" />
@@ -264,6 +266,12 @@ export default function Game(props) {
         src={process.env.PUBLIC_URL + "/img/btn_game_to_mint.png"}
         alt="Mint Button"
         onClick={() => setCurrPage(PageName.MINT)}
+      />
+      <img
+        className="btn-game-rotate"
+        src={process.env.PUBLIC_URL + "/img/btn_game_rotate.png"}
+        alt="Game Rotate Button"
+        onClick={() => setRotated(true)}
       />
       {showNftPanel ? (
         <div>
