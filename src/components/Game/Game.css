@@ -236,12 +236,12 @@
 
 @media only screen and (max-width: 599px) {
   .game-iframe-rotate {
+    zoom: 1.5;
     position: fixed;
     transform: rotate(90deg);
     top: 0;
     bottom: 0;
     z-index: 400;
-    left: 0;
     margin-left: auto;
     margin-right: auto;
   }

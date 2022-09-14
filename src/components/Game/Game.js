@@ -7,29 +7,6 @@ import NFTDetail from "./NFTDetail";
 import { PageName } from "../../App";
 import "./Game.css";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
-function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
-
 export default function Game(props) {
   const [metadata, setMetadata] = useState([]);
   const [currMetadata, setCurrMetadata] = useState({});
@@ -40,7 +17,6 @@ export default function Game(props) {
   const [guideMsg, setGuideMsg] = useState(null);
   const [rotated, setRotated] = useState(false);
   const isMoblie = useMediaQuery({ query: "(max-width: 599px)" });
-  const { height, width } = useWindowDimensions();
 
   //! web3 API in NFTContext
   const {
@@ -211,14 +187,6 @@ export default function Game(props) {
         frameBorder="0"
         scrolling="no"
         crossOrigin="anonymous"
-        style={
-          isMoblie && rotated
-            ? {
-                zoom: (height / width) * 1,
-                left: width * -0.25,
-              }
-            : {}
-        }
       />
       {playing && <div className={`game-iframe-cover ${rotated && "game-iframe-cover-rotate"}`}></div>}
       {!playing && (
