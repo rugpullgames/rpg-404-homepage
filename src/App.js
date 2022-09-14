@@ -62,7 +62,7 @@ function App() {
       setLibrary(library);
       if (accounts) setAccount(accounts[0]);
       setChainId(network.chainId);
-      await web3Modal.toggleModal();
+      // await web3Modal.toggleModal();
     } catch (err) {
       updateStatus(err);
     }
