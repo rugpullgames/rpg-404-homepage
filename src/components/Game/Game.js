@@ -44,6 +44,8 @@ export default function Game(props) {
 
   //! web3 API in NFTContext
   const {
+    provider,
+    library,
     account,
     contractAddress,
     contractAbi,
@@ -56,11 +58,11 @@ export default function Game(props) {
 
   //! load NFTs
   const loadNft = async () => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      updateStatus("Please install MetaMask.");
-      return;
-    }
+    // const { ethereum } = window;
+    // if (!ethereum) {
+    //   updateStatus("Please install MetaMask.");
+    //   return;
+    // }
     try {
       //* check network
       await checkAndSwitchNetwork(isTestnet, updateStatus);
@@ -74,8 +76,7 @@ export default function Game(props) {
       // clean metadata
       setCurrMetadata({});
 
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
+      const signer = library.getSigner();
       const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
       updateStatus("Loading NFTs from blockchain...");
@@ -123,15 +124,15 @@ export default function Game(props) {
 
   //! load NFTs effect
   useEffect(() => {
-    const { ethereum } = window;
-    if (!ethereum) {
-      return;
-    }
+    // const { ethereum } = window;
+    // if (!ethereum) {
+    //   return;
+    // }
 
     loadNft();
-    ethereum.on("accountsChanged", loadNft);
+    provider.on("accountsChanged", loadNft);
     return () => {
-      ethereum?.removeListener("accountsChanged", loadNft);
+      provider?.removeListener("accountsChanged", loadNft);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);

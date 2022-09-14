@@ -46,10 +46,10 @@ export default function VendingMachine(props) {
   useEffect(() => {
     const loadMintInfo = async () => {
       const { ethereum } = window;
-      if (!ethereum) {
-        updateStatus("Please install MetaMask.");
-        return;
-      }
+      // if (!ethereum) {
+      //   updateStatus("Please install MetaMask.");
+      //   return;
+      // }
 
       if (!account) {
         updateStatus("Please connect wallet first");
@@ -127,10 +127,10 @@ export default function VendingMachine(props) {
   useEffect(() => {
     const updateTotalSupply = async () => {
       const { ethereum } = window;
-      if (!ethereum) {
-        updateStatus("Please install MetaMask.");
-        return;
-      }
+      // if (!ethereum) {
+      //   updateStatus("Please install MetaMask.");
+      //   return;
+      // }
       if (!account) {
         return;
       }
@@ -240,44 +240,44 @@ export default function VendingMachine(props) {
   if (totalSupply !== -1 && totalSupply < maxSupply) {
     //* mint directly
     mintOrBuy = (
-      <div className='vending-mint'>
+      <div className="vending-mint">
         <img
-          className='vending-btn-add'
+          className="vending-btn-add"
           src={process.env.PUBLIC_URL + "/img/btn_mint_add.png"}
-          alt='Button of Increasing Mint Quantity'
+          alt="Button of Increasing Mint Quantity"
           onClick={add}
         />
         <img
-          className='vending-btn-sub'
+          className="vending-btn-sub"
           src={process.env.PUBLIC_URL + "/img/btn_mint_sub.png"}
-          alt='Button of Decreasing Mint Quantity'
+          alt="Button of Decreasing Mint Quantity"
           onClick={sub}
         />
         <img
-          className='vending-bg-input-frame'
+          className="vending-bg-input-frame"
           src={process.env.PUBLIC_URL + "/img/bg_mint_input_frame.png"}
-          alt='Mint Quantity Input Frame'
+          alt="Mint Quantity Input Frame"
         />
         <img
-          className='vending-btn-mint'
+          className="vending-btn-mint"
           src={process.env.PUBLIC_URL + "/img/btn_mint.png"}
-          alt='Mint Quantity Input Frame'
+          alt="Mint Quantity Input Frame"
           onClick={mintNftHandler}
         />
-        <div className='vending-price'>{price > 0 ? `Price: ${price} eth` : price === 0 ? "Price: Free" : ""}</div>
-        <div className='vending-supply'>
+        <div className="vending-price">{price > 0 ? `Price: ${price} eth` : price === 0 ? "Price: Free" : ""}</div>
+        <div className="vending-supply">
           {price > -1 ? `Mint#: ${totalSupply} / ${totalSupply < maxFreeSupply ? maxFreeSupply : maxSupply}` : ""}
         </div>
-        <div className='vending-quantity'>{price > -1 ? quantity : "???"}</div>
+        <div className="vending-quantity">{price > -1 ? quantity : "???"}</div>
       </div>
     );
   } else {
     //* buy on opensea
     mintOrBuy = (
       <img
-        className='vending-btn-opensea'
+        className="vending-btn-opensea"
         src={process.env.PUBLIC_URL + "/img/btn_mint_opensea.png"}
-        alt='Buy NFTs on Opensea'
+        alt="Buy NFTs on Opensea"
         onClick={() => {
           window.open(`https://${isTestnet ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
         }}
@@ -286,16 +286,16 @@ export default function VendingMachine(props) {
   }
 
   return (
-    <div className='vending-machine'>
+    <div className="vending-machine">
       <img
-        className='vending-bg'
+        className="vending-bg"
         src={process.env.PUBLIC_URL + "/img/bg_vending_machine.png"}
-        alt='Vending Machine Background'
+        alt="Vending Machine Background"
       />
       <img
-        className='vending-btn-to-game'
+        className="vending-btn-to-game"
         src={process.env.PUBLIC_URL + "/img/btn_mint_to_game.png"}
-        alt='Button of Vending Machine to Game'
+        alt="Button of Vending Machine to Game"
         onClick={() => setCurrPage(PageName.GAME)}
       />
       {mintOrBuy}
