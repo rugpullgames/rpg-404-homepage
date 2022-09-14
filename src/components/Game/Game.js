@@ -111,9 +111,7 @@ export default function Game(props) {
                 meta.push(tokenMetadata);
                 setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
                 updateStatus(
-                  `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
-                    nfts.length
-                  } loaded.`
+                  `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${nfts.length} loaded.`
                 );
                 if (meta.length === nfts.length) {
                   setIsLoading(false);
@@ -291,7 +289,7 @@ export default function Game(props) {
         className="btn-game-rotate"
         src={process.env.PUBLIC_URL + "/img/btn_game_rotate.png"}
         alt="Game Rotate Button"
-        onClick={() => setRotated(true)}
+        onClick={() => setRotated((state) => !state)}
       />
       {showNftPanel ? (
         <div>

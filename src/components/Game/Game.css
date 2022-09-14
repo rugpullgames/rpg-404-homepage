@@ -252,7 +252,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 399;
+    z-index: 398;
     background-color: #000000cc;
   }
 
@@ -262,5 +262,6 @@
     left: 20px;
     bottom: 10vh;
     cursor: pointer;
+    z-index: 399;
   }
 }
