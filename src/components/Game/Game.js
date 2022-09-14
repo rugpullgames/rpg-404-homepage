@@ -130,12 +130,14 @@ export default function Game(props) {
     // }
 
     loadNft();
-    provider.on("accountsChanged", loadNft);
-    return () => {
-      provider?.removeListener("accountsChanged", loadNft);
-    };
+    if (provider?.on) {
+      provider.on("accountsChanged", loadNft);
+      return () => {
+        provider?.removeListener("accountsChanged", loadNft);
+      };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [account, provider]);
 
   //! select NFT
   const selectNft = (selectedMetadata) => {
