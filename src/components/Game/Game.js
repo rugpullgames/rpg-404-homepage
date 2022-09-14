@@ -58,11 +58,6 @@ export default function Game(props) {
 
   //! load NFTs
   const loadNft = async () => {
-    // const { ethereum } = window;
-    // if (!ethereum) {
-    //   updateStatus("Please install MetaMask.");
-    //   return;
-    // }
     try {
       //* check network
       await checkAndSwitchNetwork(isTestnet, updateStatus);
@@ -124,11 +119,6 @@ export default function Game(props) {
 
   //! load NFTs effect
   useEffect(() => {
-    // const { ethereum } = window;
-    // if (!ethereum) {
-    //   return;
-    // }
-
     loadNft();
     if (provider?.on) {
       provider.on("accountsChanged", loadNft);

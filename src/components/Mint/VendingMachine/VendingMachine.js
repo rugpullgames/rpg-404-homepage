@@ -39,18 +39,13 @@ export default function VendingMachine(props) {
     setCurrPage,
     //! wallet
     account,
+    library,
     //! status
     updateStatus,
   } = useContext(NFTContext);
 
   useEffect(() => {
     const loadMintInfo = async () => {
-      const { ethereum } = window;
-      // if (!ethereum) {
-      //   updateStatus("Please install MetaMask.");
-      //   return;
-      // }
-
       if (!account) {
         updateStatus("Please connect wallet first");
         return;
@@ -63,8 +58,7 @@ export default function VendingMachine(props) {
       }
 
       try {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
+        const signer = library.getSigner();
         const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
         updateStatus("Loading mint contract info...");
@@ -126,11 +120,6 @@ export default function VendingMachine(props) {
   //! total supply
   useEffect(() => {
     const updateTotalSupply = async () => {
-      const { ethereum } = window;
-      // if (!ethereum) {
-      //   updateStatus("Please install MetaMask.");
-      //   return;
-      // }
       if (!account) {
         return;
       }
@@ -141,8 +130,7 @@ export default function VendingMachine(props) {
         //* check network
         await checkAndSwitchNetwork(isTestnet, updateStatus);
 
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
+        const signer = library.getSigner();
         const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
         let totalSupplyNum = await nftContract.totalSupply();
@@ -178,11 +166,6 @@ export default function VendingMachine(props) {
       return;
     }
 
-    const { ethereum } = window;
-    if (!ethereum) {
-      updateStatus("Please install MetaMask.");
-      return;
-    }
     if (!account) {
       updateStatus("Please connect wallet first");
       props.connectWallet();
@@ -204,8 +187,7 @@ export default function VendingMachine(props) {
       //* check network
       await checkAndSwitchNetwork(isTestnet, updateStatus);
 
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
+      const signer = library.getSigner();
       const nftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
       updateStatus("Initialize minting...");
