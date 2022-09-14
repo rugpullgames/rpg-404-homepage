@@ -246,7 +246,7 @@ export default function VendingMachine(props) {
           alt="Mint Quantity Input Frame"
           onClick={mintNftHandler}
         />
-        <div className="vending-price">{price > 0 ? `Price: ${price} eth` : price === 0 ? "Price: Free" : ""}</div>
+        <div className="vending-price">{price > 0 ? (`Price: ${price} eth`) : (price === 0 ? "Price: Free" : "")}</div>
         <div className="vending-supply">
           {price > -1 ? `Mint#: ${totalSupply} / ${totalSupply < maxFreeSupply ? maxFreeSupply : maxSupply}` : ""}
         </div>
