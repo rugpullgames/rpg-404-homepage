@@ -113,7 +113,7 @@ export default function Game(props) {
                 updateStatus(
                   `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
                     nfts.length
-                  } loaded.}`
+                  } loaded.`
                 );
                 if (meta.length === nfts.length) {
                   setIsLoading(false);
