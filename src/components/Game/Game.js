@@ -241,7 +241,7 @@ export default function Game(props) {
       {playing && <div className={`game-iframe-cover ${rotated && "game-iframe-cover-rotate"}`}></div>}
       {!playing && (
         <div className="game-cover">
-          <img className="game-cover-img" src={process.env.PUBLIC_URL + "/img/game_cover.png"} alt="Game Cover" />
+          <img className="game-cover-img" src={process.env.PUBLIC_URL + "/img/game_cover_02.png"} alt="Game Cover" />
           {!showNftPanel && (
             <div>
               <img
