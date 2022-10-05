@@ -135,11 +135,11 @@ export default function Game(props) {
 
   //! check loading
   useEffect(() => {
-    if (!isLoading && metadata.length > 0) {
+    if (!isLoading && metadata.length > 0 && !playing) {
       // console.log(metadata.length);
       updateStatus("Select your favor NFT and play.");
     }
-  }, [metadata, isLoading, updateStatus]);
+  }, [metadata, isLoading, updateStatus, playing]);
 
   //! load NFTs effect
   useEffect(() => {
