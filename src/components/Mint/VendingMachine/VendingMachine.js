@@ -81,7 +81,7 @@ export default function VendingMachine(props) {
         } else {
           //* public sales
           let priceWei = await nftContract.cost();
-          setPrice(ethers.utils.formatEther(priceWei));
+          setPrice(parseFloat(ethers.utils.formatEther(priceWei)));
         }
 
         updateStatus("Mint contract info loaded");
@@ -141,7 +141,7 @@ export default function VendingMachine(props) {
           setPrice(0);
         } else {
           let priceWei = await nftContract.cost();
-          setPrice(ethers.utils.formatEther(priceWei));
+          setPrice(parseFloat(ethers.utils.formatEther(priceWei)));
         }
       } catch (err) {
         const errMsg = parseEtherError(err);
