@@ -233,7 +233,7 @@ export default function Game(props) {
           rotated && "game-iframe-rotate"
         }`}
         title="RPG 404"
-        src={process.env.PUBLIC_URL + "/game/game.html"}
+        src={process.env.PUBLIC_URL + "/game/rpg404/game.html"}
         frameBorder="0"
         scrolling="no"
         crossOrigin="anonymous"
