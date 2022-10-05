@@ -10,15 +10,15 @@ export default function Mint(props) {
   };
 
   return (
-    <div className='mint'>
+    <div className="mint">
       <img
-        className='mint-market-bg'
+        className="mint-market-bg"
         src={process.env.PUBLIC_URL + "/img/bg_mint_market.png"}
-        alt='Mint Market Background'
+        alt="Mint Market Background"
         onClick={handleClick}
       />
       <div ref={ref}>
-        <VendingMachine {...props.connectWallet} />
+        <VendingMachine connectWallet={props.connectWallet} />
       </div>
     </div>
   );
