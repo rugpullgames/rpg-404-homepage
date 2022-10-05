@@ -58,6 +58,23 @@
   filter: brightness(150%);
 }
 
+.vending-btn-connect {
+  position: absolute;
+  top: 80px;
+  right: 86px;
+  transition: transform 0.2s; /* Animation */
+  cursor: pointer;
+}
+
+.vending-btn-connect:hover {
+  -webkit-transform: translate(-20px, -10px);
+  -moz-transform: translate(-20px, -10px);
+  -ms-transform: translate(-20px, -10px);
+  -o-transform: translate(-20px, -10px);
+  transform: translate(-20px, -10px);
+  filter: brightness(150%);
+}
+
 .vending-bg-input-frame {
   position: absolute;
   top: 36px;
@@ -171,13 +188,13 @@
     cursor: pointer;
   }
 
-  .vending-btn-mint:hover {
-    -webkit-transform: translate(-20px, -10px);
-    -moz-transform: translate(-20px, -10px);
-    -ms-transform: translate(-20px, -10px);
-    -o-transform: translate(-20px, -10px);
-    transform: translate(-20px, -10px);
-    filter: brightness(150%);
+  .vending-btn-connect {
+    position: absolute;
+    top: 5vw;
+    right: 8vw;
+    height: 16vw;
+    transition: transform 0.2s; /* Animation */
+    cursor: pointer;
   }
 
   .vending-bg-input-frame {

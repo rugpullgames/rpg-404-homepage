@@ -217,7 +217,18 @@ export default function VendingMachine(props) {
 
   //! mint or buy
   let mintOrBuy;
-  if (totalSupply !== -1 && totalSupply < maxSupply) {
+  if (totalSupply <= 0 || maxSupply <= 0) {
+    mintOrBuy = (
+      <div className="vending-mint">
+        <img
+          className="vending-btn-connect"
+          src={process.env.PUBLIC_URL + "/img/btn_connect.png"}
+          alt="Connect Wallet"
+          onClick={props.connectWallet}
+        />
+      </div>
+    );
+  } else if (totalSupply !== -1 && totalSupply < maxSupply) {
     //* mint directly
     mintOrBuy = (
       <div className="vending-mint">
@@ -241,10 +252,10 @@ export default function VendingMachine(props) {
         <img
           className="vending-btn-mint"
           src={process.env.PUBLIC_URL + "/img/btn_mint.png"}
-          alt="Mint Quantity Input Frame"
+          alt="Mint"
           onClick={mintNftHandler}
         />
-        <div className="vending-price">{price > 0 ? (`Price: ${price} eth`) : (price === 0 ? "Price: Free" : "")}</div>
+        <div className="vending-price">{price > 0 ? `Price: ${price} eth` : price === 0 ? "Price: Free" : ""}</div>
         <div className="vending-supply">
           {price > -1 ? `Mint#: ${totalSupply} / ${totalSupply < maxFreeSupply ? maxFreeSupply : maxSupply}` : ""}
         </div>
