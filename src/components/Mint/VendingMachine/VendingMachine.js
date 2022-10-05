@@ -160,7 +160,7 @@ export default function VendingMachine(props) {
   const mintNftHandler = async () => {
     if (totalSupply >= maxSupply) {
       alert(
-        `Thank you for your interest. \nGohan-kun is sold out. \nPlease check https://opensea.io/collection/gohan-kun.`
+        `Thank you for your interest. \nRPG 404 is sold out. \nPlease check https://opensea.io/collection/rpg-404`
       );
       window.open(`https://${isTestnet ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
       return;
