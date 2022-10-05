@@ -40,8 +40,7 @@ export default function NFTItem(props) {
       onTouchCancel={unhoverNft}
       draggable="true"
       onDragStart={dragStartHandler}
-      onDrag={dragHandler}
-    >
+      onDrag={dragHandler}>
       <img
         className="nft-item-loading"
         src={process.env.PUBLIC_URL + "/img/placehold_nft_loading.png"}
@@ -50,8 +49,7 @@ export default function NFTItem(props) {
       <img
         className="nft-image"
         src={
-          (props.metadata.nft_type === "RPG404" &&
-            `https://rpg.mypinata.cloud/ipfs/${props.metadata.image.split("ipfs://")[1]}`) ||
+          (props.metadata.nft_type === "RPG404" && props.metadata.image) ||
           (props.metadata.nft_type === "Strxngers" &&
             process.env.PUBLIC_URL + "/nft/strxngers/icon/strxngers_logo_404.png")
         }
