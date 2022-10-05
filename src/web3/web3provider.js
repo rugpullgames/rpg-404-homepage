@@ -20,7 +20,9 @@ const providerOptions = {
 
 export const web3Modal = new Web3Modal({
   // cacheProvider: true, // optional
+  projectId: "RPG 404",
   theme: "dark",
+  accentColor: "orange",
   providerOptions,
   disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
 });
