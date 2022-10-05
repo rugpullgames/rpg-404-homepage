@@ -3,6 +3,10 @@ import { ethers } from "ethers";
 import NFTContext from "../NFTContext";
 import "./WalletAccount.css";
 
+if (process.env.REACT_APP_WALLETCONNECTION_PROJECT_ID === '00000000000000000000000000000000') {
+  console.error("Please set a project ID in infura.io");
+}
+
 const provider = new ethers.providers.JsonRpcProvider(
   `https://mainnet.infura.io/v3/${process.env.REACT_APP_WALLETCONNECTION_PROJECT_ID}`
 );
