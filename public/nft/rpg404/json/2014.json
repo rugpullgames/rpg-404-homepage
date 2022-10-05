@@ -1,0 +1,57 @@
+{
+  "name": "RPG404 #2014",
+  "description": "The first game of Rug Pull Games, RPG 404, is a tiny NFT game. Please visit rpg404.com to play.",
+  "external_url": "https://rpg404.com/",
+  "image": "ipfs://QmeXsGKUcK7Gw4smbG4mG3pdQq2idu6fdu55ChdnTLdbhm/2014.png",
+  "dna": "121ef0322745334fff38efad2afd4e8ea7ee4267",
+  "edition": 2014,
+  "date": 1658314247864,
+  "twitter": "https://twitter.com/rug_pull_games",
+  "website": "https://rug-pull.games/",
+  "attributes": [
+    {
+      "trait_type": "Music",
+      "value": "Mute"
+    },
+    {
+      "trait_type": "Background",
+      "value": "Mid Green Sky 02"
+    },
+    {
+      "trait_type": "Foreground",
+      "value": "Base Floor"
+    },
+    {
+      "trait_type": "Barrier",
+      "value": "Cube Orange"
+    },
+    {
+      "trait_type": "Floor",
+      "value": "Floor 04"
+    },
+    {
+      "trait_type": "Pants",
+      "value": "Pants 04"
+    },
+    {
+      "trait_type": "Jacket",
+      "value": "Jacket 02"
+    },
+    {
+      "trait_type": "Head",
+      "value": "Head 08"
+    },
+    {
+      "trait_type": "Weapon",
+      "value": "Weapon 16"
+    },
+    {
+      "trait_type": "Emo",
+      "value": "Keep Calm and Play RPG 404"
+    },
+    {
+      "trait_type": "Pet",
+      "value": "Drone Purple 03"
+    }
+  ]
+}

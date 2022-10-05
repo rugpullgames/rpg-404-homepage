@@ -1,0 +1,57 @@
+{
+  "name": "RPG404 #9522",
+  "description": "The first game of Rug Pull Games, RPG 404, is a tiny NFT game. Please visit rpg404.com to play.",
+  "external_url": "https://rpg404.com/",
+  "image": "ipfs://QmeXsGKUcK7Gw4smbG4mG3pdQq2idu6fdu55ChdnTLdbhm/9522.png",
+  "dna": "af0e3db45dfd3588a7ec2e30054a7598e89773fe",
+  "edition": 9522,
+  "date": 1658314957248,
+  "twitter": "https://twitter.com/rug_pull_games",
+  "website": "https://rug-pull.games/",
+  "attributes": [
+    {
+      "trait_type": "Music",
+      "value": "Mozart Rondo Alla Turca 05"
+    },
+    {
+      "trait_type": "Background",
+      "value": "Mid Blue Sky 01"
+    },
+    {
+      "trait_type": "Foreground",
+      "value": "Base Floor"
+    },
+    {
+      "trait_type": "Barrier",
+      "value": "Cube Yellow 01"
+    },
+    {
+      "trait_type": "Floor",
+      "value": "Floor 09"
+    },
+    {
+      "trait_type": "Pants",
+      "value": "Pants 02"
+    },
+    {
+      "trait_type": "Jacket",
+      "value": "Jacket 12"
+    },
+    {
+      "trait_type": "Head",
+      "value": "Head 14"
+    },
+    {
+      "trait_type": "Weapon",
+      "value": "Weapon 12"
+    },
+    {
+      "trait_type": "Emo",
+      "value": "Emo 02"
+    },
+    {
+      "trait_type": "Pet",
+      "value": "Drone Red 03"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "RPG404 #10955",
+  "description": "The first game of Rug Pull Games, RPG 404, is a tiny NFT game. Please visit rpg404.com to play.",
+  "external_url": "https://rpg404.com/",
+  "image": "ipfs://QmeXsGKUcK7Gw4smbG4mG3pdQq2idu6fdu55ChdnTLdbhm/10955.png",
+  "dna": "dc0fe26f1716e16ea9484456231a60df9e37a58b",
+  "edition": 10955,
+  "date": 1658315126609,
+  "twitter": "https://twitter.com/rug_pull_games",
+  "website": "https://rug-pull.games/",
+  "attributes": [
+    {
+      "trait_type": "Music",
+      "value": "Mute"
+    },
+    {
+      "trait_type": "Background",
+      "value": "Light Brown Sky 01"
+    },
+    {
+      "trait_type": "Foreground",
+      "value": "Base Floor"
+    },
+    {
+      "trait_type": "Barrier",
+      "value": "Blue Bow Flower"
+    },
+    {
+      "trait_type": "Floor",
+      "value": "Floor 02"
+    },
+    {
+      "trait_type": "Pants",
+      "value": "Pants 11"
+    },
+    {
+      "trait_type": "Jacket",
+      "value": "Jacket 02"
+    },
+    {
+      "trait_type": "Head",
+      "value": "Head 13"
+    },
+    {
+      "trait_type": "Weapon",
+      "value": "Nothing"
+    },
+    {
+      "trait_type": "Emo",
+      "value": "Emo 05"
+    },
+    {
+      "trait_type": "Pet",
+      "value": "Searching"
+    }
+  ]
+}
