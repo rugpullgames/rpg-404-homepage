@@ -158,10 +158,8 @@ export default function VendingMachine(props) {
 
   //! mint NFTs
   const mintNftHandler = async () => {
-    if (totalSupply >= maxSupply) {
-      alert(
-        `Thank you for your interest. \nRPG 404 is sold out. \nPlease check https://opensea.io/collection/rpg-404`
-      );
+    if (maxSupply > 0 && totalSupply >= maxSupply) {
+      alert(`Thank you for your interest. \nRPG 404 is sold out. \nPlease check https://opensea.io/collection/rpg-404`);
       window.open(`https://${isTestnet ? "testnets." : ""}opensea.io/collection/${openseaColletionName}`);
       return;
     }
