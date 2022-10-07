@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { ethers } from "ethers";
+import { EvmChain } from "@moralisweb3/evm-utils";
+import Moralis from "moralis";
 import NFTContext from "../NFTContext";
 import NFTPanel from "./NFTPanel";
 import NFTDetail from "./NFTDetail";
@@ -55,6 +57,24 @@ export default function Game(props) {
         updateStatus("Strxngers contract is not available");
         return;
       }
+
+      const chain = EvmChain.ETHEREUM;
+      const address = account;
+
+      await Moralis.start({
+        apiKey: process.env.REACT_APP_MORALIS_API_KEY,
+      });
+
+      console.log(account, contractAddressStrxngers);
+      const response = await Moralis.EvmApi.nft.getWalletNFTs({
+        address,
+        chain,
+        format: "decimal",
+        tokenAddresses: [contractAddressStrxngers],
+      });
+
+      console.log(response.result);
+
       const signer = library.getSigner();
       const nftContract = new ethers.Contract(contractAddressStrxngers, contractAbiStrxngers, signer);
       let isHolder = (await nftContract.balanceOf(account)) > 0;
