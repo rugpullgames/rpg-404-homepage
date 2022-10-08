@@ -29,7 +29,7 @@ export default function Game(props) {
     contractAddressRpg404,
     contractAbiRpg404,
     contractAddressStrxngers,
-    contractAbiStrxngers,
+    // contractAbiStrxngers,
     parseEtherError,
     checkAndSwitchNetwork,
     isTestnet,
@@ -87,8 +87,11 @@ export default function Game(props) {
             tokenId: nft._data.tokenId,
           });
           const tokenMetadata = resMeta.result._data.metadata;
+
           tokenMetadata.nft_type = "Strxngers";
-          console.log(tokenMetadata);
+          tokenMetadata.dna = "strxngers-" + Math.floor(Math.random() * 9999999);
+
+          // console.log(tokenMetadata);
           meta.push(tokenMetadata);
           setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
           updateStatus(
@@ -101,21 +104,6 @@ export default function Game(props) {
           }
         }
       }
-
-      const signer = library.getSigner();
-      const nftContract = new ethers.Contract(contractAddressStrxngers, contractAbiStrxngers, signer);
-      let isHolder = (await nftContract.balanceOf(account)) > 0;
-      if (!isHolder) {
-        return;
-      }
-      updateStatus("Great! Your are Strxnger!");
-      const tokenMetadata = {
-        nft_type: "Strxngers",
-        name: "Strxngers NFT Holder Special",
-        dna: "strxngers-" + Math.floor(Math.random() * 9999999),
-        attributes: [{ trait_type: "Anything", value: "Random" }],
-      };
-      setMetadata([...[tokenMetadata]]);
     } catch (err) {
       const errMsg = parseEtherError(err);
       updateStatus(errMsg);

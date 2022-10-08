@@ -51,7 +51,7 @@ export default function NFTItem(props) {
         src={
           (props.metadata.nft_type === "RPG404" && props.metadata.image) ||
           (props.metadata.nft_type === "Strxngers" &&
-            process.env.PUBLIC_URL + "/nft/strxngers/icon/strxngers_logo_404.png")
+            `https://rpg.mypinata.cloud/ipfs/${props.metadata.image.split("ipfs://")[1]}`)
         }
         alt={props.metadata.name}
       />
