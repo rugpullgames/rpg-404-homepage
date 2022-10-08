@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { ethers } from "ethers";
+import { EvmChain } from "@moralisweb3/evm-utils";
+import Moralis from "moralis";
 import NFTContext from "../NFTContext";
 import NFTPanel from "./NFTPanel";
 import NFTDetail from "./NFTDetail";
@@ -27,7 +29,7 @@ export default function Game(props) {
     contractAddressRpg404,
     contractAbiRpg404,
     contractAddressStrxngers,
-    contractAbiStrxngers,
+    // contractAbiStrxngers,
     parseEtherError,
     checkAndSwitchNetwork,
     isTestnet,
@@ -43,32 +45,70 @@ export default function Game(props) {
     // clean metadata
     setCurrMetadata({});
 
-    await checkNftStrxngerHolder();
-    await loadNftRpg404();
+    if (!isLoading && !playing) {
+      setIsLoading(true);
+      await loadNftStrxngers();
+      await loadNftRpg404();
+    }
   };
 
   //! check NFT holders: Strxngers
-  const checkNftStrxngerHolder = async () => {
+  const loadNftStrxngers = async () => {
     try {
       updateStatus(contractAddressStrxngers);
       if (!contractAddressStrxngers || contractAddressStrxngers === "") {
         updateStatus("Strxngers contract is not available");
         return;
       }
-      const signer = library.getSigner();
-      const nftContract = new ethers.Contract(contractAddressStrxngers, contractAbiStrxngers, signer);
-      let isHolder = (await nftContract.balanceOf(account)) > 0;
-      if (!isHolder) {
-        return;
+
+      const chain = EvmChain.ETHEREUM;
+
+      await Moralis.start({
+        apiKey: process.env.REACT_APP_MORALIS_API_KEY,
+      });
+
+      const resNft = await Moralis.EvmApi.nft.getWalletNFTs({
+        address: account,
+        chain,
+        format: "decimal",
+        tokenAddresses: [contractAddressStrxngers],
+      });
+
+      // console.log(resNft);
+
+      if (resNft && resNft.result && resNft.result.length > 0) {
+        const meta = [];
+        const nfts = resNft.result;
+        updateStatus("Great! Your are Strxnger!");
+        updateStatus(`You have ${nfts.length} Strxnger ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
+
+        for (const nft of nfts) {
+          const resMeta = await Moralis.EvmApi.nft.getNFTMetadata({
+            address: contractAddressStrxngers,
+            chain,
+            format: "decimal",
+            tokenId: nft._data.tokenId,
+          });
+          const tokenMetadata = resMeta.result._data.metadata;
+
+          tokenMetadata.nft_type = "Strxngers";
+          tokenMetadata.dna = "strxngers-" + Math.floor(Math.random() * 9999999);
+          tokenMetadata.edition = tokenMetadata.name.replace("Strxngers #", "").trim();
+
+          // console.log(tokenMetadata);
+          meta.push(tokenMetadata);
+          setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
+          updateStatus(
+            `You have ${nfts.length} Strxnger ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
+              nfts.length
+            } loaded.`
+          );
+        }
+
+        if (meta.length === nfts.length) {
+          setIsLoading(false);
+        }
       }
-      updateStatus("Great! Your are Strxnger!");
-      const tokenMetadata = {
-        nft_type: "Strxngers",
-        name: "Strxngers NFT Holder Special",
-        dna: "strxngers-" + Math.floor(Math.random() * 9999999),
-        attributes: [{ trait_type: "Anything", value: "Random" }],
-      };
-      setMetadata([...[tokenMetadata]]);
     } catch (err) {
       const errMsg = parseEtherError(err);
       updateStatus(errMsg);
@@ -95,7 +135,7 @@ export default function Game(props) {
       if (nfts.length > 0) {
         setIsLoading(true);
         //* show selected switch nft
-        updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
+        updateStatus(`You have ${nfts.length} RPG404 ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
         for (const bg of nfts) {
           const nftIdx = bg.toNumber();
           nftContract.tokenURI(nftIdx).then((tokenMetadataURI) => {
@@ -111,7 +151,9 @@ export default function Game(props) {
                 meta.push(tokenMetadata);
                 setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
                 updateStatus(
-                  `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${nfts.length} loaded.`
+                  `You have ${nfts.length} RPG404 ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
+                    nfts.length
+                  } loaded.`
                 );
                 if (meta.length === nfts.length) {
                   setIsLoading(false);
