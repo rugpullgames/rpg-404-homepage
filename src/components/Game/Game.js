@@ -46,6 +46,7 @@ export default function Game(props) {
     setCurrMetadata({});
 
     if (!isLoading && !playing) {
+      setIsLoading(true);
       await loadNftStrxngers();
       await loadNftRpg404();
     }
@@ -76,8 +77,6 @@ export default function Game(props) {
       // console.log(resNft);
 
       if (resNft && resNft.result && resNft.result.length > 0) {
-        setIsLoading(true);
-
         const meta = [];
         const nfts = resNft.result;
         updateStatus("Great! Your are Strxnger!");
