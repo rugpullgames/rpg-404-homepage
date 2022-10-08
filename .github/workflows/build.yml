@@ -6,6 +6,7 @@ on:
       - "main"
 env:
   REACT_APP_WALLETCONNECTION_PROJECT_ID: ${{ secrets.REACT_APP_WALLETCONNECTION_PROJECT_ID }}
+  REACT_APP_MORALIS_API_KEY: ${{ secrets.REACT_APP_MORALIS_API_KEY }}
 
 jobs:
   build:
