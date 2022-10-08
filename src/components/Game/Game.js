@@ -45,12 +45,14 @@ export default function Game(props) {
     // clean metadata
     setCurrMetadata({});
 
-    await checkNftStrxngerHolder();
-    await loadNftRpg404();
+    if (!isLoading && !playing) {
+      await loadNftStrxngers();
+      await loadNftRpg404();
+    }
   };
 
   //! check NFT holders: Strxngers
-  const checkNftStrxngerHolder = async () => {
+  const loadNftStrxngers = async () => {
     try {
       updateStatus(contractAddressStrxngers);
       if (!contractAddressStrxngers || contractAddressStrxngers === "") {
@@ -74,6 +76,8 @@ export default function Game(props) {
       // console.log(resNft);
 
       if (resNft && resNft.result && resNft.result.length > 0) {
+        setIsLoading(true);
+
         const meta = [];
         const nfts = resNft.result;
         updateStatus("Great! Your are Strxnger!");
@@ -99,9 +103,10 @@ export default function Game(props) {
               nfts.length
             } loaded.`
           );
-          if (meta.length === nfts.length) {
-            setIsLoading(false);
-          }
+        }
+
+        if (meta.length === nfts.length) {
+          setIsLoading(false);
         }
       }
     } catch (err) {
