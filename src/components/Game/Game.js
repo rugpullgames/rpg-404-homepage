@@ -94,6 +94,7 @@ export default function Game(props) {
 
           tokenMetadata.nft_type = "Strxngers";
           tokenMetadata.dna = "strxngers-" + Math.floor(Math.random() * 9999999);
+          tokenMetadata.edition = tokenMetadata.name.replace("Strxngers #", "").trim();
 
           // console.log(tokenMetadata);
           meta.push(tokenMetadata);
