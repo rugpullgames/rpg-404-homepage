@@ -59,21 +59,48 @@ export default function Game(props) {
       }
 
       const chain = EvmChain.ETHEREUM;
-      const address = account;
 
       await Moralis.start({
         apiKey: process.env.REACT_APP_MORALIS_API_KEY,
       });
 
-      console.log(account, contractAddressStrxngers);
-      const response = await Moralis.EvmApi.nft.getWalletNFTs({
-        address,
+      const resNft = await Moralis.EvmApi.nft.getWalletNFTs({
+        address: account,
         chain,
         format: "decimal",
         tokenAddresses: [contractAddressStrxngers],
       });
 
-      console.log(response.result);
+      // console.log(resNft);
+
+      if (resNft && resNft.result && resNft.result.length > 0) {
+        const meta = [];
+        const nfts = resNft.result;
+        updateStatus("Great! Your are Strxnger!");
+        updateStatus(`You have ${nfts.length} Strxnger ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
+
+        for (const nft of nfts) {
+          const resMeta = await Moralis.EvmApi.nft.getNFTMetadata({
+            address: contractAddressStrxngers,
+            chain,
+            format: "decimal",
+            tokenId: nft._data.tokenId,
+          });
+          const tokenMetadata = resMeta.result._data.metadata;
+          tokenMetadata.nft_type = "Strxngers";
+          console.log(tokenMetadata);
+          meta.push(tokenMetadata);
+          setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
+          updateStatus(
+            `You have ${nfts.length} Strxnger ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
+              nfts.length
+            } loaded.`
+          );
+          if (meta.length === nfts.length) {
+            setIsLoading(false);
+          }
+        }
+      }
 
       const signer = library.getSigner();
       const nftContract = new ethers.Contract(contractAddressStrxngers, contractAbiStrxngers, signer);
@@ -115,7 +142,7 @@ export default function Game(props) {
       if (nfts.length > 0) {
         setIsLoading(true);
         //* show selected switch nft
-        updateStatus(`You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
+        updateStatus(`You have ${nfts.length} RPG404 ${nfts.length > 1 ? "NFTs" : "NFT"}. Loading metadata...`);
         for (const bg of nfts) {
           const nftIdx = bg.toNumber();
           nftContract.tokenURI(nftIdx).then((tokenMetadataURI) => {
@@ -131,7 +158,9 @@ export default function Game(props) {
                 meta.push(tokenMetadata);
                 setMetadata((prevMetadata) => [...prevMetadata, tokenMetadata]);
                 updateStatus(
-                  `You have ${nfts.length} ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${nfts.length} loaded.`
+                  `You have ${nfts.length} RPG404 ${nfts.length > 1 ? "NFTs" : "NFT"}. ${meta.length} / ${
+                    nfts.length
+                  } loaded.`
                 );
                 if (meta.length === nfts.length) {
                   setIsLoading(false);
