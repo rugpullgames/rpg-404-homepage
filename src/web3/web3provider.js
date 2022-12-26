@@ -1,3 +1,8 @@
+/// @copyright Rug Pull Games, Project: RPG 404
+/// @see Rug Pull Games: https://rug-pull.games/
+/// @see RPG 404: http://rpg404.com/
+/// @author endaye
+
 import WalletConnect from "@walletconnect/web3-provider";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import Web3Modal from "web3modal";

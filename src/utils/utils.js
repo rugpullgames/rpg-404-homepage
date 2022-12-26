@@ -1,3 +1,8 @@
+// @copyright Crazy Diamond, Project: MetaBorn
+// @see Crazy Diamond: https://github.com/CrazyDiamondGarage
+// @see MetaBorn: https://metaborn.me/
+// @author Yuancheng Zhang
+
 // To Hex Address
 export const toHex = (num) => {
   const val = Number(num);

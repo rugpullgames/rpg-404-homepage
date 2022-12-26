@@ -1,3 +1,8 @@
+/// @copyright Rug Pull Games, Project: RPG 404
+/// @see Rug Pull Games: https://rug-pull.games/
+/// @see RPG 404: http://rpg404.com/
+/// @author endaye
+
 import { createContext } from "react";
 import contractRpg404 from "../../contracts/RPG404.json";
 import contractStrxngers from "../../contracts/Strxngers.json";
