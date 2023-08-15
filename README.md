@@ -1,6 +1,6 @@
 # [rpg404.com](https://rpg404.com/)
 
-The first game of Rug Pull Games - RGB 404
+The first game of Rug Pull Games - RPG 404
 
 ![game_share_os](https://user-images.githubusercontent.com/4829591/190865468-fe4dd667-8dec-47b5-a10b-90888c2f9648.png)
 
