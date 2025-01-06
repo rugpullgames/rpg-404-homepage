@@ -12,7 +12,7 @@
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.5.3",
     "@walletconnect/web3-provider": "^1.8.0",
-    "ethers": "^5.7.2",
+    "ethers": "^6.13.5",
     "moralis": "^2.25.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
